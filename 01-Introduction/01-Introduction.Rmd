@@ -2,7 +2,7 @@
 title: "Lecture 1: Introduction"
 subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
 author: Ian McCarthy | Emory University
-date: EC 607 #"`r format(Sys.time(), '%d %B %Y')`"
+date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
 output:
   xaringan::moon_reader:
     css: [default, metropolis, metropolis-fonts] 
@@ -52,7 +52,7 @@ name: syllabus
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
 
-(Read the full document [here](https://github.com/imccart/Econ-470/blob/master/Econ 470 Syllabus.pdf).)
+(Read the full document [here](Syllabus/Econ470-Syllabus.pdf).)
 
 ---
 
