@@ -10,3 +10,8 @@ dplyr
 stringr
 forcats
 hrbrthemes
+pacman
+lubridate
+readxl
+scales
+gapminder
