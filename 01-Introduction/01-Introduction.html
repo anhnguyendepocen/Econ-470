@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Week 1: Introduction</title>
+    <title>Section 1: Introduction</title>
     <meta charset="utf-8" />
     <meta name="author" content="Ian McCarthy | Emory University" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -13,7 +13,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Week 1: Introduction
+# Section 1: Introduction
 ## <html>
 <div style="float:left">
 
@@ -38,7 +38,7 @@ class: center, middle, inverse, title-slide
 &lt;/style&gt;
 
 
-&lt;!-- Set R options for how code chunks are displayed at load packages --&gt;
+&lt;!-- Set R options for how code chunks are displayed and load packages --&gt;
 
 
 
@@ -48,14 +48,16 @@ class: center, middle, inverse, title-slide
 
 2. [Syllabus highlights](#syllabus)
 
-3. [Getting started](#started)
+3. [Software installation](#software)
+
+4. [Starting with Git and RStudio](#git_rstudio)
 
 
 
 &lt;!-- New Section --&gt;
 ---
 class: inverse, center, middle
-name: prologue
+name: welcome
 
 # Motivation
 
@@ -121,6 +123,12 @@ ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp)) +
 # GDP and Health
 
 &lt;img src="01-Introduction_files/figure-html/lifexp-full-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# GDP and Health over Time
+
+&lt;img src="01-Introduction_files/figure-html/gganim1-1.gif" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -264,6 +272,7 @@ name: syllabus
 &lt;!-- New Section --&gt;
 ---
 class: inverse, center, middle
+name: software
 
 # Software Installation
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
@@ -344,22 +353,66 @@ For help and troubleshooting with Git and GitHub, take a look at Jenny Bryan's h
 &lt;!-- New Section --&gt;
 ---
 class: inverse, center, middle
+name: git_rstudio
 
 # Practice with Git and RStudio
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
 
 
 ---
+# Before next class (see http://happygitwithr.com)
+
+1. Download [R](https://www.r-project.org/)
+
+2. Download [RStudio](https://www.rstudio.com/products/rstudio/download/preview/)
+
+3. Download [Git](https://git-scm.com/downloads)
+
+4. Create an account on [GitHub](https://github.com/)
+
+5. Connect RStudio to Git and GitHub
+
+6. Start/clone/fork a repository for this class 
+
+
+---
 # Setting things up
 
-Now we're going to clone a GitHub repository (repo) and work with it in RStudio.
+Now we're going to clone a GitHub repository (repo) using RStudio.
 
-&lt;video width="320" height="240"&gt;
-&lt;source src="D:/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Economics and Health Policy/01-Introduction/pics/GitHub_RStudio_Demo.mp4" type="video/mp4"&gt;
-&lt;/video&gt;
+.center[
+  ![:scale 800px](pics/GitHub_RStudio_Demo.gif)
+]
+
+
+---
+# Some common mistakes for windows users
+
+- Windows folders are *not* files...there is no content without a file. You can't commit or push changes without content.
+
+- Let RStudio/GitHub create the directory (main folder) for you.
+
+- If you're working across devices on your own repo, be sure to pull before starting and push afterward.
+
+- Avoid spaces in file names. Avoid them at all costs. *DO NOT PUT SPACES IN YOUR FILE NAMES.*
+
+&gt;*"A space in a file name is a space in your soul."
+
+
+---
+# Ideal workflow
+
+Until you are a Git(Hub) expert...
+
+1. Start project on GitHub (fork from another repo if needed)
+
+2. Clone to desktop with RStudio
+
+3. See http://happygitwithr.com for instructions on linking your local repo with a new upstream remote
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,

@@ -1,5 +1,5 @@
 ---
-title: "Week 1: Introduction"
+title: "Section 1: Introduction"
 subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
 author: Ian McCarthy | Emory University
 date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
@@ -12,6 +12,7 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       ratio: "16:9"
+      beforeInit: "macros.js"
 ---
 
 <!-- Adjust some CSS code for font size and maintain R code font size -->
@@ -26,7 +27,7 @@ output:
 </style>
 
 
-<!-- Set R options for how code chunks are displayed at load packages -->
+<!-- Set R options for how code chunks are displayed and load packages -->
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 library(knitr)
@@ -47,7 +48,7 @@ knitr::opts_hooks$set(fig.callout = function(options) {
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
-               scales)
+               scales, gganimate, gapminder, gifski, png)
 ```
 
 
@@ -57,14 +58,16 @@ pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
 
 2. [Syllabus highlights](#syllabus)
 
-3. [Getting started](#started)
+3. [Software installation](#software)
+
+4. [Starting with Git and RStudio](#git_rstudio)
 
 
 
 <!-- New Section -->
 ---
 class: inverse, center, middle
-name: prologue
+name: welcome
 
 # Motivation
 
@@ -132,6 +135,22 @@ ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp)) +
 # GDP and Health
 
 ```{r lifexp-full-output, ref.label="lifexp-gdp", fig.callout=TRUE}
+```
+
+
+---
+# GDP and Health over Time
+
+```{r gganim1, echo=FALSE}
+ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop)) +
+  geom_point(alpha = 0.5, show.legend = FALSE) +
+  scale_colour_manual(values = country_colors) +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  facet_wrap(~continent) +
+  labs(title = 'Year: {frame_time}', x = 'Log GDP Per Capita ($US)', y = 'Life Expectancy (years)') +
+  transition_time(year) +
+  ease_aes('linear')
 ```
 
 
@@ -280,6 +299,7 @@ name: syllabus
 <!-- New Section -->
 ---
 class: inverse, center, middle
+name: software
 
 # Software Installation
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
@@ -351,17 +371,60 @@ For help and troubleshooting with Git and GitHub, take a look at Jenny Bryan's h
 <!-- New Section -->
 ---
 class: inverse, center, middle
+name: git_rstudio
 
 # Practice with Git and RStudio
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
 
 
 ---
+# Before next class (see http://happygitwithr.com)
+
+1. Download [R](https://www.r-project.org/)
+
+2. Download [RStudio](https://www.rstudio.com/products/rstudio/download/preview/)
+
+3. Download [Git](https://git-scm.com/downloads)
+
+4. Create an account on [GitHub](https://github.com/)
+
+5. Connect RStudio to Git and GitHub
+
+6. Start/clone/fork a repository for this class 
+
+
+---
 # Setting things up
 
-Now we're going to clone a GitHub repository (repo) and work with it in RStudio.
+Now we're going to clone a GitHub repository (repo) using RStudio.
 
-<video width="320" height="240">
-<source src="D:/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Economics and Health Policy/01-Introduction/pics/GitHub_RStudio_Demo.mp4" type="video/mp4">
-</video>
+.center[
+  ![:scale 800px](pics/GitHub_RStudio_Demo.gif)
+]
+
+
+---
+# Some common mistakes for windows users
+
+- Windows folders are *not* files...there is no content without a file. You can't commit or push changes without content.
+
+- Let RStudio/GitHub create the directory (main folder) for you.
+
+- If you're working across devices on your own repo, be sure to pull before starting and push afterward.
+
+- Avoid spaces in file names. Avoid them at all costs. *DO NOT PUT SPACES IN YOUR FILE NAMES.*
+
+>*"A space in a file name is a space in your soul."
+
+
+---
+# Ideal workflow
+
+Until you are a Git(Hub) expert...
+
+1. Start project on GitHub (fork from another repo if needed)
+
+2. Clone to desktop with RStudio
+
+3. See http://happygitwithr.com for instructions on linking your local repo with a new upstream remote
 
