@@ -190,7 +190,7 @@ name: syllabus
 
 2. Health and health care are constantly changing
 
-3. \$3.5 trillion, 17.9% of GDP, \$10,739 per person
+3. $3.5 trillion, 17.9% of GDP, $10,739 per person
 
 --
 
@@ -272,24 +272,23 @@ class: inverse, center, middle
 ---
 # Software Installation
 
-1. Download [R](https://www.r-project.org/).
+1. Download [R](https://www.r-project.org/)
 
-2. Download [RStudio](https://www.rstudio.com/products/rstudio/download/preview/).
+2. Download [RStudio](https://www.rstudio.com/products/rstudio/download/preview/)
 
-3. Download [Git](https://git-scm.com/downloads).
+3. Download [Git](https://git-scm.com/downloads)
 
 4. Create an account on [GitHub](https://github.com/)
 
 --
 
+For help and troubleshooting with Git and GitHub, take a look at Jenny Bryan's http://happygitwithr.com.
 
-My go-to place for installation guidance and troubleshooting is Jenny Bryan's http://happygitwithr.com.
 
 ---
-
 # Checklist
 
-☑ Do you have the most recent version of R?
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Do you have the most recent version of R?
   
   ```r
   version$version.string
@@ -300,33 +299,37 @@ My go-to place for installation guidance and troubleshooting is Jenny Bryan's ht
   ```
 
 
-☑ Do you have the most recent version of RStudio? (The [preview version](https://www.rstudio.com/products/rstudio/download/preview/) is fine.)
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Do you have the most recent version of RStudio? (The [preview version](https://www.rstudio.com/products/rstudio/download/preview/) is fine.)
   
   ```r
   RStudio.Version()$version
   ## Requires an interactive session but should return something like "[1] ‘1.1.463’"
   ```
 
-☑ Have you updated all of your R packages? 
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Have you updated all of your R packages? 
   
   ```r
   update.packages(ask = FALSE, checkBuilt = TRUE)
   ```
   
 ---
+# Checklist
 
-# Checklist (cont.)
+- Open up the [shell](http://happygitwithr.com/shell.html#shell)
 
-Open up the [shell](http://happygitwithr.com/shell.html#shell).
 - Windows users, make sure that you installed a Bash-compatible version of the shell. If you installed [Git for Windows](https://gitforwindows.org), then you should be good to go.
 
-☑ Which version of Git have you installed?
+
+---
+# Checklist
+
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Which version of Git have you installed?
   
   ```r
   git --version
   ```
 
-☑ Did you introduce yourself to Git? (Substitute in your details.)
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Did you introduce yourself to Git? (Substitute in your details.)
   
   ```r
   git config --global user.name 'Ian McCarthy'
@@ -334,7 +337,26 @@ Open up the [shell](http://happygitwithr.com/shell.html#shell).
   git config --global --list
   ```
 
-☑ Did you register an account in GitHub?
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Did you register an account in GitHub?
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+
+# Practice with Git and RStudio
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+
+---
+# Setting things up
+
+Now we're going to clone a GitHub repository (repo) and work with it in RStudio.
+
+&lt;video width="320" height="240"&gt;
+&lt;source src="D:/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Economics and Health Policy/01-Introduction/pics/GitHub_RStudio_Demo.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
