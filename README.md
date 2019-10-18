@@ -7,5 +7,5 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 ## Notes and slides
 
-1. Introduction: Motivation and software setup \[[Slides](https://raw.githack.com/imccart/Econ-470/master/01-Introduction/01-Introduction.html)\]
+1. Introduction: Motivation and software setup \[[Slides](https://rawcdn.githack.com/imccart/Econ-470/master/01-Introduction/01-Introduction.html)\]
 
