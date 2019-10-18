@@ -1,0 +1,195 @@
+\documentclass{article}
+\usepackage{graphicx,amssymb,amsmath,pstricks,setspace,hyperref,longtable}
+\usepackage[left=2cm,right=2cm,top=1.5cm,bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+\usepackage[round]{natbib}
+\renewcommand{\refname}{Reading List}
+\setstretch{1.2}
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+\textsc{\Large{Econ 470/HLTH 470: Research in Health Economics}} \\
+\textsc{\large{Spring 2020}}
+\end{center}
+
+\noindent \textsc{Professor: Ian McCarthy} \\
+\noindent \textsc{Class: Econ 470/HLTH 470} \\
+\noindent \textsc{Room: TBD}  \\
+\noindent \textsc{Office: Rich 319} \\
+\noindent \textsc{Office Hours: MW 10:00am-11:30am} \\
+\noindent \textsc{Email: ian.mccarthy@emory.edu} \\
+
+\section*{Course Description}
+This is a capstone course that combines health economics and human health content with data science. The course is therefore heavily applied in nature. You will complete an empirical research project using raw data and employ econometric methods to analyze a research question relevant to contemporary health care issues and/or health policy. You will also present your final work to the class. The content of the course is split into three general areas: 1) data management in the real world; 2) health policy and health care institutions; and 3) empirical methods in program evaluation and causal inference. Each area of the course will be covered by way of an example research question, which you can use to guide your own projects throughout the semester. By the end of this course, you will be able to:
+\begin{enumerate}
+ \item Organize project files using \textit{Git} and \textit{GitHub}
+ \item Clean and manage several datasets using \textit{tidy data} in \textit{RStudio}
+ \item Summarize and visualize data with \textit{RStudio} and the \textit{ggplot2} package
+ \item Implement selected methods for causal inference using real data
+ \item Explain research results with a written report and presentation
+\end{enumerate}
+
+\section*{Text and Other Materials}
+Since this is an applied research course, the bulk of the class time will be spent directly working with data. All data management and analysis will be done in \textit{R} in order to maintain consistency across other statistics and econometrics classes. You will therefore be required to install \textit{R} and \textit{RStudio}. You will also need to set up a \textit{GitHub} account, as this is how we will share the datasets and code files necessary for all research topics. Instructions on how to get these accounts set up will be provided during the first week of class.
+
+Most of the required reading will consist of academic journal articles related to each research topic. We will also use two books in our empirical methods sections. These books are not required but are strongly recommended.
+\begin{itemize}
+ \item Angrist, J. and J. Pischke. \textit{Mostly Harmless Econometrics: An Empiricist's Companion}, Princeton University Press, 2009.
+ \item Wickham, H. and G. Grolemund. \textit{R for Data Science}, O'Reilly Media, 2016. There is a free version of this text available online, \href{https://r4ds.had.co.nz/}{R for Data Science, Online Edition}.
+\end{itemize}
+
+\section*{Prerequisites}
+Prerequisites for the class include Econ 320 (econometrics) and at least one of the following health economics and policy classes: HLTH 370, Econ 371, or Econ 372.
+
+\newpage
+\section*{Course Outline}
+Below is a preliminary outline of specific topics and assignments throughout the semester. Based on our collective interests and discussions, and unforseen events such as weather, the timing of the material may change somewhat. Each section of the class is designed to last about 4 classes.
+
+\begin{longtable}{lp{13cm}}
+  \hline
+  \multicolumn{2}{l}{\textbf{Getting Started}} \\
+  \hline\hline
+  Week 1 & Version Control with \textit{GitHub} \\
+         & Resources: GitHub Tutorial, \href{https://happygitwithr.com/}{happygitwithr.com} \\
+         & \hspace{.4in} Lesson 2 from \textit{Data Science for Economists}, \href{https://github.com/uo-ec607/lectures}{github.com/uo-ec607/lectures} \\
+         & Activities: Setting up with \textit{RStudio} and \textit{GitHub} \\
+  \hline
+  Week 2 & Struggling with data \\
+         & Resources: Data Wrangling in \textit{R for Data Science}, \href{https://r4ds.had.co.nz/wrangle-intro.html}{r4ds.had.co.nz/wrangle-intro.html} \\
+         & Activities: Application to Medicare Advantage data \\
+         & Assignments due: Homework 1 (data management), selection of research question \\
+  \hline
+  \multicolumn{2}{l}{\textbf{Research Topic 1:} Hospital Pricing} \\
+  \multicolumn{2}{l}{\textbf{Methods Topic 1:} Selection on Observables} \\
+  \hline\hline
+  Background & How are hospital prices determined? \\
+             & Resources: \cite{cooper2017}, \cite{darden2018} \\
+  \hline
+  Methods & Fundamental Problem of Causal Inference and Selection on Observables \\
+          & Resources: Angrist and Pischke, \textit{Mostly Harmless Econometrics}, Chapters 2-3 \\
+  \hline
+  Application & Hospital pricing and pay for performance \\
+              & Resources: HCRIS data \\
+              & Activities: Model specification in practice \citep{darden2018} \\
+              & Assignment due: Homework 2 (selection on observables) \\
+  \hline
+  \multicolumn{2}{l}{\textbf{Research Topic 2:} Demand for Cigarettes} \\
+  \multicolumn{2}{l}{\textbf{Methods Topic 2:} Instrumental Variables} \\
+  \hline\hline
+  Background & Literature on smoking and prices\\
+             & Resources: \cite{gruber2001}, \cite{ross2003} \\
+  \hline
+  Methods & Instrumental Variables \\
+          & Resources: Angrist and Pischke, \textit{Mostly Harmless Econometrics}, Chapter 4 \\
+  \hline
+  Application & Estimating a demand curve for cigarettes \\
+              & Resources: Cigarette tax data \\
+              & Activities: IV and 2SLS in practice \citep{ross2003} \\
+              & Assignment due: Homework 3 (instrumental variables) \\
+  \hline
+  \multicolumn{2}{l}{\textbf{Research Topic 3:} ACA and Medicaid Expansion} \\
+  \multicolumn{2}{l}{\textbf{Methods Topic 3:} Difference-in-Differences} \\
+  \hline\hline
+  Background & Understanding the ACA and Medicaid expansion\\
+             & Resources: \cite{obama2016}, \cite{courtemanche2017} \\
+  \hline
+  Methods & Difference-in-Differences \\
+          & Resources: Angrist and Pischke, \textit{Mostly Harmless Econometrics}, Chapter 5 \\
+  \hline
+  Application & Effects of Medicaid Expansion on Insurance Rates \\
+              & Resources: Medicaid expansion and ACA data \\
+              & Activities: Difference in differences in practice \citep{courtemanche2017} \\
+              & Assignment due: Homework 4 (difference in differences) \\
+  \hline
+  \multicolumn{2}{l}{\textbf{Research Topic 4:} Medicare Advantage} \\
+  \multicolumn{2}{l}{\textbf{Methods Topic 4:} Regression Discontinuity} \\
+  \hline\hline
+  Background & What is Medicare Advantage? \\
+             & Resources: \cite{darden2015}, \cite{gruber2017} \\
+  \hline
+  Methods & Regression Discontinuity \\
+          & Resources: Angrist and Pischke, \textit{Mostly Harmless Econometrics}, Chapter 6 \\
+  \hline
+  Application & Quality ratings and insurance choice \\
+              & Resources: Medicare Advantage data \\
+              & Activities: Regression discontinuity in practice \citep{darden2015} \\
+              & Assignment due: Homework 5 (regression discontinuity) \\
+  \hline
+  \multicolumn{2}{l}{\textbf{Conclusion}} \\
+  \hline\hline
+  Extensions & Panel data, fixed effects, machine learning \\
+             & Resources:  Angrist and Pischke, \textit{Mostly Harmless Econometrics}, Chapter 5 \\
+  \hline
+  Weeks 12-13 & Paper presentations \\
+              & Assignment due: Final paper (week 13)
+\end{longtable}
+
+
+\section*{Evaluation}
+The course is graded based on the research project (40\%), presentation (30\%), and problem sets (30\%). Letter grades will be assigned at the end of the course based on total score achieved:
+(A = 100-93\%, A- = 92.99-90\%, B+ = 89.99-87\%, B = 86.99-83\%, B- = 82.99-80\%, C+ = 79.99-77\%, C = 76.99-73\%, C- = 72.99-70\%, D+ = 69.99-67\%, D = 66.99-60\%, F = $<$60\%)
+
+
+\subsubsection*{Research Paper}
+The bulk of the grade is based on a research project using publicly available secondary data. The paper will be an empirical analysis of a relevant topic in health economics and will focus on the appropriate use of empirical methods to evaluate the research question. The paper should include all parts of a professional research paper including the following:  an introduction, literature review, data description, empirical methods, results, and conclusions. The final paper must be between 15 and 20 pages of text (single-spaced, 12-pt font, with sufficient margins), not including references, tables, or figures. Additional details will be provided shortly into the semester.
+
+Students can select among a list of 8 pre-approved research questions drawn from the four main health economics topics covered throughout the semester. The list of potential research questions are provided below. It is critical to select a question as soon as possible.
+
+\begin{table}[!h]
+\centering
+\caption[caption]{Approved Research Topics}
+\centerline{
+\begin{tabular}{ll}
+\hline
+\multicolumn{2}{l}{\textbf{Hospital Pricing}} \\
+\hline\hline
+ & 1. What is the effect of hospital ownership type on hospital prices? \\[3pt]
+ & 2. How did Medicaid expansion affect hospital ``bad debt''? \\
+\hline
+\multicolumn{2}{l}{\textbf{Cigarette Demand}} \\
+\hline\hline
+ & 3. How do smoking bans affect cigarette demand? \\ [3pt]
+ & 4. Does advertising affect smoking behavior? \\
+\hline
+\multicolumn{2}{l}{\textbf{Medicaid Expansion}} \\
+\hline\hline
+ & 5. Does insurance improve health? \\ [3pt]
+ & 6. Does Medicaid crowd out private health insurance? \\
+\hline
+\multicolumn{2}{l}{\textbf{Medicare Advantage}} \\
+\hline\hline
+ & 7. Did the quality improvement program increase quality? \\ [3pt]
+ & 8. Do higher-rated plans get more enrollees? \\
+\end{tabular}}
+\label{tab:summary}
+\end{table}
+
+Each general topic to which a research question relates will have an associated \textit{GitHub} repository with instructions on how to download the relevant datasets from their raw sources and the necessary code to form an analytic dataset. Throughout the semester, you will work with these data to write a 15-20 page research paper.
+
+\subsubsection*{Research Presentation}
+You will present your research project to the class in a 30-minute research presentation. All presentations will take place in the final two weeks of class.
+
+\subsubsection*{Problem Sets}
+There will be five assignments throughout the semester -- one for each of the four empirical methods and applications covered in class, and one assignment related to basic data management. Each assignment is worth 6\% of your final grade.
+
+\section*{Communication}
+I will use Canvas to communicate with everyone regarding readings, assignments, and other class updates. As such, please check Canvas regularly (at least twice a week) for new information. For any specific questions you have regarding the class or health economics more generally, I am happy to meet with you and discuss in person. Unless otherwise announced, I will always be available during my office hours. But if these times do not work for you, just send me an email and we can schedule another time to meet. I will do my best to respond to all emails within 24 hours, but please allow more time over the weekend.
+
+\section*{Course Policies}
+Similar to a movie theater, we have a strict no screen policy in class (unless we are actively working with some data or applications). The purpose of this policy is twofold: 1) phones and computers are extremely useful but also extremely distracting, and in my experience, I've found that our discussions are much more engaging and informative when we avoid these distractions; and 2) this is really just an issue of mutual respect, both for our time in class as well as your classmates. The more we can be engaged and respectful of one another, the more we'll enjoy the class. There's also a good randomized study finding much better performance of students without computers!
+
+\section*{Academic Integrity and Honor Code}
+The Honor Code is in effect throughout the semester. By taking this course, you affirm that it is a violation of the code to cheat on exams, to plagiarize, to deviate from the teacher's instructions about collaboration on work that is submitted for grades, to give false information to a faculty member, and to undertake any other form of academic misconduct. You agree that the instructor is entitled to move you to another seat during examinations, without explanation. You also affirm that if you witness others violating the code you have a duty to report them to the honor council. Students who violate the Honor Code may be subject to a written mark on their record, failure of the course, suspension, permanent dismissal, or a combination of these and other sanctions. The Honor Code may be reviewed at: \texttt{http://catalog.college.emory.edu/academic/policies-regulations/honor-code.html.}
+
+\section*{Absence Policy}
+Missing 25\% or more of class meetings will result in automatic failure of a course. In other words, students absent seven (7) or more times, in a course that meets twice a week, will receive a grade of ``F'' for the course.  Absences include trips, appointments, interviews, conferences, illness, injury, as well as simply not showing up. Religious observances, school business, and major illness will be considered; however, notify me in advance of any planned absences and submit your assignment prior to the event. After any absence, it is your responsibility to find out what material, assignments, or announcements you missed.
+
+
+\pagebreak
+\bibliographystyle{authordate1}
+\bibliography{BibTeX_Library}
+
+\end{document}
