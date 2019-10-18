@@ -75,7 +75,14 @@ name: welcome
 
 
 ---
+# Health and Health Care
 
+</br>
+.center[
+  ![](https://media.giphy.com/media/1xK1QRqHENTTW/giphy.gif)
+]
+
+---
 # Health and Health Care
 
 We've made *major* improvements in life expectancy (and many other measures of health) across the world
@@ -414,7 +421,7 @@ Now we're going to clone a GitHub repository (repo) using RStudio.
 
 - Avoid spaces in file names. Avoid them at all costs. *DO NOT PUT SPACES IN YOUR FILE NAMES.*
 
->*"A space in a file name is a space in your soul."
+>*"A space in a file name is a space in your soul."*
 
 
 ---
