@@ -21,7 +21,10 @@ output:
     font-size: 30px;
     padding: 1em 2em 1em 2em;    
 }
-.remark-code, .remark-inline-code { 
+.remark-code {
+  font-size: 15px;
+}
+.remark-inline-code { 
     font-size: 20px;
 }
 </style>
@@ -143,7 +146,7 @@ mpg %>%
 ```
 
 ---
-# The `dplyr` package:
+# The dplyr package:
 
 1. `filter()`: Find or exclude certian rows
 
@@ -165,7 +168,7 @@ starwars %>%
   filter( 
     species == "Human", 
     height >= 190
-    ) 
+    ) %>% head(5)
 ```
 
 ---
@@ -174,12 +177,10 @@ starwars %>%
 Common to use `filter()` to check or remove missing vlaues 
 ```{r filter3}
 starwars %>% 
-  filter(is.na(height))
+  filter(is.na(height)) %>% head(5)
 ```
 
 --
-
-</br>
 
 To remove missing observations, use `filter(!is.na(height))`. Also try the `drop_na()` function from `tidyr`.
 
@@ -189,12 +190,8 @@ To remove missing observations, use `filter(!is.na(height))`. Also try the `drop
 Arrange in ascending order:
 ```{r arrange1}
 starwars %>% 
-  arrange(birth_year)
+  arrange(birth_year) %>% head(5)
 ```
-
---
-
-*Note.* Arranging on a string sorts alphabetically
 
 ---
 # 2) dplyr::arrange()
@@ -202,19 +199,22 @@ starwars %>%
 Arrange descending order using `arrange(desc())`:
 ```{r arrange2}
 starwars %>% 
-  arrange(desc(birth_year))
+  arrange(desc(birth_year)) %>% head(5)
 ```
 
 ---
 # 3) dplyr::select()
 
 - Use commas to select multiple columns 
-- Sse "first:last" for consecutive columns
+- Use "first:last" for consecutive columns
 - Deselect a column with "-"
+
+---
+# 3) dplyr::select()
 
 ```{r select1}
 starwars %>% 
-  select(name:skin_color, species, -height)
+  select(name:skin_color, species, -height) %>% head(5)
 ```
 
 ---
@@ -223,7 +223,7 @@ starwars %>%
 Rename within `select()`:
 ```{r select2}
 starwars %>%
-  select(alias=name, crib=homeworld, sex=gender) 
+  select(alias=name, crib=homeworld, sex=gender)  %>% head(5)
 ```
 
 ---
@@ -232,7 +232,7 @@ starwars %>%
 Use `select(contains(PATTERN))` to find rows that contain some strings of interes
 ```{r select3}
 starwars %>% 
-  select(name, contains("color"))
+  select(name, contains("color")) %>% head(5)
 ```
 
 --
@@ -247,7 +247,7 @@ Create new variables with `mutate()`
 starwars %>% 
   select(name, birth_year) %>%
   mutate(dog_years = birth_year * 7) %>%
-  mutate(comment = paste0(name, " is ", dog_years, " in dog years."))
+  mutate(comment = paste0(name, " is ", dog_years, " in dog years."))  %>% head(5)
 ```
 
 ---
@@ -257,10 +257,8 @@ starwars %>%
 ```{r mutate2}
 starwars %>% 
   select(name, birth_year) %>%
-  mutate(
-    dog_years = birth_year * 7, ## Separate with a comma
-    comment = paste0(name, " is ", dog_years, " in dog years.")
-    )
+  mutate(dog_years = birth_year * 7, ## Separate with a comma
+         comment = paste0(name, " is ", dog_years, " in dog years.")) %>% head(5)
 ```
 
 ---
@@ -286,13 +284,12 @@ Note the "scoped" variants of `mutate()` that work on a subset of variables:
 - `mutate_if()` affects variables that meet some criteria (e.g. are numeric)
 
 ---
-# 5) dplyr::summarise()
+# 5) dplyr::summarise() with group_by()
 
-Typically used with `group_by()`
 ```{r summ1}
 starwars %>% 
   group_by(species, gender) %>% 
-  summarise(mean_height = mean(height, na.rm = T))
+  summarise(mean_height = mean(height, na.rm = T)) %>% head(5)
 ```
 
 --
@@ -310,7 +307,7 @@ starwars %>%
 --
 
 ```{r, summ4}
-starwars %>% group_by(species, gender) %>% summarise_if(is.numeric, funs(avg=mean), na.rm=T) %>% head(5)
+starwars %>% group_by(species, gender) %>% summarise_if(is.numeric, list(avg=mean), na.rm=T) %>% head(5)
 ```
 
 ---
@@ -348,7 +345,7 @@ Let's perform a [left join](https://stat545.com/bit001_dplyr-cheatsheet.html#lef
 
 ```{r join1}
 left_join(flights, planes) %>%
-  select(year, month, day, dep_time, arr_time, carrier, flight, tailnum, type, model)
+  select(year, month, day, dep_time, arr_time, carrier, flight, tailnum, type, model)  %>% head(5)
 ```
 
 ---
@@ -381,7 +378,7 @@ left_join(
   by = "tailnum" ## Be specific about the joining column
   ) %>%
   select(year, month, day, dep_time, arr_time, carrier, flight, tailnum, year_built, type, model) %>%
-  head(3) ## Just to save vertical space on the slide
+  head(5) ## Just to save vertical space on the slide
 ```
 
 ---
@@ -389,13 +386,10 @@ left_join(
 
 What happens if we again specify the join column but don't rename the ambiguous "year"? 
 ```{r join3}
-left_join(
-  flights,
-  planes, ## Not renaming "year" to "year_built" this time
-  by = "tailnum"
-  ) %>%
+left_join(flights, planes, ## Not renaming "year" to "year_built" this time
+  by = "tailnum") %>%
   select(contains("year"), month, day, dep_time, arr_time, carrier, flight, tailnum, type, model) %>%
-  head(3)
+  head(5)
 ```
 
 --
@@ -419,21 +413,21 @@ What is "year.x" vs "year.y"?
 # Other dplyr goodies
 
 There are also a whole class of [window functions](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) for getting leads and lags, ranking, creating cumulative aggregates, etc.
-- See `vignette("window-functions")`.
+
+See `vignette("window-functions")` for more.
 
 
 ---
-# Some `dplyr` tips
+# Some dplyr tips
 
 - Any `group_by()` statement stays until `ungroup()`
 
 --
 
-- Look out for `plyr` package. Do not use `plyr` and `dplyr` together. Just don't do.
+- Look out for `plyr` package. Do not use `plyr` and `dplyr` together. Just don't do it.
 
-</br>
 .center[
-  ![](https://media.giphy.com/media/3owzVQ23NzdKvVALUA/giphy.gif)
+  ![:scale 800px](https://media.giphy.com/media/3owzVQ23NzdKvVALUA/giphy.gif)
 ]
 
 
@@ -465,6 +459,10 @@ stocks <- tibble(
   Z = rnorm(2, 0, 4)
   )
 stocks
+```
+---
+# 1) tidyr::pivot_longer()
+```{r longer2}
 tidy_stocks <- stocks %>% 
   pivot_longer(cols=c("X","Y","Z"), 
                names_to="stock", values_to="price")
@@ -496,12 +494,15 @@ economists <- tibble(
   name = c("Abhijit Banerjee", "Esther Duflo", "Michael Kremer")
 )
 economists
+```
+
+---
+# 2) tidyr::separate()
+```{r sep2}
 economists %>% separate(name, c("first_name", "last_name")) 
 ```
 
 --
-
-</br>
 
 Should also specify the separation character with `separate(..., sep=" ")`.
 
@@ -509,12 +510,17 @@ Should also specify the separation character with `separate(..., sep=" ")`.
 # 3) tidyr::separate_rows()
 
 A related function is `separate_rows()` for splitting into new rows
-```{r sep2}
+```{r sep3}
 jobs <- tibble(
   name = c("Jack", "Jill"),
   occupation = c("Homemaker", "Philosopher, Philanthropist, Troublemaker") 
   ) 
 jobs
+```
+---
+# 3) tidyr::separate_rows()
+
+```{r sep4}
 ## Now split out Jill's various occupations into different rows
 jobs %>% separate_rows(occupation)
 ```
@@ -529,6 +535,10 @@ gdp <- data.frame(
   gdp = rnorm(4, mean = 100, sd = 2)
   )
 gdp 
+```
+---
+# 4) tidyr::unite()
+```{r unite2}
 ## Combine "yr", "mnth", and "dy" into one "date" column
 gdp %>% unite(date, c("yr", "mnth", "dy"), sep = "-")
 ```
@@ -537,7 +547,7 @@ gdp %>% unite(date, c("yr", "mnth", "dy"), sep = "-")
 # 4) tidyr::unite()
 
 `unite()` automatically creates character variable:
-```{r unite2}
+```{r unite3}
 gdp_u <- gdp %>% unite(date, c("yr", "mnth", "dy"), sep = "-") %>% as_tibble()
 gdp_u
 ```
@@ -550,7 +560,7 @@ Use `mutate()`with [lubridate](https://lubridate.tidyverse.org/) date functions 
 
 # 4) tidyr::unite()
 
-```{r unite3, message=F}
+```{r unite4, message=F}
 library(lubridate)
 gdp_u %>% mutate(date = ymd(date))
 ```
@@ -567,21 +577,24 @@ gdp_u %>% mutate(date = ymd(date))
 ---
 # Summary
 
+.pull-left[
 ### dplyr
 1. `filter()`
 2. `arrange()`
 3. `select()`
 4. `mutate()`
 5. `summarise()`
-
+]
+.pull-right[
 ### tidyr
 1. `pivot_longer()`
 2. `pivot_wider()`
 3. `separate()`
 4. `unite()`
+]
 
 --
-
+</br>
 Other useful items include: pipes (`%>%`), grouping (`group_by()`), joining functions (`left_join()`, `inner_join`, etc.).
 
 
@@ -596,6 +609,29 @@ name: real_data
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
 
 
+---
+# Practice data versus the real world
+
+</br>
+.center[
+  ![:scale 800px](https://media.giphy.com/media/3oz8xGme7vEndhrsly/giphy.gif)
+]
+
+---
+# Advice 1: Be patient and careful in your coding
+
+.center[
+  ![](https://media.giphy.com/media/fsQJBs0rtxpYoN4m0J/giphy.gif)
+]
+
+---
+# Advice 2: Comment, comment, comment
+
+You don't want to end up like this guy...
+
+.center[
+  ![:scale 600px](https://media.giphy.com/media/S7u66urzxc2J2/giphy.gif)
+]
 
 <!-- New Section -->
 ---
@@ -605,4 +641,127 @@ name: ma_data
 # Medicare Advantage
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+
+---
+# Medicare Advantage 
+
+Let's work with the [Medicare Advantage GitHub repository](https://github.com/imccart/Medicare-Advantage)
+
+
+---
+# Download the data
+
+First step is to download the raw data that we'll be using. Let's focus on 2018 for now:
+ - [Monthly Enrollment](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/Monthly-Enrollment-by-Contract-Plan-State-County.html)
+ - [Plan Characteristics](https://www.cms.gov/Medicare/Prescription-Drug-Coverage/PrescriptionDrugCovGenIn/)
+ - [Service Areas](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/MA-Contract-Service-Area-by-State-County.html)
+
+--
+
+Lots more out there, but this is enough for now.
+
+---
+# 1) Contract/enrollment info
+```{r eval=FALSE, include=T}
+monthlist=c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+  for (m in monthlist) {
+
+    ## Basic contract/plan information
+    ma.path=paste0(path.data.ma,
+                   "\\root_path_name_",
+                   m,".csv")
+    contract.info=read.csv(ma.path,
+                           col.names=c("contractid","planid","org_type","plan_type","partd","snp",
+                                       "eghp","org_name","org_marketing_name","plan_name","parent_org","contract_date"),
+                           stringsAsFactors=FALSE)
+
+    contract.info = contract.info %>%
+      group_by(contractid, planid) %>%
+      mutate(id_count=row_number())
+    
+    contract.info = contract.info %>%
+      filter(id_count==1) %>%
+      select(-id_count)
+```
+---
+# 1) Contract/enrollment info
+```{r eval=FALSE, include=T}
+    ## Enrollments per plan
+    ma.path=paste0(path.data.ma,
+                   "\\root_path_name_",
+                   m,".csv")    
+    enroll.info=read.csv(ma.path,
+                         col.names=c("contractid","planid","ssa","fips","state","county","enrollment"),
+                         stringsAsFactors=FALSE)
+    
+    enroll.info = enroll.info %>%
+      mutate(enrollment=replace(enrollment,enrollment=="*",NA)) %>%
+      as.data.frame()
+    
+    enroll.info = enroll.info %>%
+      mutate(enrollment=as.numeric(enrollment))
+```
+---
+# 1) Contract/enrollment info
+```{r eval=FALSE, include=T}
+    ## Merge contract info with enrollment info
+    plan.data.2018 = contract.info %>%
+      left_join(enroll.info, by=c("contractid", "planid")) %>%
+      mutate(month=as.numeric(m),year=2018)
+}
+```
+
+---
+# 1) Contract/enrollment info
+```{r eval=FALSE, include=T}
+  ## Append monthly enrollment info for each year
+  step=0
+  for (m in monthlist) {
+    step=step+1
+    assign(paste("plan.month.",step,sep=""),get(paste0("plan.data.2018.",m)))
+    if (step==1) {
+      plan.month=plan.month.1
+    } else {
+      plan.month=rbind(plan.month,get(paste("plan.month.",step,sep="")))
+    }
+  }
+```
+
+---
+# 1) Contract/enrollment info
+```{r eval=FALSE, include=T}
+  ## Clean the data
+
+  ## Fill in missing fips codes (by state and county)
+  plan.month = plan.month %>%
+    group_by(state, county) %>%
+    fill(fips)
+
+  ## Fill in missing plan characteristics by contract and plan id
+  plan.month = plan.month %>%
+    group_by(contractid, planid) %>%
+    fill(plan_type, partd, snp, eghp, plan_name)
+  
+  ## Fill in missing contract characteristics by contractid
+  plan.month = plan.month %>%
+    group_by(contractid) %>%
+    fill(org_type,org_name,org_marketing_name,parent_org)
+```
+---
+# 1) Contract/enrollment info
+```{r eval=FALSE, include=T}
+  ## Collapse from monthly data to yearly
+  plan.year.2018 = plan.month %>%
+    group_by(contractid, planid, fips) %>%
+    arrange(contractid,planid,fips,month) %>%
+    summarize(avg_enrollment=mean(enrollment),sd_enrollment=sd(enrollment),
+              min_enrollment=min(enrollment),max_enrollment=max(enrollment),
+              first_enrollment=first(enrollment),last_enrollment=last(enrollment),
+              state=last(state),county=last(county),org_type=last(org_type),
+              plan_type=last(plan_type),partd=last(partd),snp=last(snp),
+              eghp=last(eghp),org_name=last(org_name),org_marketing_name=last(org_marketing_name),
+              plan_name=last(plan_name),parent_org=last(parent_org),contract_date=last(contract_date),
+              year=last(year))
+```
 
