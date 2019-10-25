@@ -7,14 +7,12 @@ documentclass: book
 output: 
   bookdown::gitbook: default
   #bookdown::pdf_book: default
+rmd_subdir: ['assignments']
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
-               scales, plotly, bookdown)
 ```
 
 # Instructions
