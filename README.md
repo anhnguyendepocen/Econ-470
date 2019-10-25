@@ -11,3 +11,7 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 2. Struggling with data
 \[[Slides](02-DataStruggles/02-DataStruggles.html)\]
+
+
+## Assignments
+1. Data Management \[[Online Book](assignments/_book/instructions.html)]
