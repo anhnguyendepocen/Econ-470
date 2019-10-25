@@ -7,6 +7,7 @@ documentclass: book
 output: 
   bookdown::gitbook: default
   #bookdown::pdf_book: default
+output_dir: 'docs'
 ---
 
 ```{r setup, include=FALSE}
