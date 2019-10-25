@@ -14,4 +14,4 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 
 ## Assignments
-1. Data Management \[[Online Book](assignments/_book/instructions.html)]
+1. Data Management \[[Online Book](assignments/01-hwk.Rmd)]
