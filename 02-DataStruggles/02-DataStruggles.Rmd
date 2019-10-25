@@ -39,7 +39,10 @@ opts_chunk$set(
   fig.height=3, #fig.width=6,
   # out.width="748px", #out.length="520.75px",
   dpi=300, #fig.path='Figs/',
-  cache=T#, echo=F, warning=F, message=F
+  cache=T,# echo=F, warning=F, message=F
+  warning = FALSE, 
+  message = FALSE, 
+  cache.lazy = FALSE  
   )
 
 knitr::opts_hooks$set(fig.callout = function(options) {
@@ -51,7 +54,7 @@ knitr::opts_hooks$set(fig.callout = function(options) {
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
-               scales)
+               scales, plotly)
 ```
 
 # Table of contents
@@ -652,7 +655,7 @@ Let's work with the [Medicare Advantage GitHub repository](https://github.com/im
 ---
 # Download the data
 
-First step is to download the raw data that we'll be using. Let's focus on 2018 for now:
+First step is to download the raw data that we'll be using.
  - [Monthly Enrollment](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/Monthly-Enrollment-by-Contract-Plan-State-County.html)
  - [Plan Characteristics](https://www.cms.gov/Medicare/Prescription-Drug-Coverage/PrescriptionDrugCovGenIn/)
  - [Service Areas](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/MA-Contract-Service-Area-by-State-County.html)
@@ -664,18 +667,38 @@ Lots more out there, but this is enough for now.
 ---
 # 1) Contract/enrollment info
 ```{r eval=FALSE, include=T}
-monthlist=c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+for (y in 2006:2015) {
+  monthlist=get(paste0("monthlist_",y))
   for (m in monthlist) {
-
+    
     ## Basic contract/plan information
     ma.path=paste0(path.data.ma,
-                   "\\root_path_name_",
-                   m,".csv")
-    contract.info=read.csv(ma.path,
-                           col.names=c("contractid","planid","org_type","plan_type","partd","snp",
-                                       "eghp","org_name","org_marketing_name","plan_name","parent_org","contract_date"),
-                           stringsAsFactors=FALSE)
+                   "\\Monthly MA and PDP Enrollment by CPSC\\Extracted Data\\CPSC_Contract_Info_",y,"_",m,".csv") #<<
+    contract.info=read_csv(ma.path,
+                           skip=1,
+                           col_names = c("contractid","planid","org_type","plan_type",
+                                         "partd","snp","eghp","org_name","org_marketing_name",
+                                         "plan_name","parent_org","contract_date"),
+                           col_types = cols(
+                             contractid = col_character(),
+                             planid = col_double(),
+                             org_type = col_character(),
+                             plan_type = col_character(),
+                             partd = col_character(),
+                             snp = col_character(),
+                             eghp = col_character(),
+                             org_name = col_character(),
+                             org_marketing_name = col_character(),
+                             plan_name = col_character(),
+                             parent_org = col_character(),
+                             contract_date = col_character()
+                           ))
+```
 
+---
+# 1) Contract/enrollment info
+```{r eval=FALSE, include=T}
+    ## Clean the contract level data
     contract.info = contract.info %>%
       group_by(contractid, planid) %>%
       mutate(id_count=row_number())
@@ -684,32 +707,37 @@ monthlist=c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "1
       filter(id_count==1) %>%
       select(-id_count)
 ```
+
 ---
 # 1) Contract/enrollment info
 ```{r eval=FALSE, include=T}
     ## Enrollments per plan
     ma.path=paste0(path.data.ma,
-                   "\\root_path_name_",
-                   m,".csv")    
-    enroll.info=read.csv(ma.path,
-                         col.names=c("contractid","planid","ssa","fips","state","county","enrollment"),
-                         stringsAsFactors=FALSE)
-    
-    enroll.info = enroll.info %>%
-      mutate(enrollment=replace(enrollment,enrollment=="*",NA)) %>%
-      as.data.frame()
-    
-    enroll.info = enroll.info %>%
-      mutate(enrollment=as.numeric(enrollment))
+                   "\\Monthly MA and PDP Enrollment by CPSC\\Extracted Data\\CPSC_Enrollment_Info_",y,"_",m,".csv")    #<<
+    enroll.info=read_csv(ma.path,
+                         skip=1,
+                         col_names = c("contractid","planid","ssa","fips","state","county","enrollment"),
+                         col_types = cols(
+                           contractid = col_character(),
+                           planid = col_double(),
+                           ssa = col_double(),
+                           fips = col_double(),
+                           state = col_character(),
+                           county = col_character(),
+                           enrollment = col_double()
+                         ),na="*")
 ```
+
 ---
 # 1) Contract/enrollment info
 ```{r eval=FALSE, include=T}
     ## Merge contract info with enrollment info
-    plan.data.2018 = contract.info %>%
+    plan.data = contract.info %>%
       left_join(enroll.info, by=c("contractid", "planid")) %>%
-      mutate(month=as.numeric(m),year=2018)
-}
+      mutate(month=as.numeric(m),year=y)
+    
+    assign(paste0("plan.data.",y,".",m),plan.data)
+  }
 ```
 
 ---
@@ -719,20 +747,17 @@ monthlist=c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "1
   step=0
   for (m in monthlist) {
     step=step+1
-    assign(paste("plan.month.",step,sep=""),get(paste0("plan.data.2018.",m)))
+    assign(paste0("plan.month.",step),get(paste0("plan.data.",y,".",m)))
     if (step==1) {
       plan.month=plan.month.1
     } else {
-      plan.month=rbind(plan.month,get(paste("plan.month.",step,sep="")))
+      plan.month=rbind(plan.month,get(paste0("plan.month.",step)))
     }
   }
 ```
-
 ---
 # 1) Contract/enrollment info
 ```{r eval=FALSE, include=T}
-  ## Clean the data
-
   ## Fill in missing fips codes (by state and county)
   plan.month = plan.month %>%
     group_by(state, county) %>%
@@ -748,11 +773,12 @@ monthlist=c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "1
     group_by(contractid) %>%
     fill(org_type,org_name,org_marketing_name,parent_org)
 ```
+
 ---
 # 1) Contract/enrollment info
 ```{r eval=FALSE, include=T}
   ## Collapse from monthly data to yearly
-  plan.year.2018 = plan.month %>%
+  plan.year = plan.month %>%
     group_by(contractid, planid, fips) %>%
     arrange(contractid,planid,fips,month) %>%
     summarize(avg_enrollment=mean(enrollment),sd_enrollment=sd(enrollment),
@@ -763,5 +789,189 @@ monthlist=c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "1
               eghp=last(eghp),org_name=last(org_name),org_marketing_name=last(org_marketing_name),
               plan_name=last(plan_name),parent_org=last(parent_org),contract_date=last(contract_date),
               year=last(year))
+    
+  assign(paste0("plan.year.",y),plan.year)
+}
+
+full.ma.data=rbind(plan.year.2006,plan.year.2007,plan.year.2008,plan.year.2009,plan.year.2010,
+                   plan.year.2011,plan.year.2012,plan.year.2013,plan.year.2014,plan.year.2015)
 ```
 
+---
+# Number of plans available
+```{r eval=T, include=F}
+full.ma.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/full_ma_data.rds")
+service.area <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/contract_service_area.rds")
+```
+
+```{r all-plans, eval=FALSE, warning=FALSE}
+full.ma.data %>% group_by(fips, year) %>% select(fips, year) %>% summarize(plan_count=n()) %>%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+.plot-callout[
+```{r all-plans-callout, ref.label="all-plans", fig.callout=TRUE, warning=FALSE}
+```
+]
+
+
+---
+# Number of plans available
+
+```{r all-plans-output, ref.label="all-plans", fig.callout=TRUE, warning=FALSE}
+```
+
+
+---
+# Number of plans available
+
+.left-code[
+```{r plot1, fig.show="hide"}
+full.ma.data %>% 
+  group_by(fips, year) %>% 
+  select(fips, year) %>% 
+  summarize(plan_count=n()) %>%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+]
+
+.right-plot[
+![](`r knitr::fig_chunk("plot1","png")`)
+]
+
+---
+# Number of plans available
+
+.left-code[
+```{r plot2, fig.show="hide"}
+full.ma.data %>% 
+  filter(snp=="No" & eghp=="No") %>%   #<<
+  group_by(fips, year) %>% 
+  select(fips, year) %>% 
+  summarize(plan_count=n()) %>%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+]
+
+.right-plot[
+![](`r knitr::fig_chunk("plot2","png")`)
+]
+
+
+
+---
+# Number of plans available
+
+.left-code[
+```{r plot3, fig.show="hide"}
+full.ma.data %>% 
+  filter(snp=="No" & eghp=="No") %>%
+  filter(planid < 800 | planid >= 900) %>% #<<
+  filter(!is.na(planid)) %>% #<<
+  group_by(fips, year) %>% 
+  select(fips, year) %>% 
+  summarize(plan_count=n()) %>%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+]
+
+.right-plot[
+![](`r knitr::fig_chunk("plot3","png")`)
+]
+
+
+---
+# Number of plans available
+
+.left-code[
+```{r plot4, fig.show="hide"}
+full.ma.data %>% 
+  filter(snp=="No" & eghp=="No") %>%
+  filter(planid < 800 | planid >= 900) %>%
+  filter(!is.na(planid)) %>%
+  inner_join(service.area %>% #<<
+               select(contractid, fips, year), #<<
+             by=c("contractid", "fips", "year")) %>% #<<
+  group_by(fips, year) %>% 
+  select(fips, year) %>% 
+  summarize(plan_count=n()) %>%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+]
+
+.right-plot[
+![](`r knitr::fig_chunk("plot4","png")`)
+]
+
+
+
+---
+# Interactive plot
+```{r eval=TRUE, include=FALSE}
+## Count of plans by type (across years)
+ma.plot <- full.ma.data %>% group_by(fips, year, plan_type) %>% 
+  select(fips, year, plan_type) %>% summarize(plan_count=n())
+
+ma.plot.means <- ma.plot %>% group_by(plan_type, year) %>%
+  summarize(mean_count=mean(plan_count)) %>% filter(mean_count>6) %>%
+  ungroup()
+
+ma.plot.means <- ma.plot.means %>%
+  mutate(plan_type = as.factor(plan_type)) %>%
+  mutate(plan_type = fct_recode(plan_type,
+          "PDP Only" = "Medicare Prescription Drug Plan",
+          "Employer PDP" = "Employer/Union Only Direct Contract PDP"))
+```
+
+.left-code[
+```{r anim-plot, fig.show="hide"}
+plot_ly(ma.plot.means,
+        y=~as.factor(plan_type), 
+        x=~mean_count, 
+        frame=~as.factor(year), 
+        type='bar') %>%
+  animation_slider(
+    currentvalue = list(prefix = "Year ", font = list(color="blue"))
+  ) %>%
+  layout(xaxis = list(title = "Count per County"), 
+         yaxis = list(title = ""))
+```
+]
+
+.right-plot[
+![](`r knitr::fig_chunk("anim-plot","png")`)
+]

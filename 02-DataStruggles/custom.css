@@ -13,3 +13,14 @@
   width: 100%;
   border: 4px solid #23373B;
 }
+.left-code {
+  color: #777;
+  width: 38%;
+  height: 92%;
+  float: left;
+}
+.right-plot {
+  width: 60%;
+  float: right;
+  padding-left: 1%;
+}

@@ -7,6 +7,14 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
     <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding/plotly.js"></script>
+    <script src="libs/typedarray/typedarray.min.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
   <body>
@@ -479,9 +487,6 @@ For some simple examples, we'll need some data sets that come bundled with the [
 - Load it now and then inspect these data frames in your own console.
 
 
-```
-## Warning: package 'nycflights13' was built under R version 3.6.1
-```
 
 ```r
 library(nycflights13)
@@ -500,10 +505,6 @@ Let's perform a [left join](https://stat545.com/bit001_dplyr-cheatsheet.html#lef
 ```r
 left_join(flights, planes) %&gt;%
   select(year, month, day, dep_time, arr_time, carrier, flight, tailnum, type, model)  %&gt;% head(5)
-```
-
-```
-## Joining, by = c("year", "tailnum")
 ```
 
 ```
@@ -659,10 +660,10 @@ stocks
 
 ```
 ## # A tibble: 2 x 4
-##   time            X     Y      Z
-##   &lt;date&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 2009-01-01 -0.122 3.68   0.509
-## 2 2009-01-02 -1.33  0.688 -1.33
+##   time             X     Y     Z
+##   &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 2009-01-01 -0.740  -1.93  3.20
+## 2 2009-01-02  0.0613 -1.33 -1.07
 ```
 ---
 # 1) tidyr::pivot_longer()
@@ -676,14 +677,14 @@ tidy_stocks
 
 ```
 ## # A tibble: 6 x 3
-##   time       stock  price
-##   &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt;
-## 1 2009-01-01 X     -0.122
-## 2 2009-01-01 Y      3.68 
-## 3 2009-01-01 Z      0.509
-## 4 2009-01-02 X     -1.33 
-## 5 2009-01-02 Y      0.688
-## 6 2009-01-02 Z     -1.33
+##   time       stock   price
+##   &lt;date&gt;     &lt;chr&gt;   &lt;dbl&gt;
+## 1 2009-01-01 X     -0.740 
+## 2 2009-01-01 Y     -1.93  
+## 3 2009-01-01 Z      3.20  
+## 4 2009-01-02 X      0.0613
+## 5 2009-01-02 Y     -1.33  
+## 6 2009-01-02 Z     -1.07
 ```
 
 ---
@@ -706,10 +707,10 @@ tidy_stocks %&gt;%
 
 ```
 ## # A tibble: 2 x 4
-##   time            X     Y      Z
-##   &lt;date&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 2009-01-01 -0.122 3.68   0.509
-## 2 2009-01-02 -1.33  0.688 -1.33
+##   time             X     Y     Z
+##   &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 2009-01-01 -0.740  -1.93  3.20
+## 2 2009-01-02  0.0613 -1.33 -1.07
 ```
 
 ---
@@ -806,10 +807,10 @@ gdp
 
 ```
 ##     yr mnth dy       gdp
-## 1 2016    1  1  96.12648
-## 2 2016    1  2 101.93832
-## 3 2016    1  3  95.87279
-## 4 2016    1  4 101.62659
+## 1 2016    1  1 100.72979
+## 2 2016    1  2 101.06773
+## 3 2016    1  3 100.06028
+## 4 2016    1  4  99.00666
 ```
 ---
 # 4) tidyr::unite()
@@ -821,10 +822,10 @@ gdp %&gt;% unite(date, c("yr", "mnth", "dy"), sep = "-")
 
 ```
 ##       date       gdp
-## 1 2016-1-1  96.12648
-## 2 2016-1-2 101.93832
-## 3 2016-1-3  95.87279
-## 4 2016-1-4 101.62659
+## 1 2016-1-1 100.72979
+## 2 2016-1-2 101.06773
+## 3 2016-1-3 100.06028
+## 4 2016-1-4  99.00666
 ```
 
 ---
@@ -841,10 +842,10 @@ gdp_u
 ## # A tibble: 4 x 2
 ##   date       gdp
 ##   &lt;chr&gt;    &lt;dbl&gt;
-## 1 2016-1-1  96.1
-## 2 2016-1-2 102. 
-## 3 2016-1-3  95.9
-## 4 2016-1-4 102.
+## 1 2016-1-1 101. 
+## 2 2016-1-2 101. 
+## 3 2016-1-3 100. 
+## 4 2016-1-4  99.0
 ```
 
 --
@@ -865,10 +866,10 @@ gdp_u %&gt;% mutate(date = ymd(date))
 ## # A tibble: 4 x 2
 ##   date         gdp
 ##   &lt;date&gt;     &lt;dbl&gt;
-## 1 2016-01-01  96.1
-## 2 2016-01-02 102. 
-## 3 2016-01-03  95.9
-## 4 2016-01-04 102.
+## 1 2016-01-01 101. 
+## 2 2016-01-02 101. 
+## 3 2016-01-03 100. 
+## 4 2016-01-04  99.0
 ```
 
 ---
@@ -958,7 +959,7 @@ Let's work with the [Medicare Advantage GitHub repository](https://github.com/im
 ---
 # Download the data
 
-First step is to download the raw data that we'll be using. Let's focus on 2018 for now:
+First step is to download the raw data that we'll be using.
  - [Monthly Enrollment](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/Monthly-Enrollment-by-Contract-Plan-State-County.html)
  - [Plan Characteristics](https://www.cms.gov/Medicare/Prescription-Drug-Coverage/PrescriptionDrugCovGenIn/)
  - [Service Areas](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/MA-Contract-Service-Area-by-State-County.html)
@@ -968,23 +969,42 @@ First step is to download the raw data that we'll be using. Let's focus on 2018 
 Lots more out there, but this is enough for now.
 
 ---
-# Basic Contract Info
-
-
+# 1) Contract/enrollment info
 
 ```r
-monthlist=c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+for (y in 2006:2015) {
+  monthlist=get(paste0("monthlist_",y))
   for (m in monthlist) {
-
+    
     ## Basic contract/plan information
     ma.path=paste0(path.data.ma,
-                   "\\root_path_name_",
-                   m,".csv")
-    contract.info=read.csv(ma.path,
-                           col.names=c("contractid","planid","org_type","plan_type","partd","snp",
-                                       "eghp","org_name","org_marketing_name","plan_name","parent_org","contract_date"),
-                           stringsAsFactors=FALSE)
+*                  "\\Monthly MA and PDP Enrollment by CPSC\\Extracted Data\\CPSC_Contract_Info_",y,"_",m,".csv")
+    contract.info=read_csv(ma.path,
+                           skip=1,
+                           col_names = c("contractid","planid","org_type","plan_type",
+                                         "partd","snp","eghp","org_name","org_marketing_name",
+                                         "plan_name","parent_org","contract_date"),
+                           col_types = cols(
+                             contractid = col_character(),
+                             planid = col_double(),
+                             org_type = col_character(),
+                             plan_type = col_character(),
+                             partd = col_character(),
+                             snp = col_character(),
+                             eghp = col_character(),
+                             org_name = col_character(),
+                             org_marketing_name = col_character(),
+                             plan_name = col_character(),
+                             parent_org = col_character(),
+                             contract_date = col_character()
+                           ))
+```
 
+---
+# 1) Contract/enrollment info
+
+```r
+    ## Clean the contract level data
     contract.info = contract.info %&gt;%
       group_by(contractid, planid) %&gt;%
       mutate(id_count=row_number())
@@ -993,35 +1013,269 @@ monthlist=c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "1
       filter(id_count==1) %&gt;%
       select(-id_count)
 ```
+
 ---
-# Basic Contract Info
+# 1) Contract/enrollment info
 
 ```r
     ## Enrollments per plan
     ma.path=paste0(path.data.ma,
-                   "\\root_path_name_",
-                   m,".csv")    
-    enroll.info=read.csv(ma.path,
-                         col.names=c("contractid","planid","ssa","fips","state","county","enrollment"),
-                         stringsAsFactors=FALSE)
-    
-    enroll.info = enroll.info %&gt;%
-      mutate(enrollment=replace(enrollment,enrollment=="*",NA)) %&gt;%
-      as.data.frame()
-    
-    enroll.info = enroll.info %&gt;%
-      mutate(enrollment=as.numeric(enrollment))
+*                  "\\Monthly MA and PDP Enrollment by CPSC\\Extracted Data\\CPSC_Enrollment_Info_",y,"_",m,".csv")
+    enroll.info=read_csv(ma.path,
+                         skip=1,
+                         col_names = c("contractid","planid","ssa","fips","state","county","enrollment"),
+                         col_types = cols(
+                           contractid = col_character(),
+                           planid = col_double(),
+                           ssa = col_double(),
+                           fips = col_double(),
+                           state = col_character(),
+                           county = col_character(),
+                           enrollment = col_double()
+                         ),na="*")
 ```
+
 ---
-# Basic Contract Info
+# 1) Contract/enrollment info
 
 ```r
     ## Merge contract info with enrollment info
-    plan.data.2018 = contract.info %&gt;%
+    plan.data = contract.info %&gt;%
       left_join(enroll.info, by=c("contractid", "planid")) %&gt;%
-      mutate(month=as.numeric(m),year=2018)
-}
+      mutate(month=as.numeric(m),year=y)
+    
+    assign(paste0("plan.data.",y,".",m),plan.data)
+  }
 ```
+
+---
+# 1) Contract/enrollment info
+
+```r
+  ## Append monthly enrollment info for each year
+  step=0
+  for (m in monthlist) {
+    step=step+1
+    assign(paste0("plan.month.",step),get(paste0("plan.data.",y,".",m)))
+    if (step==1) {
+      plan.month=plan.month.1
+    } else {
+      plan.month=rbind(plan.month,get(paste0("plan.month.",step)))
+    }
+  }
+```
+---
+# 1) Contract/enrollment info
+
+```r
+  ## Fill in missing fips codes (by state and county)
+  plan.month = plan.month %&gt;%
+    group_by(state, county) %&gt;%
+    fill(fips)
+
+  ## Fill in missing plan characteristics by contract and plan id
+  plan.month = plan.month %&gt;%
+    group_by(contractid, planid) %&gt;%
+    fill(plan_type, partd, snp, eghp, plan_name)
+  
+  ## Fill in missing contract characteristics by contractid
+  plan.month = plan.month %&gt;%
+    group_by(contractid) %&gt;%
+    fill(org_type,org_name,org_marketing_name,parent_org)
+```
+
+---
+# 1) Contract/enrollment info
+
+```r
+  ## Collapse from monthly data to yearly
+  plan.year = plan.month %&gt;%
+    group_by(contractid, planid, fips) %&gt;%
+    arrange(contractid,planid,fips,month) %&gt;%
+    summarize(avg_enrollment=mean(enrollment),sd_enrollment=sd(enrollment),
+              min_enrollment=min(enrollment),max_enrollment=max(enrollment),
+              first_enrollment=first(enrollment),last_enrollment=last(enrollment),
+              state=last(state),county=last(county),org_type=last(org_type),
+              plan_type=last(plan_type),partd=last(partd),snp=last(snp),
+              eghp=last(eghp),org_name=last(org_name),org_marketing_name=last(org_marketing_name),
+              plan_name=last(plan_name),parent_org=last(parent_org),contract_date=last(contract_date),
+              year=last(year))
+    
+  assign(paste0("plan.year.",y),plan.year)
+}
+
+full.ma.data=rbind(plan.year.2006,plan.year.2007,plan.year.2008,plan.year.2009,plan.year.2010,
+                   plan.year.2011,plan.year.2012,plan.year.2013,plan.year.2014,plan.year.2015)
+```
+
+---
+# Number of plans available
+
+
+
+```r
+full.ma.data %&gt;% group_by(fips, year) %&gt;% select(fips, year) %&gt;% summarize(plan_count=n()) %&gt;%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+.plot-callout[
+&lt;img src="02-DataStruggles_files/figure-html/all-plans-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Number of plans available
+
+&lt;img src="02-DataStruggles_files/figure-html/all-plans-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Number of plans available
+
+.left-code[
+
+```r
+full.ma.data %&gt;% 
+  group_by(fips, year) %&gt;% 
+  select(fips, year) %&gt;% 
+  summarize(plan_count=n()) %&gt;%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+]
+
+.right-plot[
+![](02-DataStruggles_files/figure-html/plot1-1.png)
+]
+
+---
+# Number of plans available
+
+.left-code[
+
+```r
+full.ma.data %&gt;% 
+* filter(snp=="No" &amp; eghp=="No") %&gt;%
+  group_by(fips, year) %&gt;% 
+  select(fips, year) %&gt;% 
+  summarize(plan_count=n()) %&gt;%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+]
+
+.right-plot[
+![](02-DataStruggles_files/figure-html/plot2-1.png)
+]
+
+
+
+---
+# Number of plans available
+
+.left-code[
+
+```r
+full.ma.data %&gt;% 
+  filter(snp=="No" &amp; eghp=="No") %&gt;%
+* filter(planid &lt; 800 | planid &gt;= 900) %&gt;%
+* filter(!is.na(planid)) %&gt;%
+  group_by(fips, year) %&gt;% 
+  select(fips, year) %&gt;% 
+  summarize(plan_count=n()) %&gt;%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+]
+
+.right-plot[
+![](02-DataStruggles_files/figure-html/plot3-1.png)
+]
+
+
+---
+# Number of plans available
+
+.left-code[
+
+```r
+full.ma.data %&gt;% 
+  filter(snp=="No" &amp; eghp=="No") %&gt;%
+  filter(planid &lt; 800 | planid &gt;= 900) %&gt;%
+  filter(!is.na(planid)) %&gt;%
+* inner_join(service.area %&gt;%
+*              select(contractid, fips, year),
+*            by=c("contractid", "fips", "year")) %&gt;%
+  group_by(fips, year) %&gt;% 
+  select(fips, year) %&gt;% 
+  summarize(plan_count=n()) %&gt;%
+  ggplot(aes(x=as.factor(year),y=plan_count)) + 
+  stat_summary(fun.y="mean", geom="bar") +
+  labs(
+    x="Year",
+    y="Number of Plans",
+    title="Average Number of Plans per County"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw()
+```
+]
+
+.right-plot[
+![](02-DataStruggles_files/figure-html/plot4-1.png)
+]
+
+
+
+---
+# Interactive plot
+
+
+.left-code[
+
+```r
+plot_ly(ma.plot.means,
+        y=~as.factor(plan_type), 
+        x=~mean_count, 
+        frame=~as.factor(year), 
+        type='bar') %&gt;%
+  animation_slider(
+    currentvalue = list(prefix = "Year ", font = list(color="blue"))
+  ) %&gt;%
+  layout(xaxis = list(title = "Count per County"), 
+         yaxis = list(title = ""))
+```
+
+<div id="htmlwidget-f9b778bea4c85b831d62" style="width:2100px;height:900px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f9b778bea4c85b831d62">{"x":{"visdat":{"50fc5d552636":["function () ","plotlyVisDat"]},"cur_data":"50fc5d552636","attrs":{"50fc5d552636":{"y":{},"x":{},"frame":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Count per County","range":[-11.7526673970369,387.804433059294]},"yaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"]},"hovermode":"closest","showlegend":false,"sliders":[{"currentvalue":{"prefix":"Year ","xanchor":"right","font":{"size":16,"color":"blue"}},"steps":[{"method":"animate","args":[["2006"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2006","value":"2006"},{"method":"animate","args":[["2007"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2007","value":"2007"},{"method":"animate","args":[["2008"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2008","value":"2008"},{"method":"animate","args":[["2009"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2009","value":"2009"},{"method":"animate","args":[["2010"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2010","value":"2010"},{"method":"animate","args":[["2011"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2011","value":"2011"},{"method":"animate","args":[["2012"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2012","value":"2012"},{"method":"animate","args":[["2013"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2013","value":"2013"},{"method":"animate","args":[["2014"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2014","value":"2014"},{"method":"animate","args":[["2015"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2015","value":"2015"}],"visible":true,"pad":{"t":40}}],"updatemenus":[{"type":"buttons","direction":"right","showactive":false,"y":0,"x":0,"yanchor":"top","xanchor":"right","pad":{"t":60,"r":5},"buttons":[{"label":"Play","method":"animate","args":[null,{"fromcurrent":true,"mode":"immediate","transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true}}]}]}]},"source":"A","config":{"showSendToCloud":false},"data":[{"y":["Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"],"x":[12.0365438216166,15,22.6325459317585,7.87933954276037,268.416950201052,83.4271123491179,16,8.23251098344035],"frame":"2006","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"frames":[{"name":"2006","data":[{"y":["Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"],"x":[12.0365438216166,15,22.6325459317585,7.87933954276037,268.416950201052,83.4271123491179,16,8.23251098344035],"frame":"2006","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2007","data":[{"y":["Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"],"x":[9.97118066315463,13,30.7592414014786,8.71881188118812,318.849319306931,119.632785869228,15,9.69694960212202],"frame":"2007","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2008","data":[{"y":["Employer PDP","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[8.97087077781221,34.579063883618,14.056106633602,330.065594059406,200.765726681128,10.3074901445466],"frame":"2008","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2009","data":[{"y":["Employer PDP","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[7.97396156230626,160.082455052697,127.87228766274,319.926051980198,215.894948868919,9.78304644365054],"frame":"2009","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2010","data":[{"y":["Employer PDP","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[8.8735275883447,168.9079640533,132.300278896808,302.314877822456,122.817843866171,9.72234762979684],"frame":"2010","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2011","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[6.40901898734177,8.87259764414135,11,175.51657886582,163.237682057639,261.570058768945,16.3081542351454,9.28493414712496],"frame":"2011","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2012","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[7.00717131474104,8.87333126358274,11,169.189323401614,200.946013031337,274.274358181256,12.7591888466413,8.53376413570275],"frame":"2012","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2013","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[6.93693009118541,7.89847873331264,10,178.604283054004,200.308098045299,278.130838230745,11.1652918781726,9.4583031182016],"frame":"2013","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2014","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[6.43726521412472,7.89419795221843,9,175.644009931719,209.211604095563,369.642746674915,8.55541441727533,8.96134208606856],"frame":"2014","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2015","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","Regional PPO"],"x":[6.42215785662563,7.91964008687558,9,162.91061452514,221.300495662949,327.8614290133,8.30222222222222],"frame":"2015","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]}],"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+]
+
+.right-plot[
+![](02-DataStruggles_files/figure-html/anim-plot-1.png)
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
