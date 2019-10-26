@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Instructions
 
-This assignment is just about data management. The goal is to give you a chance to practice wrangling and tidying data. We do this very early in the class because soon (**next week**) we will start doing some empirical analysis using real data. The sooner you are comfortable with the datasets, the better.
+This assignment is just about GitHub data management. The goal is to give you a chance to practice wrangling and tidying data. We do this very early in the class because soon (**next week**) we will start doing some empirical analysis using real data. The sooner you are comfortable with the datasets, the better.
 
 Please turn in your empirical work as an `R Markdown` document. If you are not familiar with `R Markdown`, take a look at the following resources:
 
@@ -24,7 +24,7 @@ Please turn in your empirical work as an `R Markdown` document. If you are not f
 
 If you're still new to `R Markdown`, then there will be some growing pains. Please be patient with yourself and stick to it. One of the goals of the course is to develop good workflow habits. This means doing work in a way that minimizes mistakes and maximizes reproducability. `R Markdown` exists exactly for these reasons. It allows you to keep your data analysis and the description of that analysis together in a single document or group of documents. It's really easy to introduce mistakes when copying and pasting empirical results into a text document, and it's even easier to waste hours (*days/weeks?*) re-pasting results into your text document and re-writing the results accordingly. Doing everything in `R Markdown` avoids all of these issues. In the long run, it's much more efficient.
 
-You can submit your answers in html format. Just upload the html file to Canvas. Please also adopt the naming convention, *'last name'-'first initial'-hwk1.html*. For example, in my case this would be *McCarthy-I-hwk1*. In addition to your answers, please be sure to include the `R` code that generated your answers. Practice writing good code and showing me only what I would need to recreate your results.
+You can submit your answers as an html document in your personal GitHub repo. Please also adopt the naming convention, *'last name'-'first initial'-hwk1.html*. For example, in my case this would be *McCarthy-I-hwk1*. In addition to your answers, please be sure to include the `R` code that generated your answers. Practice writing good code and showing me only what I would need to recreate your results.
 
 
 # Using *Git* and *GitHub*
