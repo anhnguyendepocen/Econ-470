@@ -2,12 +2,10 @@
 title: "Homework 1"
 author: "Econ 470/HLTH 470: Research in Health Economics"
 date: "Due: Monday, January 27"
-site: bookdown::bookdown_site
-documentclass: book
 output: 
-  bookdown::gitbook: default
-  #bookdown::pdf_book: default
-#github-repo: imccart/Econ-470/assignments
+  bookdown::html_document2:
+    toc: TRUE
+    toc_float: TRUE
 ---
 
 ```{r setup, include=FALSE}
