@@ -6,6 +6,7 @@ output:
   bookdown::html_document2:
     toc: TRUE
     toc_float: TRUE
+    theme: darkly
 ---
 
 ```{r setup, include=FALSE}
