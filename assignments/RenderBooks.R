@@ -16,4 +16,4 @@ setwd("D:/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Economics
 
 
 # Assignments -------------------------------------------------------------
-bookdown::render_book('01-hwk.Rmd', 'bookdown::gitbook')
+bookdown::render_book('index.Rmd', 'bookdown::gitbook')
