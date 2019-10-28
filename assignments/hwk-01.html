@@ -1530,7 +1530,7 @@ div.tocify {
 
 <div id="instructions" class="section level1">
 <h1><span class="header-section-number">1</span> Instructions</h1>
-<p>This assignment is just about GitHub data management. The goal is to give you a chance to practice wrangling and tidying data. We do this very early in the class because soon (<strong>next week</strong>) we will start doing some empirical analysis using real data. The sooner you are comfortable with the datasets, the better.</p>
+<p>This assignment is just about GitHub and data management. The goal is to give you a chance to practice wrangling and tidying data. We do this very early in the class because soon (<strong>next week</strong>) we will start doing some empirical analysis using real data. The sooner you are comfortable with the datasets, the better.</p>
 <p>Please turn in your empirical work as an <code>R Markdown</code> document. If you are not familiar with <code>R Markdown</code>, take a look at the following resources:</p>
 <ul>
 <li><a href="https://bookdown.org/yihui/rmarkdown/">R Markdown: The Definitive Guide</a></li>
@@ -1553,13 +1553,13 @@ div.tocify {
 <p>Now let’s do some data work. The purpose of this part of the assignment is essentially to practice database management. Most of your professional lives will likely involve managing data. It can be tedious but also extremely rewarding when you finally get to find out what’s going on in the analysis stage. Anyway, let’s get to work! All of these questions require you to use the <a href="https://github.com/imccart/Medicare-Advantage">Medicare Advantage GitHub Repo</a>.</p>
 <div id="enrollment-data" class="section level2">
 <h2><span class="header-section-number">3.1</span> Enrollment Data</h2>
-<p>Run the <code>R</code> code to organize the <strong>Monthly Plan Enrollment Data</strong>. Once you’ve created your final dataset (it’s called <em>full_ma_data</em> in my code), answer the following:</p>
+<p>Run the <code>R</code> code to organize the <a href="https://github.com/imccart/Medicare-Advantage/blob/master/R_code/1_Plan_Data.R">Monthly Plan Enrollment Data</a>. Once you’ve created your final dataset (it’s called <em>full_ma_data</em> in my code), answer the following:</p>
 <ol style="list-style-type: decimal">
-<li>How many observations exist in your current dataset?</li>
-<li>How many different <em>plan_types</em> exist in the data?</li>
-<li>Provide a table of the count of plans under each plan type in each year. Your table should look something like Table <a href="#tab:plancount">3.1</a>.</li>
+<li><p>How many observations exist in your current dataset?</p></li>
+<li><p>How many different <em>plan_types</em> exist in the data?</p></li>
+<li><p>Provide a table of the count of plans under each plan type in each year. Your table should look something like Table <a href="#tab:plancount">3.1</a>.</p></li>
 </ol>
-<pre class="r"><code>knitr::kable(test.data, col.names=c(&quot;2010&quot;,&quot;2011&quot;,&quot;2012&quot;,&quot;2013&quot;,&quot;2014&quot;),
+<pre class="r"><code>knitr::kable(test.data, col.names=c(&quot;2010&quot;,&quot;2011&quot;,&quot;2012&quot;,&quot;2013&quot;,&quot;2014&quot;,&quot;2015&quot;),
              type=&quot;html&quot;, caption = &quot;Plan Count by Year&quot;, booktabs = TRUE)</code></pre>
 <table>
 <caption><span id="tab:plancount">Table 3.1: </span>Plan Count by Year</caption>
@@ -1571,36 +1571,73 @@ div.tocify {
 <th align="right">2012</th>
 <th align="right">2013</th>
 <th align="right">2014</th>
+<th align="right">2015</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Type 1</td>
-<td align="right">49</td>
-<td align="right">35</td>
+<td align="right">31</td>
+<td align="right">36</td>
+<td align="right">38</td>
+<td align="right">17</td>
 <td align="right">42</td>
-<td align="right">19</td>
-<td align="right">41</td>
+<td align="right">31</td>
 </tr>
 <tr class="even">
 <td>Type 2</td>
-<td align="right">42</td>
-<td align="right">50</td>
-<td align="right">28</td>
-<td align="right">30</td>
+<td align="right">23</td>
+<td align="right">33</td>
+<td align="right">46</td>
+<td align="right">17</td>
+<td align="right">15</td>
 <td align="right">23</td>
 </tr>
 <tr class="odd">
 <td>Type 3</td>
-<td align="right">21</td>
-<td align="right">39</td>
-<td align="right">31</td>
-<td align="right">35</td>
-<td align="right">22</td>
+<td align="right">18</td>
+<td align="right">26</td>
+<td align="right">20</td>
+<td align="right">19</td>
+<td align="right">48</td>
+<td align="right">18</td>
 </tr>
 </tbody>
 </table>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Remove all special needs plans (SNP), employer group plans (eghp), and all “800-series” plans. Provide an updated version of Table <a href="#tab:plancount">3.1</a> after making these exclusions.</p></li>
+<li><p>Merge the the contract service area data to the enrollment data and restrict the data only to contracts that are approved in their respective counties. The <code>R</code> script to create the service area dataset is here: <a href="https://github.com/imccart/Medicare-Advantage/blob/master/R_code/1_Plan_Data.R">Contract Service Area</a>. And you can follow the [<a href="https://github.com/imccart/Medicare-Advantage/blob/master/R_code/_BuildFinalData.R">_BuildFinalData.r</a> script to see where/how I join the datasets. The join takes place in the following section of the code:</p></li>
+</ol>
+<pre class="r"><code>final.data &lt;- full.ma.data %&gt;%
+  inner_join(contract.service.area %&gt;% 
+               select(contractid, fips, year), 
+             by=c(&quot;contractid&quot;, &quot;fips&quot;, &quot;year&quot;)) %&gt;%
+  filter(!state %in% c(&quot;VI&quot;,&quot;PR&quot;,&quot;MP&quot;,&quot;GU&quot;,&quot;AS&quot;,&quot;&quot;) &amp;
+           snp == &quot;No&quot; &amp;
+           (planid &lt; 800 | planid &gt;= 900) &amp;
+           !is.na(planid) &amp; !is.na(fips))</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Finally, limit your dataset only to plans with non-missing enrollment data. Provide a graph showing the average number of Medicare Advantage enrollees per county from 2008 to 2015. Be sure to format your graph in a meaningful way as we did in class.</li>
+</ol>
 </div>
+<div id="premium-data" class="section level2">
+<h2><span class="header-section-number">3.2</span> Premium Data</h2>
+<p>Now we’re going to incorporate the plan premium information. This is part of the “Plan Characteristics” data, and the underlying R scripts for these files can be found here: <a href="https://github.com/imccart/Medicare-Advantage/blob/master/R_code/2_Plan_Characteristics.R">Plan Characteristics</a>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Merge the plan characteristics data to the dataset you created in Step 6 above. Note that you’ll need to join the <a href="https://github.com/imccart/Medicare-Advantage/blob/master/R_code/4_Penetration_Files.R">Market Penetration Data</a> in order to get the information you need to merge the plan characteristics. This is because the plan characteristics data only have state name and county (not FIPS codes). The penetration files have both FIPS codes and state/county names, so that dataset serves as a good crosswalk file.</p></li>
+<li><p>Provide a graph showing the average premium over time. Don’t forget about formatting!</p></li>
+<li><p>Provide a graph showing the percentage of $0 premium plans over time. Also…remember to format things.</p></li>
+</ol>
+</div>
+</div>
+<div id="summary-questions" class="section level1">
+<h1><span class="header-section-number">4</span> Summary Questions</h1>
+<p>With all of this data work and these great summaries, let’s take a step back and think about what all this means.</p>
+<ol style="list-style-type: decimal">
+<li><p>Why did we drop the “800-series” plans?</p></li>
+<li><p>Why do so many plans charge a $0 premium? What does that really mean to a beneficiary?</p></li>
+<li><p>Briefly describe your experience working with these data (just a few sentences). Tell me one thing you learned and one thing that really aggravated you.</p></li>
+</ol>
 </div>
 
 

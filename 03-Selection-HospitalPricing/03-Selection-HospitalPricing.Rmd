@@ -1,0 +1,120 @@
+---
+title: "Section 3: Hospital Pricing and Selection on Observables"
+subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
+author: Ian McCarthy | Emory University
+date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, custom.css] 
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      beforeInit: "macros.js"
+---
+
+<!-- Adjust some CSS code for font size and maintain R code font size -->
+<style type="text/css">
+.remark-slide-content {
+    font-size: 30px;
+    padding: 1em 2em 1em 2em;    
+}
+.remark-code {
+  font-size: 15px;
+}
+.remark-inline-code { 
+    font-size: 20px;
+}
+</style>
+
+
+<!-- Set R options for how code chunks are displayed and load packages -->
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(knitr)
+opts_chunk$set(
+  fig.align="center",  
+  fig.height=3, #fig.width=6,
+  # out.width="748px", #out.length="520.75px",
+  dpi=300, #fig.path='Figs/',
+  cache=T,# echo=F, warning=F, message=F
+  warning = FALSE, 
+  message = FALSE, 
+  cache.lazy = FALSE  
+  )
+
+knitr::opts_hooks$set(fig.callout = function(options) {
+  if(options$fig.callout) {
+    options$echo = FALSE
+  }
+  options
+})
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
+               scales, plotly)
+```
+
+# Table of contents
+
+1. [Hospital Pricing](#hospital_pricing)
+
+2. [Potential Outcomes Framework](#potential_outcomes)
+
+3. [Selection on Observables](#selection_observables)
+
+4. [HCRIS Data](#hcris)
+
+5. [Pricing and Pay for Performance](#price_pfp)
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: hospital_pricing
+
+# Background on Hospital Pricing
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: potential_outcomes
+
+# Potential Outcomes Framework
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: selection_observables
+
+# Selection on Observables
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: hcris
+
+# Understanding HCRIS Data
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: price_pfp
+
+# Pricing and Pay for Performance
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>

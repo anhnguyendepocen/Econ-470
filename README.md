@@ -14,4 +14,4 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 
 ## Assignments
-1. GitHub and Data Management \[[Online Book](assignments/hwk-01.html)\]
+1. GitHub and Data Management \[[Instructions](assignments/hwk-01.html)\]
