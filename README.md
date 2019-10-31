@@ -12,6 +12,9 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 2. Struggling with data
 \[[Slides](02-DataStruggles/02-DataStruggles.html)\]
 
+3. Selection on Observables and Hospital Pricing
+\[[Slides](03-Selection-HospitalPricing/03-Selection-HospitalPricing.html)\]
+
 
 ## Assignments
 1. GitHub and Data Management \[[Instructions](assignments/hwk-01.html)\]

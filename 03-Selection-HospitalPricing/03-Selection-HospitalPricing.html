@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Section 3: Hospital Pricing and Selection on Observables</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ian McCarthy | Emory University" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Section 3: Hospital Pricing and Selection on Observables
+## <html>
+<div style="float:left">
+
+</div>
+<hr color='#EB811B' size=1px width=1050px>
+</html>
+### Ian McCarthy | Emory University
+### Econ 470 &amp; HLTH 470
+
+---
+
+
+&lt;!-- Adjust some CSS code for font size and maintain R code font size --&gt;
+&lt;style type="text/css"&gt;
+.remark-slide-content {
+    font-size: 30px;
+    padding: 1em 2em 1em 2em;    
+}
+.remark-code {
+  font-size: 15px;
+}
+.remark-inline-code { 
+    font-size: 20px;
+}
+&lt;/style&gt;
+
+
+&lt;!-- Set R options for how code chunks are displayed and load packages --&gt;
+
+
+# Table of contents
+
+1. [Hospital Pricing](#hospital_pricing)
+
+2. [Potential Outcomes Framework](#potential_outcomes)
+
+3. [Selection on Observables](#selection_observables)
+
+4. [Methods](#methods)
+
+5. [HCRIS Data](#hcris)
+
+6. [Pricing and Pay for Performance](#price_pfp)
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: hospital_pricing
+
+# Background on Hospital Pricing
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+---
+# What is a hospital price?
+
+Defining characteristic of hospital services: *it's complicated!*
+
+--
+.center[
+  ![:scale 800px](pics/BillExample.jpg)
+]
+
+&lt;div class="smalltext"&gt;Brill, Steven. 2013. "Bitter Pill: Why Medical Bills are Killing Us." *Time Magazine*.&lt;/div&gt;
+
+---
+# What is a hospital price?
+
+Lots of different payers paying lots of different prices:
+- [Medicare fee-for-service prices](https://www.cms.gov/Outreach-and-Education/Medicare-Learning-Network-MLN/MLNProducts/Downloads/AcutePaymtSysfctsht.pdf)
+- [Medicaid payments](https://www.kff.org/report-section/understanding-medicaid-hospital-payments-and-the-impact-of-recent-policy-changes-issue-brief/)
+- Private insurance negotiations (including Medicare Advantage)
+- But what about the price to patients?
+
+--
+
+.center[
+Price `\(\neq\)` charge `\(\neq\)` cost `\(\neq\)` patient out-of-pocket spending
+]
+
+---
+# What is a hospital price?
+
+.center[
+  ![:scale 600px](pics/DifferentPrices.jpg)
+]
+
+&lt;div class="smalltext"&gt;Source: &lt;a href="https://healthcarepricingproject.org/"&gt;Health Care Pricing Project&lt;/a&gt;&lt;/div&gt;
+
+
+---
+# What is a hospital price?
+Not clear what exactly is negotiated...
+
+--
+.pull-left[
+### Fee-for-service
+- price per procedure
+- percentage of charges
+- markup over Medicare rates
+]
+
+--
+.pull-right[
+### Capitation
+- payment per patient &lt;/br&gt;
+  `\(+\)` pay-for-performance &lt;/br&gt;
+  `\(+\)` shared savings
+]
+
+---
+# Hospital prices in real life
+We'll get into the real data in a bit, but for now...a few facts:
+
+1. Hospital services are expensive
+2. Prices vary dramatically across different areas
+3. Lack of competition is a major reason for high prices
+
+---
+# Hospital prices in real life
+
+.pull-left[
+  ![:scale 450px](pics/HC_var_withinmkt_hip_ga_atlanta.png)
+]
+
+.pull-right[
+  ![:scale 450px](pics/HC_var_withinmkt_kmri_ga_atlanta.png)
+]
+
+&lt;div class="smalltext"&gt;Source: &lt;a href="https://healthcarepricingproject.org/"&gt;Health Care Pricing Project&lt;/a&gt;&lt;/div&gt;
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: potential_outcomes
+
+# Potential Outcomes Framework
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+
+---
+# What is a "Potential Outcome"
+.pull-left[
+![:scale 420px](pics/EmoryPicture.jpg)
+
+Y(1)= $75,000
+
+]
+
+.pull-right[
+![:scale 370px](pics/UNTPicture.jpg)
+
+Y(0)= $60,000
+]
+
+--
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='black' size=1px width=1100px&gt;&lt;/html&gt;
+Treatment effect =Y(1)-Y(0)= $15,000
+
+---
+# What is a "Potential Outcome"
+.pull-left[
+![:scale 420px](pics/EmoryPicture.jpg)
+
+Y(1)= $75,000
+
+]
+
+.pull-right[
+![:scale 370px](pics/UNTPicture.jpg)
+
+Y(0)= ?
+]
+
+--
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='black' size=1px width=1100px&gt;&lt;/html&gt;
+Treatment effect =Y(1)-Y(0)= ?
+
+---
+# Do we ever observe the potential outcomes?
+.center[
+  ![:scale 700px](https://media.giphy.com/media/zZeCRfPyXi9UI/giphy.gif)
+]
+
+--
+Without a time machine...hard to get *individual* treatment effects.
+
+---
+# *Average* Treatment Effect
+
+
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot1-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# *Average* Treatment Effect
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot2-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# *Average* Treatment Effect
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot3-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# *Average* Treatment Effect
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot4-output-1.png" style="display: block; margin: auto;" /&gt;
+
+--
+.center[
+`$$ATE = E[Y(1)-Y(0)]$$`
+]
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: selection_observables
+
+# Selection on Observables
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+---
+# Average Treatment Effect
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# ...with Selection
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# ...with Selection
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# ...with Selection
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot5-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# ...with Selection
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot6-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumption 1: Selection on Observables
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot7-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumption 1: Selection on Observables
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot8-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumption 1: Selection on Observables
+
+More formally:
+- `\(E[Y(1)|W,shape]=E[Y(1)|shape]\)`
+- `\(Y(1),Y(0) \perp\!\!\!\perp W | shape\)`
+
+--
+&lt;br&gt;
+In words...nothing unobserved that determines treatment selection and affects your outcome of interest
+
+
+---
+# Violation of Selection on Observables
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-select-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Violation of Selection on Observables
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot9-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumption 2: Common Support
+Someone of each type must be in both the treated and untreated groups
+
+--
+`$$0 &lt; \text{Pr}(W=1|X) &lt;1$$`
+
+---
+# Assumption 2: Common Support
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Violation of Common Support
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: methods
+
+# Causal Inference with Observational Data
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+
+---
+# Fundamental Problem of Causal Inference
+
+Potential outcomes:
+- `\(Y_{i}(1)\)` for `\(W_{i}=1\)`
+- `\(Y_{i}(0)\)` for `\(W_{i}=0\)`
+
+--
+&lt;br&gt;
+Average treatment effect is `\(E[Y_{i}(1)-Y_{i}(0)]\)`, but: 
+&lt;br&gt;
+- `\(E[Y_{i}|W_{i}=1] \neq E[Y_{i}(1)]\)`
+- `\(E[Y_{i}|W_{i}=0] \neq E[Y_{i}(0)]\)`
+
+--
+&lt;/br&gt;
+We don't observe the counterfactual outcome...what would have happened if a treated unit was actually untreated.
+
+
+---
+# Fundamental Problem of Causal Inference
+*ALL* attempts at causal inference represent some attempt at estimating the counterfactual outcome. We need an estimate for `\(E[Y_{i}(0)]\)` among those that were treated, and vice versa for `\(E[Y_{i}(1)]\)`.
+
+
+---
+# Causal inference with observational data
+Solution for now: find covariates `\(X_{i}\)` such that the following assumptions are plausible:
+
+1. Selection on observables: `$$Y_{i}(1), Y_{i}(0) \perp\!\!\!\perp W_{i} | X_{i}$$`
+2. Common support: `$$0 &lt; \text{Pr}(W_{i}=1|X_{i}) &lt; 1$$`
+
+---
+# Causal inference with observational data
+With selection on observables and common support:
+1. Matching estimators: `$$E[Y_{i}(1) - Y_{i}(0)] = E[ E[Y_{i}|W_{i}=1, X_{i}] - E[Y_{i}|W_{i}=0, X_{i}] ]$$`
+2. Regression estimators: `$$E[Y_{i}(1) - Y_{i}(0)] = E[ E[Y_{i}|W_{i}=1, X_{i}] ] - E[ E[Y_{i}|W_{i}=0, X_{i}] ]$$`
+
+--
+What's the difference?
+
+---
+# Matching
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/ate-plot8-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Regression
+
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/regression-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Estimation options
+- Matching
+- Weighting
+- Regression
+- Doubly-robust weighting + regression (won't cover)
+
+
+---
+# Matching: The process
+1. For each observation `\(i\)`, find the `\(m\)` "nearest" neighbors, `\(J_{m}(i)\)`. 
+2. Impute `\(\hat{Y}_{i}(0)\)` and `\(\hat{Y}_{i}(1)\)` for each observation:
+`$$\hat{Y}_{i}(0) = \begin{cases}
+    Y_{i} &amp; \text{if} &amp; W_{i}=0 \\
+    \frac{1}{m} \sum_{j \in J_{m}(i)} Y_{j} &amp; \text{if} &amp; W_{i}=1 
+\end{cases}$$`
+
+`$$\hat{Y}_{i}(1) = \begin{cases}
+    Y_{i} &amp; \text{if} &amp; W_{i}=1 \\
+    \frac{1}{m} \sum_{j \in J_{m}(i)} Y_{j} &amp; \text{if} &amp; W_{i}=0 
+\end{cases}$$`
+
+3. Form "matched" ATE:
+`$$\hat{\delta}^{\text{match}} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{Y}_{i}(1) - \hat{Y}_{i}(0) \right)$$`
+
+---
+# Matching: Defining "nearest"
+
+1. Euclidean distance:
+`$$\sum_{k=1}^{K} (X_{ik} - X_{jk})^{2}$$`
+2. Scaled Euclidean distance:
+`$$\frac{1}{\sigma_{X_{k}}^{2}} \sum_{k=1}^{K} (X_{ik} - X_{jk})^{2}$$`
+3. Mahalanobis distance:
+`$$(X_{i} - X_{j})' \Sigma_{X}^{-1} (X_{i} - X_{j})$$`
+
+---
+# Weighting
+
+1. Estimate propensity score `ps &lt;- glm(W~X, family=binomial, data)`, denoted `\(\hat{\pi}(X_{i})\)`
+2. Weight by inverse of propensity score
+`\begin{align}
+\hat{\mu}_{1} &amp;= \frac{ \sum_{i=1}^{N} \frac{Y_{i} W_{i}}{\hat{\pi}(X_{i})} }{ \sum_{i=1}^{N} \frac{W_{i}}{\hat{\pi}(X_{i})} } \\
+\hat{\mu}_{0} &amp;= \frac{ \sum_{i=1}^{N} \frac{Y_{i} (1-W_{i})}{1-\hat{\pi}(X_{i})} }{ \sum_{i=1}^{N} \frac{1-W_{i}}{1-\hat{\pi}(X_{i})} }
+\end{align}`
+
+3. Form "inverse-propensity weighted" ATE:
+`$$\hat{\delta}^{IPW} = \hat{\mu}_{1} - \hat{\mu}_{0}$$`
+
+---
+# Regression
+1. Regress `\(Y_{i}\)` on `\(X_{i}\)` among `\(W_{i}=1\)` to form `\(\hat{\mu}_{1}(X_{i})\)`
+2. Regress `\(Y_{i}\)` on `\(X_{i}\)` among `\(W_{i}=0\)` to form `\(\hat{\mu}_{0}(X_{i})\)`
+3. Form `\(\hat{\delta}^{reg} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{\mu}_{1}(X_{i}) - \hat{\mu}_{0}(X_{i})\right)\)`
+
+--
+&lt;/br&gt;
+Or estimate in one step, `$$Y_{i} = \delta W_{i} + \beta X_{i} + W_{i} \times \left(X_{i} - \bar{X}\right) \gamma + \varepsilon_{i}$$`
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: hcris
+
+# Understanding HCRIS Data
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: price_pfp
+
+# Pricing and Pay for Performance
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

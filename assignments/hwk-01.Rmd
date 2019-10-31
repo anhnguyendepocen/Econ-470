@@ -36,7 +36,7 @@ The first part of the assignment is to confirm you're good with *Git* and *GitHu
 
 2. Take the [Learning GitHub](https://www.linkedin.com/learning/learning-github?u=2149178) course. It takes a couple of hours to complete. Once it's completed, you'll get a certificate added to your LinkedIn profile. 
 
-3. Take a screenshot of your profile page showing you completed the course and add the screenshot to your `R Markdown` document. Hint: to add a screenshot in the document, you can do something like: `![](D:/pictures/screenshot.png)`
+3. Add your certificate to your answers in `R Markdown`. Hint: to add an image in the document, you can do something like: `![](D:/pictures/screenshot.png)`
 
 
 # Building the data

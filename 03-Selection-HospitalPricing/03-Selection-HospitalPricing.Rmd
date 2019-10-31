@@ -1,6 +1,6 @@
 ---
 title: "Section 3: Hospital Pricing and Selection on Observables"
-subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
+subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1050px></html>"
 author: Ian McCarthy | Emory University
 date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
 output:
@@ -54,7 +54,8 @@ knitr::opts_hooks$set(fig.callout = function(options) {
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
-               scales, plotly)
+               scales, plotly, gganimate)
+set.seed(12345)
 ```
 
 # Table of contents
@@ -65,9 +66,11 @@ pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
 
 3. [Selection on Observables](#selection_observables)
 
-4. [HCRIS Data](#hcris)
+4. [Methods](#methods)
 
-5. [Pricing and Pay for Performance](#price_pfp)
+5. [HCRIS Data](#hcris)
+
+6. [Pricing and Pay for Performance](#price_pfp)
 
 <!-- New Section -->
 ---
@@ -77,6 +80,85 @@ name: hospital_pricing
 # Background on Hospital Pricing
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+---
+# What is a hospital price?
+
+Defining characteristic of hospital services: *it's complicated!*
+
+--
+.center[
+  ![:scale 800px](pics/BillExample.jpg)
+]
+
+<div class="smalltext">Brill, Steven. 2013. "Bitter Pill: Why Medical Bills are Killing Us." *Time Magazine*.</div>
+
+---
+# What is a hospital price?
+
+Lots of different payers paying lots of different prices:
+- [Medicare fee-for-service prices](https://www.cms.gov/Outreach-and-Education/Medicare-Learning-Network-MLN/MLNProducts/Downloads/AcutePaymtSysfctsht.pdf)
+- [Medicaid payments](https://www.kff.org/report-section/understanding-medicaid-hospital-payments-and-the-impact-of-recent-policy-changes-issue-brief/)
+- Private insurance negotiations (including Medicare Advantage)
+- But what about the price to patients?
+
+--
+
+.center[
+Price $\neq$ charge $\neq$ cost $\neq$ patient out-of-pocket spending
+]
+
+---
+# What is a hospital price?
+
+.center[
+  ![:scale 600px](pics/DifferentPrices.jpg)
+]
+
+<div class="smalltext">Source: <a href="https://healthcarepricingproject.org/">Health Care Pricing Project</a></div>
+
+
+---
+# What is a hospital price?
+Not clear what exactly is negotiated...
+
+--
+.pull-left[
+### Fee-for-service
+- price per procedure
+- percentage of charges
+- markup over Medicare rates
+]
+
+--
+.pull-right[
+### Capitation
+- payment per patient </br>
+  $+$ pay-for-performance </br>
+  $+$ shared savings
+]
+
+---
+# Hospital prices in real life
+We'll get into the real data in a bit, but for now...a few facts:
+
+1. Hospital services are expensive
+2. Prices vary dramatically across different areas
+3. Lack of competition is a major reason for high prices
+
+---
+# Hospital prices in real life
+
+.pull-left[
+  ![:scale 450px](pics/HC_var_withinmkt_hip_ga_atlanta.png)
+]
+
+.pull-right[
+  ![:scale 450px](pics/HC_var_withinmkt_kmri_ga_atlanta.png)
+]
+
+<div class="smalltext">Source: <a href="https://healthcarepricingproject.org/">Health Care Pricing Project</a></div>
+
 
 
 <!-- New Section -->
@@ -89,6 +171,138 @@ name: potential_outcomes
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
 
 
+---
+# What is a "Potential Outcome"
+.pull-left[
+![:scale 420px](pics/EmoryPicture.jpg)
+
+Y(1)= $75,000
+
+]
+
+.pull-right[
+![:scale 370px](pics/UNTPicture.jpg)
+
+Y(0)= $60,000
+]
+
+--
+<html><div style='float:left'></div><hr color='black' size=1px width=1100px></html>
+Treatment effect =Y(1)-Y(0)= $15,000
+
+---
+# What is a "Potential Outcome"
+.pull-left[
+![:scale 420px](pics/EmoryPicture.jpg)
+
+Y(1)= $75,000
+
+]
+
+.pull-right[
+![:scale 370px](pics/UNTPicture.jpg)
+
+Y(0)= ?
+]
+
+--
+<html><div style='float:left'></div><hr color='black' size=1px width=1100px></html>
+Treatment effect =Y(1)-Y(0)= ?
+
+---
+# Do we ever observe the potential outcomes?
+.center[
+  ![:scale 700px](https://media.giphy.com/media/zZeCRfPyXi9UI/giphy.gif)
+]
+
+--
+Without a time machine...hard to get *individual* treatment effects.
+
+---
+# *Average* Treatment Effect
+```{r ate_data, echo=F, eval=T}
+ate.data <- tibble(
+  x=rnorm(18,5,1),
+  z=c(rep("blue",3),rep("red",3),rep("yellow",3),rep("blue",3),rep("red",3),rep("yellow",3)),
+  z_lab=c(" "," ","#","#"," "," "," "," "," "," "," "," "," "," "," "," ","#","#"),
+  z_alt=c(rep("blue",4),rep("red",3),rep("yellow",2),rep("blue",2),rep("red",3),rep("yellow",4)),  
+  t=c(-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,1),
+  e=rnorm(18,0,.1),
+  x_disp=rnorm(18,0,0.1)
+)
+ate.data <- ate.data %>%
+  mutate(y=1.5*x + .75*t + e,
+         xplust=x_disp+.3*t,
+         yplusz=y+ (-10)*(z=="blue") + 10*(z=="yellow"),
+         yplusz_alt=y+(-10)*(z_alt=="blue") + 10*(z_alt=="yellow"))
+```
+
+```{r ate-plot1, echo=F, include=F}
+ggplot(ate.data, aes(x_disp,y)) + 
+  geom_point(aes(shape=z, size=5), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15))
+```
+
+```{r ate-plot1-output, ref.label="ate-plot1", fig.callout=TRUE, warning=FALSE}
+```
+
+
+---
+# *Average* Treatment Effect
+```{r ate-plot2, echo=F, include=F}
+ggplot(ate.data, aes(x_disp,y)) + 
+  geom_point(aes(shape=z, size=5, color=t), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15))
+```
+
+```{r ate-plot2-output, ref.label="ate-plot2", fig.callout=TRUE, warning=FALSE}
+```
+
+
+---
+# *Average* Treatment Effect
+```{r ate-plot3, echo=F, include=F}
+plot3 <- ggplot(ate.data, aes(xplust,y)) + 
+  geom_point(aes(shape=z, size=5, color=t), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15))
+plot3
+```
+```{r ate-plot3-output, ref.label="ate-plot3", fig.callout=TRUE, warning=FALSE}
+```
+
+
+---
+# *Average* Treatment Effect
+```{r ate-plot4, echo=F, include=F}
+x0 <- ate.data %>% filter(t==-1) %>% select(xplust)
+mean.x0 <- mean(x0$xplust)
+x1 <- ate.data %>% filter(t==1) %>% select(xplust)
+mean.x1 <- mean(x1$xplust)
+
+plot3 + annotate("text",x=mean.x0, y=-2, label="E[Y(1)]", size=5) +
+  annotate("text", x=mean.x1, y=-2, label="E[Y(0)]", size=5)
+```
+
+```{r ate-plot4-output, ref.label="ate-plot4", fig.callout=TRUE, warning=FALSE}
+```
+
+--
+.center[
+$$ATE = E[Y(1)-Y(0)]$$
+]
+
 <!-- New Section -->
 ---
 class: inverse, center, middle
@@ -98,6 +312,360 @@ name: selection_observables
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
 
+---
+# Average Treatment Effect
+```{r , ref.label="ate-plot2", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# ...with Selection
+```{r ate-plot-alt, echo=F, include=F}
+ggplot(ate.data, aes(x_disp,y)) + 
+  geom_point(aes(shape=z_alt, size=5, color=t), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15))
+```
+
+```{r , ref.label="ate-plot-alt", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# ...with Selection
+```{r ate-plot-alt2, echo=F, include=F}
+plot.alt <- ggplot(ate.data, aes(xplust,y)) + 
+  geom_point(aes(shape=z_alt, size=5, color=t), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15))
+plot.alt
+```
+
+```{r, ref.label="ate-plot-alt2", fig.callout=TRUE, warning=FALSE}
+```
+
+
+---
+# ...with Selection
+```{r ate-plot5, echo=F, include=F}
+plot5 <- ggplot(ate.data, aes(xplust,yplusz_alt)) + 
+  geom_point(aes(shape=z_alt, size=5, color=t), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15))
+plot5
+```
+
+```{r ate-plot5-output, ref.label="ate-plot5", fig.callout=TRUE, warning=FALSE}
+```
+
+
+---
+# ...with Selection
+```{r ate-plot6, echo=F, include=F}
+x0 <- ate.data %>% filter(t==-1) %>% select(xplust)
+mean.x0 <- mean(x0$xplust)
+x1 <- ate.data %>% filter(t==1) %>% select(xplust)
+mean.x1 <- mean(x1$xplust)
+
+y0.blue <- ate.data %>% filter(t==-1 & z=="blue") %>% select(yplusz_alt)
+mean.blue <- mean(y0.blue$yplusz_alt)-.1
+
+y0.yellow <- ate.data %>% filter(t==-1 & z=="yellow") %>% select(yplusz_alt)
+mean.yellow <- mean(y0.yellow$yplusz_alt)-.1
+
+y0.red <- ate.data %>% filter(t==-1 & z=="red") %>% select(yplusz_alt)
+mean.red <- mean(y0.red$yplusz_alt)-.1
+
+
+plot5 + annotate("text",x=mean.x0, y=mean.blue, label="E[Y(1)|c]", size=4) +
+  annotate("text", x=mean.x1, y=mean.blue, label="E[Y(0)|c]", size=4) +
+  annotate("text",x=mean.x0, y=mean.yellow, label="E[Y(1)|s]", size=4) +
+  annotate("text",x=mean.x1, y=mean.yellow, label="E[Y(0)|s]", size=4) +
+  annotate("text",x=mean.x0, y=mean.red, label="E[Y(1)|t]", size=4) +
+  annotate("text",x=mean.x1, y=mean.red, label="E[Y(0)|t]", size=4)
+```
+
+```{r ate-plot6-output, ref.label="ate-plot6", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# Assumption 1: Selection on Observables
+```{r ate-plot7, echo=F, include=F}
+plot6 <- ggplot(ate.data, aes(xplust,yplusz_alt)) + 
+  geom_point(aes(shape=z_alt, size=5), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15))
+
+diff=(mean.x0+mean.x1)/2
+x.end=mean.x1+.3
+plot6 + annotate("text",x=mean.x0, y=mean.blue, label="E[Y(1)|c]", size=4) +
+  annotate("text", x=mean.x1, y=mean.blue, label="E[Y(0)|c]", size=4) +
+  annotate("text",x=mean.x0, y=mean.yellow, label="E[Y(1)|s]", size=4) +
+  annotate("text",x=mean.x1, y=mean.yellow, label="E[Y(0)|s]", size=4) +
+  annotate("text",x=mean.x0, y=mean.red, label="E[Y(1)|t]", size=4) +
+  annotate("text",x=mean.x1, y=mean.red, label="E[Y(0)|t]", size=4) +
+  annotate("text",x=diff, y=mean.blue, label="-", size=4) +
+  annotate("text",x=diff, y=mean.yellow, label="-", size=4) +
+  annotate("text",x=diff, y=mean.red, label="-", size=4) +
+  annotate("text",x=x.end, y=mean.blue, label="= E[Y(1)-Y(0)|c]", size=4) +
+  annotate("text",x=x.end, y=mean.yellow, label="= E[Y(1)-Y(0)|s]", size=4) +
+  annotate("text",x=x.end, y=mean.red, label="= E[Y(1)-Y(0)|t]", size=4)
+```
+
+```{r ate-plot7-output, ref.label="ate-plot7", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# Assumption 1: Selection on Observables
+```{r ate-plot8, echo=F, include=F}
+eq.start <- x.end-.1
+eq.end <- x.end+.1
+eq.y <- mean.blue-1.3
+ans.y <- eq.y-1.1
+plot6 + annotate("text",x=mean.x0, y=mean.blue, label="E[Y(1)|c]", size=4) +
+  annotate("text", x=mean.x1, y=mean.blue, label="E[Y(0)|c]", size=4) +
+  annotate("text",x=mean.x0, y=mean.yellow, label="E[Y(1)|s]", size=4) +
+  annotate("text",x=mean.x1, y=mean.yellow, label="E[Y(0)|s]", size=4) +
+  annotate("text",x=mean.x0, y=mean.red, label="E[Y(1)|t]", size=4) +
+  annotate("text",x=mean.x1, y=mean.red, label="E[Y(0)|t]", size=4) +
+  annotate("text",x=diff, y=mean.blue, label="-", size=4) +
+  annotate("text",x=diff, y=mean.yellow, label="-", size=4) +
+  annotate("text",x=diff, y=mean.red, label="-", size=4) +
+  annotate("text",x=x.end, y=mean.blue, label="= E[Y(1)-Y(0)|c]", size=4) +
+  annotate("text",x=x.end, y=mean.yellow, label="= E[Y(1)-Y(0)|s]", size=4) +
+  annotate("text",x=x.end, y=mean.red, label="= E[Y(1)-Y(0)|t]", size=4) +
+  annotate("segment", x = eq.start , xend = eq.end, y = eq.y, yend = eq.y, colour = "black") +
+  annotate("text",x=x.end, y=ans.y, label="ATE=E[Y(1)-Y(0)]", size=4)
+```
+
+```{r ate-plot8-output, ref.label="ate-plot8", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# Assumption 1: Selection on Observables
+
+More formally:
+- $E[Y(1)|W,shape]=E[Y(1)|shape]$
+- $Y(1),Y(0) \perp\!\!\!\perp W | shape$
+
+--
+<br>
+In words...nothing unobserved that determines treatment selection and affects your outcome of interest
+
+
+---
+# Violation of Selection on Observables
+```{r ate-select, echo=F, include=F}
+plot6 <- ggplot(ate.data, aes(xplust,yplusz_alt)) + 
+  geom_point(aes(shape=z_alt, size=5), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15))
+plot6
+```
+
+```{r ate-select-output, ref.label="ate-select", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# Violation of Selection on Observables
+```{r ate-plot9, echo=F, include=F}
+plot7 <- ggplot(ate.data, aes(xplust,yplusz_alt)) + 
+  geom_point(aes(shape=z_alt, size=5, color=t), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15)) +
+  geom_text(aes(label=z_lab), alpha=1/3, size=3)
+plot7
+```
+
+```{r ate-plot9-output, ref.label="ate-plot9", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# Assumption 2: Common Support
+Someone of each type must be in both the treated and untreated groups
+
+--
+$$0 < \text{Pr}(W=1|X) <1$$
+
+---
+# Assumption 2: Common Support
+```{r, ref.label="ate-plot5", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# Violation of Common Support
+```{r ate-overlap, echo=F, include=F}
+ate.new <- ate.data %>% filter(z_alt=="blue" | 
+                                 (z_alt=="red" & t==-1) | 
+                                 (z_alt=="yellow" & t==1))
+
+plot.overlap <- ggplot(ate.new, aes(xplust,yplusz_alt)) + 
+  geom_point(aes(shape=z_alt, size=5, color=t), alpha=1/2) + 
+  theme_classic() +
+  theme(legend.position="none", axis.line=element_blank(),
+        axis.text=element_blank(), axis.title=element_blank(),
+        axis.ticks=element_blank()) +
+  expand_limits(x=c(-.3,.8), y=c(-5,15))
+plot.overlap
+```
+
+```{r, ref.label="ate-overlap", fig.callout=TRUE, warning=FALSE}
+```
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: methods
+
+# Causal Inference with Observational Data
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+
+---
+# Fundamental Problem of Causal Inference
+
+Potential outcomes:
+- $Y_{i}(1)$ for $W_{i}=1$
+- $Y_{i}(0)$ for $W_{i}=0$
+
+--
+<br>
+Average treatment effect is $E[Y_{i}(1)-Y_{i}(0)]$, but: 
+<br>
+- $E[Y_{i}|W_{i}=1] \neq E[Y_{i}(1)]$
+- $E[Y_{i}|W_{i}=0] \neq E[Y_{i}(0)]$
+
+--
+</br>
+We don't observe the counterfactual outcome...what would have happened if a treated unit was actually untreated.
+
+
+---
+# Fundamental Problem of Causal Inference
+*ALL* attempts at causal inference represent some attempt at estimating the counterfactual outcome. We need an estimate for $E[Y_{i}(0)]$ among those that were treated, and vice versa for $E[Y_{i}(1)]$.
+
+
+---
+# Causal inference with observational data
+Solution for now: find covariates $X_{i}$ such that the following assumptions are plausible:
+
+1. Selection on observables: $$Y_{i}(1), Y_{i}(0) \perp\!\!\!\perp W_{i} | X_{i}$$
+2. Common support: $$0 < \text{Pr}(W_{i}=1|X_{i}) < 1$$
+
+---
+# Causal inference with observational data
+With selection on observables and common support:
+1. Matching estimators: $$E[Y_{i}(1) - Y_{i}(0)] = E[ E[Y_{i}|W_{i}=1, X_{i}] - E[Y_{i}|W_{i}=0, X_{i}] ]$$
+2. Regression estimators: $$E[Y_{i}(1) - Y_{i}(0)] = E[ E[Y_{i}|W_{i}=1, X_{i}] ] - E[ E[Y_{i}|W_{i}=0, X_{i}] ]$$
+
+--
+What's the difference?
+
+---
+# Matching
+```{r ate-plot8-output, ref.label="ate-plot8", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# Regression
+```{r regression, echo=F, include=F}
+eq1.start <- mean.x1-.1
+eq1.end <- mean.x1+.1
+eq2.start <- mean.x0-.1
+eq2.end <- mean.x0+.1
+
+eq.y <- mean.blue-1.3
+ans.y <- eq.y-1.1
+plot6 + annotate("text",x=mean.x0, y=mean.blue, label="E[Y(1)|c]", size=4) +
+  annotate("text", x=mean.x1, y=mean.blue, label="E[Y(0)|c]", size=4) +
+  annotate("text",x=mean.x0, y=mean.yellow, label="E[Y(1)|s]", size=4) +
+  annotate("text",x=mean.x1, y=mean.yellow, label="E[Y(0)|s]", size=4) +
+  annotate("text",x=mean.x0, y=mean.red, label="E[Y(1)|t]", size=4) +
+  annotate("text",x=mean.x1, y=mean.red, label="E[Y(0)|t]", size=4) +
+  annotate("segment", x = eq1.start , xend = eq1.end, y = eq.y, yend = eq.y, colour = "black") +
+  annotate("segment", x = eq2.start , xend = eq2.end, y = eq.y, yend = eq.y, colour = "black") +  
+  annotate("text",x=mean.x1, y=ans.y, label="E[Y(1)]", size=4) +
+  annotate("text",x=mean.x0, y=ans.y, label="E[Y(0)]", size=4) +  
+  annotate("text",x=x.end, y=ans.y, label="=E[Y(1)-Y(0)]", size=4)  
+```
+
+```{r regression-output, ref.label="regression", fig.callout=TRUE, warning=FALSE}
+```
+
+---
+# Estimation options
+- Matching
+- Weighting
+- Regression
+- Doubly-robust weighting + regression (won't cover)
+
+
+---
+# Matching: The process
+1. For each observation $i$, find the $m$ "nearest" neighbors, $J_{m}(i)$. 
+2. Impute $\hat{Y}_{i}(0)$ and $\hat{Y}_{i}(1)$ for each observation:
+$$\hat{Y}_{i}(0) = \begin{cases}
+    Y_{i} & \text{if} & W_{i}=0 \\
+    \frac{1}{m} \sum_{j \in J_{m}(i)} Y_{j} & \text{if} & W_{i}=1 
+\end{cases}$$
+
+$$\hat{Y}_{i}(1) = \begin{cases}
+    Y_{i} & \text{if} & W_{i}=1 \\
+    \frac{1}{m} \sum_{j \in J_{m}(i)} Y_{j} & \text{if} & W_{i}=0 
+\end{cases}$$
+
+3. Form "matched" ATE:
+$$\hat{\delta}^{\text{match}} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{Y}_{i}(1) - \hat{Y}_{i}(0) \right)$$
+
+---
+# Matching: Defining "nearest"
+
+1. Euclidean distance:
+$$\sum_{k=1}^{K} (X_{ik} - X_{jk})^{2}$$
+2. Scaled Euclidean distance:
+$$\frac{1}{\sigma_{X_{k}}^{2}} \sum_{k=1}^{K} (X_{ik} - X_{jk})^{2}$$
+3. Mahalanobis distance:
+$$(X_{i} - X_{j})' \Sigma_{X}^{-1} (X_{i} - X_{j})$$
+
+---
+# Weighting
+
+1. Estimate propensity score `ps <- glm(W~X, family=binomial, data)`, denoted $\hat{\pi}(X_{i})$
+2. Weight by inverse of propensity score
+\begin{align}
+\hat{\mu}_{1} &= \frac{ \sum_{i=1}^{N} \frac{Y_{i} W_{i}}{\hat{\pi}(X_{i})} }{ \sum_{i=1}^{N} \frac{W_{i}}{\hat{\pi}(X_{i})} } \\
+\hat{\mu}_{0} &= \frac{ \sum_{i=1}^{N} \frac{Y_{i} (1-W_{i})}{1-\hat{\pi}(X_{i})} }{ \sum_{i=1}^{N} \frac{1-W_{i}}{1-\hat{\pi}(X_{i})} }
+\end{align}
+
+3. Form "inverse-propensity weighted" ATE:
+$$\hat{\delta}^{IPW} = \hat{\mu}_{1} - \hat{\mu}_{0}$$
+
+---
+# Regression
+1. Regress $Y_{i}$ on $X_{i}$ among $W_{i}=1$ to form $\hat{\mu}_{1}(X_{i})$
+2. Regress $Y_{i}$ on $X_{i}$ among $W_{i}=0$ to form $\hat{\mu}_{0}(X_{i})$
+3. Form $\hat{\delta}^{reg} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{\mu}_{1}(X_{i}) - \hat{\mu}_{0}(X_{i})\right)$
+
+--
+</br>
+Or estimate in one step, $$Y_{i} = \delta W_{i} + \beta X_{i} + W_{i} \times \left(X_{i} - \bar{X}\right) \gamma + \varepsilon_{i}$$
 
 <!-- New Section -->
 ---

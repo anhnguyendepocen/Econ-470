@@ -1,6 +1,6 @@
 ---
 title: "Section 2: Struggling with Data"
-subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
+subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1050px></html>"
 author: Ian McCarthy | Emory University
 date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
 output:

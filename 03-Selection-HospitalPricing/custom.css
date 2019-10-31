@@ -19,8 +19,15 @@
   height: 92%;
   float: left;
 }
+.left-shift {
+  width: 80%;
+  float: left;
+}
 .right-plot {
   width: 60%;
   float: right;
   padding-left: 1%;
+}
+div.smalltext {
+  font-size: 20px;
 }
