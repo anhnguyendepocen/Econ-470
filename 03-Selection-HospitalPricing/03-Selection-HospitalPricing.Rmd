@@ -37,7 +37,7 @@ output:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 library(knitr)
-opts_chunk$set(
+knitr::opts_chunk$set(
   fig.align="center",  
   fig.height=3, #fig.width=6,
   # out.width="748px", #out.length="520.75px",
@@ -45,7 +45,8 @@ opts_chunk$set(
   cache=T,# echo=F, warning=F, message=F
   warning = FALSE, 
   message = FALSE, 
-  cache.lazy = FALSE  
+  cache.lazy = FALSE,
+  error=TRUE
   )
 
 knitr::opts_hooks$set(fig.callout = function(options) {
@@ -691,9 +692,7 @@ Healthcare Cost Report Information System ('cost reports')
 ---
 # Hospital Cost Reports
 
-\begin{center}
-\includegraphics[page=107,width=0.5\linewidth]{pics/HCRISForms.pdf}
-\end{center}
+\includegraphics[page=107]{pics/HCRISForms.pdf}
 
 ---
 # The Data
@@ -708,9 +707,9 @@ Forming this dataset will be up to you this time!
 ---
 # The Data
 ```{r eval=T, include=F}
-# hcris.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
+hcris.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
 
-hcris.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
+#hcris.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
 ```
 
 ```{r hospital-count, eval=FALSE, warning=FALSE}
@@ -849,7 +848,7 @@ lp.vars <- final.hcris %>%
          mcare_discharges, tot_mcare_payment, price) %>%
   filter(complete.cases(.))
 lp.covs <- lp.vars %>% select(-c("penalty","price"))
-love.plot(bal.tab(lp.covs,treat=lp.vars$penalty), shapes=16, size=1.5) + 
+love.plot(bal.tab(lp.covs,treat=lp.vars$penalty), colors="black", shapes="circle", threshold=0.1) + 
   theme_bw() + theme(legend.position="none")
 ```
 .plot-callout[
@@ -865,26 +864,173 @@ love.plot(bal.tab(lp.covs,treat=lp.vars$penalty), shapes=16, size=1.5) +
 ```
 
 ---
-# Nearest neighbor matching
-```{r nn-matching1, eval=FALSE, warning=FALSE}
-match.dat <- matchit(penalty ~ beds + mcaid_discharges + ip_charges + mcare_discharges + tot_mcare_payment, data=lp.vars, method="nearest", ratio=1, distance="mahalanobis")
+# Using matching to improve balance
+Some things to think about:
+- exact versus nearest neighbor
+- with or without ties (and how to break ties)
+- measure of distance
 
-v=data.frame(new=c("Beds","Medicaid Discharges", "Inaptient Charges","Medicare Discharges", "Medicare Payments"))
-love.plot(match.dat, threshold=0.1, 
-          var.names=v,
+---
+# 1. Exact Matching
+```{r exact-matching1, echo=TRUE}
+m.exact <- Matching::Match(Y=lp.vars$price,
+                           Tr=lp.vars$penalty,
+                           X=lp.covs,
+                           M=1,
+                           exact=TRUE) #<<
+print(m.exact)
+```
+
+---
+# 1. Exact Matching (on a subset)
+```{r exact-matching2, echo=TRUE}
+lp.covs2 <- lp.covs %>% select(beds, mcaid_discharges)
+m.exact <- Matching::Match(Y=lp.vars$price,
+                           Tr=lp.vars$penalty,
+                           X=lp.covs2,
+                           M=1,
+                           exact=TRUE) #<<
+```
+
+---
+# 1. Exact Matching (on a subset)
+```{r lp-exact, eval=FALSE, warning=FALSE}
+love.plot(bal.tab(m.exact, covs = lp.covs2, treat = lp.vars$penalty),  
+          threshold=0.1, 
           grid=FALSE, sample.names=c("Unmatched", "Matched"),
           position="top", shapes=c("circle","triangle"),
           colors=c("black","blue")) + 
   theme_bw()
 ```
 
+.plot-callout[
+```{r lp-exact-callout, ref.label="lp-exact", fig.callout=TRUE, warning=FALSE}
+```
+]
 
 
 ---
-# Next steps
-- show love plots
-- show baseline average difference
-- matching and regression
+# 1. Exact Matching (on a subset)
+
+```{r lp-exact-output, ref.label="lp-exact", fig.callout=TRUE, warning=FALSE}
+```
 
 
+---
+# 2. Nearest neighbor matching (inverse variance)
+```{r var-match1, echo=TRUE, warning=FALSE}
+m.nn.var <- Matching::Match(Y=lp.vars$price,
+                             Tr=lp.vars$penalty,
+                             X=lp.covs,
+                             M=4,
+                             Weight=1)
+
+v.name=data.frame(new=c("Beds","Medicaid Discharges", "Inaptient Charges",
+                   "Medicare Discharges", "Medicare Payments"))
+```
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+```{r lp-var-dist1, eval=FALSE, warning=FALSE}
+love.plot(bal.tab(m.nn.var, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+```{r lp-var-callout1, ref.label="lp-var-dist1", fig.callout=TRUE, warning=FALSE}
+```
+]
+
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+```{r lp-var-output1, ref.label="lp-var-dist1", fig.callout=TRUE, warning=FALSE}
+```
+
+
+
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+```{r var-match2, echo=TRUE, warning=FALSE}
+m.nn.var2 <- Matching::Match(Y=lp.vars$price,
+                             Tr=lp.vars$penalty,
+                             X=lp.covs,
+                             M=1,
+                             Weight=1)
+
+v.name=data.frame(new=c("Beds","Medicaid Discharges", "Inaptient Charges",
+                   "Medicare Discharges", "Medicare Payments"))
+```
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+```{r lp-var-dist2, eval=FALSE, warning=FALSE}
+love.plot(bal.tab(m.nn.var2, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+```{r lp-var-callout2, ref.label="lp-var-dist2", fig.callout=TRUE, warning=FALSE}
+```
+]
+
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+```{r lp-var-output2, ref.label="lp-var-dist2", fig.callout=TRUE, warning=FALSE}
+```
+
+
+---
+# 2. Nearest neighbor matching (Mahalanobis)
+```{r md-match1, echo=TRUE, warning=FALSE}
+m.nn.md <- Matching::Match(Y=lp.vars$price,
+                             Tr=lp.vars$penalty,
+                             X=lp.covs,
+                             M=1,
+                             Weight=2)
+
+v.name=data.frame(new=c("Beds","Medicaid Discharges", "Inaptient Charges",
+                   "Medicare Discharges", "Medicare Payments"))
+```
+
+---
+# 2. Nearest neighbor matching (Mahalanobis)
+
+```{r lp-md-dist1, eval=FALSE, warning=FALSE}
+love.plot(bal.tab(m.nn.md, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+```{r lp-md-callout1, ref.label="lp-md-dist1", fig.callout=TRUE, warning=FALSE}
+```
+]
+
+
+---
+# 2. Nearest neighbor matching (Mahalanobis)
+
+```{r lp-md-output1, ref.label="lp-md-dist1", fig.callout=TRUE, warning=FALSE}
+```
 

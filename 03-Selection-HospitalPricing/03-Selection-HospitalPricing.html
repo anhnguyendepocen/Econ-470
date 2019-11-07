@@ -468,9 +468,7 @@ Healthcare Cost Report Information System ('cost reports')
 ---
 # Hospital Cost Reports
 
-`\begin{center}
 \includegraphics[page=107,width=0.5\linewidth]{pics/HCRISForms.pdf}
-\end{center}`
 
 ---
 # The Data
@@ -607,10 +605,212 @@ final.hcris &lt;- hcris.data %&gt;% ungroup() %&gt;%
 - Mean difference: 335.9
 
 ---
-# Next steps
-- show love plots
-- show baseline average difference
-- matching and regression
+# Comparison of hospitals
+Are penalized hospitals sufficiently similar to non-penalized hospitals?
+
+--
+Let's look at covariate balance using a love plot, part of the `library(cobalt)` package.
+
+---
+# Love plots without adjustment
+
+
+```r
+lp.vars &lt;- final.hcris %&gt;% 
+  select(beds, mcaid_discharges, penalty, ip_charges, 
+         mcare_discharges, tot_mcare_payment, price) %&gt;%
+  filter(complete.cases(.))
+lp.covs &lt;- lp.vars %&gt;% select(-c("penalty","price"))
+love.plot(bal.tab(lp.covs,treat=lp.vars$penalty), colors="black", shapes="circle", threshold=0.1) + 
+  theme_bw() + theme(legend.position="none")
+```
+.plot-callout[
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/cov-balance-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Love plots without adjustment
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/cov-balance-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Using matching to improve balance
+Some things to think about:
+- exact versus nearest neighbor
+- with or without ties (and how to break ties)
+- measure of distance
+
+---
+# 1. Exact Matching
+
+```r
+m.exact &lt;- Matching::Match(Y=lp.vars$price,
+                           Tr=lp.vars$penalty,
+                           X=lp.covs,
+                           M=1,
+*                          exact=TRUE)
+print(m.exact)
+```
+
+```
+## [1] NA
+## attr(,"class")
+## [1] "Match"
+```
+
+---
+# 1. Exact Matching (on a subset)
+
+```r
+lp.covs2 &lt;- lp.covs %&gt;% select(beds, mcaid_discharges)
+m.exact &lt;- Matching::Match(Y=lp.vars$price,
+                           Tr=lp.vars$penalty,
+                           X=lp.covs2,
+                           M=1,
+*                          exact=TRUE)
+```
+
+---
+# 1. Exact Matching (on a subset)
+
+```r
+love.plot(bal.tab(m.exact, covs = lp.covs2, treat = lp.vars$penalty),  
+          threshold=0.1, 
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/lp-exact-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# 1. Exact Matching (on a subset)
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/lp-exact-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# 2. Nearest neighbor matching (inverse variance distance)
+
+```r
+m.nn.var &lt;- Matching::Match(Y=lp.vars$price,
+                             Tr=lp.vars$penalty,
+                             X=lp.covs,
+                             M=4,
+                             Weight=1)
+
+v.name=data.frame(new=c("Beds","Medicaid Discharges", "Inaptient Charges",
+                   "Medicare Discharges", "Medicare Payments"))
+```
+
+---
+# 2. Nearest neighbor matching (inverse variance distance)
+
+
+```r
+love.plot(bal.tab(m.nn.var, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/lp-var-callout1-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# 2. Nearest neighbor matching (inverse variance distance)
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/lp-var-output1-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+
+---
+# 2. Nearest neighbor matching (inverse variance distance)
+
+```r
+m.nn.var2 &lt;- Matching::Match(Y=lp.vars$price,
+                             Tr=lp.vars$penalty,
+                             X=lp.covs,
+                             M=1,
+                             Weight=1)
+
+v.name=data.frame(new=c("Beds","Medicaid Discharges", "Inaptient Charges",
+                   "Medicare Discharges", "Medicare Payments"))
+```
+
+---
+# 2. Nearest neighbor matching (inverse variance distance)
+
+
+```r
+love.plot(bal.tab(m.nn.var2, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/lp-var-callout2-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# 2. Nearest neighbor matching (inverse variance distance)
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/lp-var-output2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# 2. Nearest neighbor matching (Mahalanobis distance)
+
+```r
+m.nn.md &lt;- Matching::Match(Y=lp.vars$price,
+                             Tr=lp.vars$penalty,
+                             X=lp.covs,
+                             M=4,
+                             Weight=2)
+
+v.name=data.frame(new=c("Beds","Medicaid Discharges", "Inaptient Charges",
+                   "Medicare Discharges", "Medicare Payments"))
+```
+
+---
+# 2. Nearest neighbor matching (inverse variance distance)
+
+
+```r
+love.plot(bal.tab(m.nn.md, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/lp-md-callout1-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# 2. Nearest neighbor matching (inverse variance distance)
+
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/lp-md-output1-1.png" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
