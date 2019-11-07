@@ -18,3 +18,10 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 ## Assignments
 1. GitHub and Data Management \[[Instructions](assignments/hwk-01.html)\]
+
+
+## GitHub Repositories
+We'll use the following GitHub repositories throughout the course. Each repo deals with a different group of datasets.
+
+1. [Medicare Advantage repository](https://github.com/imccart/Medicare-Advantage)
+2. [HCRIS  repository](https://github.com/imccart/HCRIS)
