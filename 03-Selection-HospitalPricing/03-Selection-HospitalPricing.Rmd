@@ -76,6 +76,8 @@ set.seed(12345)
 
 6. [Pricing and Pay for Performance](#price_pfp)
 
+7. [What have we learned](#summary)
+
 <!-- New Section -->
 ---
 class: inverse, center, middle
@@ -713,9 +715,9 @@ Let's work with the [HCRIS GitHub repository](https://github.com/imccart/HCRIS).
 ---
 # The Data
 ```{r eval=T, include=F}
-hcris.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
+#hcris.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
 
-#hcris.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
+hcris.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
 ```
 
 ```{r hospital-count, eval=FALSE, warning=FALSE}
@@ -1172,8 +1174,15 @@ reg.dat <- lp.vars %>% ungroup() %>% filter(complete.cases(.)) %>%
 reg <- lm(price ~ penalty + beds + mcaid_discharges + ip_charges + mcare_discharges + tot_mcare_payment + 
             beds_diff + mcaid_diff + ip_diff + mcare_diff + mpay_diff,
           data=reg.dat)
+```
+
+---
+# Different estimators
+4. <u>Regression in one step</u>
+```{r echo=FALSE}
 summary(reg)
 ```
+
 
 ---
 # Summary of ATEs
@@ -1184,4 +1193,31 @@ summary(reg)
 5. Inverse pscore weighting: `r round(mean.t1$mean_p - mean.t0$mean_p,2)`
 6. IPW regression: `r round(ipw.reg$coeff[2],2)`
 7. Regression: `r round(pred1-pred0,2)`
-8. Regression 1-step: `r round(reg$coef[2],2)`
+8. Regression 1-step: `r round(reg$coeff[2],2)`
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: summary
+
+# So what have we learned?
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+---
+# Key assumptions for causal inference
+1. Selection on observables
+2. Common support<br>
+
+--
+These become more nuanced but the intuition is the same in almost all questions of causal inference.
+
+---
+# Causal effect assuming selection on observables
+If we assume selection on observables holds, then we only need to condition on the relevant covariates to identify a causal effect. But we still need to ensure common support...<br>
+
+--
+1. Matching
+2. Reweighting
+3. Regression

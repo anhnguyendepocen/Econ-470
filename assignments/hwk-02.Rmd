@@ -1,0 +1,45 @@
+---
+title: "Homework 2"
+author: "Econ 470/HLTH 470: Research in Health Economics"
+date: "Due: Wedesday, February 26"
+output: 
+  bookdown::html_document2:
+    toc: TRUE
+    toc_float: TRUE
+    theme: darkly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+# Instructions
+
+In this assignment, you'll recreate the HCRIS data and answer a few questions along the way. The first step is to make sure you've forked the [HCRIS GitHub repository](https://github.com/imccart/HCRIS) and downloaded all of the raw data sources. Once you have the data downloaded and the code running, answer the following questions:
+
+# Organize the data
+1. How many hospitals submitted the 1996 version of the HCRIS reports in 2010? How is that even possible?
+2. How many hospitals filed more than one report in the same year? Show your answer as a line graph of the number of hospitals over time.
+3. After removing/combining multiple reports, how many unique hospital IDs (Medicare provider numbers) exist in the data? Provide a line graph plotting the number of hospitals in each year.
+4. What is the distribution of total charges (`tot_charges` in the data) in each year? Show your results with a "violin" plot, with charges on the y-axis and years on the x-asix. For a nice tutorial on violin plots, look at [Violin Plots with ggplot2](https://ggplot2tutor.com/powerlifting/squats/).
+5. Create the same violin plot with estimated prices on the y-axis. Recall our formula for estimating prices from class.
+```{r, eval=FALSE}
+discount_factor = 1-tot_discounts/tot_charges
+price_num = (ip_charges + icu_charges + ancillary_charges)*discount_factor - tot_mcare_payment
+price_denom = tot_discharges - mcare_discharges
+price = price_num/price_denom
+```
+6. Form an indicator variable set to 1 if the hospital incurred a penalty under the readmission reduction program. Plot the share of hospitals penalized in each year.
+
+
+# Estimate ATEs
+For the rest of the assignment, you should include only observations in 2012. So we are now dealing with cross-sectional data in which some hospitals are penalized and some are not.
+1. Calculate the average price among penalized versus non-penalized hospitals. 
+2. Split hospitals into quartiles based on bed size. To do this, create 4 new indicator variables, where each variable is set to 1 if the hospital's bed size falls into the relevant quartile. 
+3. Find the average treatment effect using nearest neighbor matching (1-to-1) with inverse variance distance based on quartiles of bed size. 
+4. Find the average treatment effect using nearest neighbor matching (1-to-1) with Mahalanobis distance based on quartiles of bed size.
+5. Find the average treatment effect using inverse propensity weighting, where the propensity scores are based on quartiles of bed size.
+6. Find the average treatment effect using a single linear regression.
+7. With these different treatment effect estimators, are the results similar, identical, very different? 
+8. Do you think you've estimated a causal effect of the penalty? Why or why not? (just a couple of sentences)
