@@ -58,7 +58,7 @@ knitr::opts_hooks$set(fig.callout = function(options) {
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
-               scales, plotly, gganimate, cobalt, ivpack)
+               scales, plotly, gganimate, cobalt, ivpack, acs)
 ```
 
 # Table of contents
@@ -84,7 +84,13 @@ name: smoking_lit
 
 
 ---
-# 
+# Cigarettes
+
+<br>
+.center[
+  ![:scale 800px](https://media.giphy.com/media/TdQfYM6KpYQUM/giphy.gif)
+]
+
 
 
 
@@ -102,8 +108,29 @@ name: IV
 # What is instrumental variables
 Instrumental Variables (IV) is a way to identify causal effects using variation in treatment particpation that is due to an *exogenous* variable that is only related to the outcome through treatment.
 
+
 ---
-# What does that mean?
+# Why bother with IV?
+Two reasons to consider IV:
+1. Selection on unobservables
+2. Reverse causation
+
+--
+<br>
+
+Either problem is sometimes loosely referred to as *endogeneity*
+
+---
+# Simple example
+- $y = \beta x + \varepsilon (x)$,<br>
+where $\varepsilon(x)$ reflects the dependence between our observed variable and the error term.<br>
+
+- Simple OLS will yield<br>
+$\frac{dy}{dx} = \beta + \frac{d\varepsilon}{dx} \neq \beta$
+
+
+---
+# What does IV do?
 - The regression we want to do: <br>
 $y_{i} = \alpha + \delta W_{i} + \gamma A_{i} + \epsilon_{i}$,<br>
 where $W_{i}$ is treatment (think of schooling for now) and $A_{i}$ is something like ability.
@@ -120,6 +147,8 @@ where $\lambda_{ws}$ is the coefficient of a regression of $A_{i}$ on $W_{i}$.
 IV will recover the "long" regression without observing underlying ability<br>
 
 --
+<br>
+
 *IF* our IV satisfies all of the necessary assumptions.
 
 ---
@@ -132,12 +161,71 @@ $E[Y_{i} | W_{i}=1] - E[Y_{i} | W_{i}=0] = \frac{E[Y_{i} | Z_{i}=1] - E[Y_{i} | 
 
 - In words, this is effect of the instrument on the outcome ("reduced form") divded by the effect of the instrument on treatment ("first stage")
 
+
 ---
-# What is IV *doing*
+# IVs in practice
+Easy to think of in terms of randomized controlled trial...
+
+--
+<br>
+
+ Measure    | Offered Seat | Not Offered Seat | Difference 
+ ---------- | ------------ | ---------------- | ---------- 
+ Score      | -0.003       | -0.358           | 0.355      
+ % Enrolled | 0.787        | 0.046            | 0.741   
+ Effect     |              |                  | 0.48
+
+<br>
+
+.footnote[
+Angrist *et al.*, 2012. "Who Benefits from KIPP?" *Journal of Policy Analysis and Management*.
+] 
+
+
+---
+# What is IV *really* doing
 Think of IV as two-steps:
 
 1. Isolate variation due to the instrument only (not due to endogenous stuff)
 2. Estimate effect on outcome using only this source of variation
+
+---
+# In regression terms
+Interested in estimating $\delta$ from $y_{i} = \alpha + \beta x_{i} + \delta W_{i} + \varepsilon_{i}$, but $W_{i}$ is endogenous (no pure "selection on observables").
+
+--
+<br>
+
+Step 1: With instrument $Z_{i}$, we can regress $W_{i}$ on $Z_{i}$ and $x_{i}$,<br>
+$W_{i} = \lambda + \theta Z_{i} + \kappa x_{i} + \nu$<br>
+and form prediction $\hat{W}_{i}$.
+
+--
+<br>
+
+Step 2: Regress $y_{i}$ on $x_{i}$ and $\hat{W}_{i}$,<br>
+$y_{i} = \alpha + \beta x_{i} + \delta \hat{W}_{i} + \xi_{i}$
+
+---
+# In regression terms
+But in practice, *DON'T* do this in two steps. Why?
+
+--
+<br>
+
+Because standard errors are wrong...not accounting for noise in prediction, $\hat{W}_{i}$. The appropriate fix is built into most modern stats programs.
+
+
+---
+# Key IV assumptions
+1. *Exclusion:* Instrument is uncorrelated with the error term<br>
+2. *Validity:* Instrument is correlated with the endogenous variable<br>
+3. *Monotonicity:* Treatment more (less) likely for those with higher (lower) values of the instrument<br>
+
+--
+<br>
+
+Assumptions 1 and 2 sometimes grouped into an *only through* condition.
 
 
 
@@ -154,9 +242,10 @@ name: smoking_data
 ---
 # The Data
 ```{r eval=T, include=F}
-#hcris.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/CDC-Tobacco/data/TaxBurden_Data.rds")
+cig.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/CDC-Tobacco/data/TaxBurden_Data.rds")
+#cig.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/CDC-Tobacco/data/TaxBurden_Data.rds")
 
-cig.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/CDC-Tobacco/data/TaxBurden_Data.rds")
+
 ```
 
 ```{r cig-price, eval=FALSE, warning=FALSE}

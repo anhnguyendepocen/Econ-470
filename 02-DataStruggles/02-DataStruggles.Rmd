@@ -615,7 +615,7 @@ name: real_data
 ---
 # Practice data versus the real world
 
-</br>
+<br>
 .center[
   ![:scale 800px](https://media.giphy.com/media/3oz8xGme7vEndhrsly/giphy.gif)
 ]
