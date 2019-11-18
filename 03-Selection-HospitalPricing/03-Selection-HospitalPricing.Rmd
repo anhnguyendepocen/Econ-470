@@ -563,10 +563,13 @@ We don't observe the counterfactual outcome...what would have happened if a trea
 
 ---
 # Causal inference with observational data
-Solution for now: find covariates $X_{i}$ such that the following assumptions are plausible:
+Solution for now: find covariates $X_{i}$ such that the following assumptions are plausible: <br>
 
 1. Selection on observables: $$Y_{i}(1), Y_{i}(0) \perp\!\!\!\perp W_{i} | X_{i}$$
 2. Common support: $$0 < \text{Pr}(W_{i}=1|X_{i}) < 1$$
+
+--
+Then we can use $X_{i}$ to group observations and use expectations for control as the predicted counterfactuals among treated, and vice versa. 
 
 ---
 # Causal inference with observational data
@@ -1221,3 +1224,4 @@ If we assume selection on observables holds, then we only need to condition on t
 1. Matching
 2. Reweighting
 3. Regression
+
