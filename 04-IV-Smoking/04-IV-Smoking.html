@@ -225,11 +225,40 @@ name: smoking_data
 ---
 # The Data
 
+- Data from [CDC Tax Burden on Tobacco](https://data.cdc.gov/Policy/The-Tax-Burden-on-Tobacco-1970-2018/7nwe-3aj9/data)
+- Visit GitHub repository for other info: [Tobacco GitHub repository](https://github.com/imccart/CDC-Tobacco)
+- Supplement with CPI data, also in GitHub repo.
 
+
+---
+# Cigarette Sales
 
 ```r
 cig.data %&gt;% 
-  ggplot(aes(x=Year,y=cost_per_pack)) + 
+  ggplot(aes(x=Year,y=sales_per_capita)) + 
+  stat_summary(fun.y="mean",geom="line") +
+  labs(
+    x="Year",
+    y="Packs per Capita",
+    title="Cigarette Prices"
+  ) + theme_bw() +
+  scale_x_continuous(breaks=seq(1970, 2020, 5))
+```
+.plot-callout[
+&lt;img src="04-IV-Smoking_files/figure-html/cig-sales-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Cigarette Sales
+
+
+
+---
+# Cigarette Prices
+
+```r
+cig.data %&gt;% 
+  ggplot(aes(x=Year,y=price_cpi)) + 
   stat_summary(fun.y="mean",geom="line") +
   labs(
     x="Year",
@@ -241,6 +270,13 @@ cig.data %&gt;%
 .plot-callout[
 &lt;img src="04-IV-Smoking_files/figure-html/cig-price-callout-1.png" style="display: block; margin: auto;" /&gt;
 ]
+
+---
+# Cigarette Prices
+
+
+
+
 
 
 &lt;!-- New Section --&gt;
@@ -303,7 +339,7 @@ cig.data %&gt;%
   scale_x_continuous(breaks=seq(1970, 2020, 5))
 ```
 
-&lt;img src="04-IV-Smoking_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-IV-Smoking_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

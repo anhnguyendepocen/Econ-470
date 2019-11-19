@@ -58,7 +58,7 @@ knitr::opts_hooks$set(fig.callout = function(options) {
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
-               scales, plotly, gganimate, cobalt, ivpack, acs)
+               scales, plotly, gganimate, cobalt, ivpack, stargazer)
 ```
 
 # Table of contents
@@ -84,15 +84,39 @@ name: smoking_lit
 
 
 ---
-# Cigarettes
+# History of Smoking
 
 <br>
 .center[
   ![:scale 800px](https://media.giphy.com/media/TdQfYM6KpYQUM/giphy.gif)
 ]
 
+---
+# History of Smoking
+- Widespread smoking begin in late 1800s
+- Lung cancer becoming more common after 1930s
+- First evidence of link in 1950s
+- Surgeon general's report in 1964
 
 
+---
+# Why it matters
+1. Extreme public health concerns
+  - Lung cancer prevalence
+  - Fetal and baby health
+2. Economic questions
+  - Is it an information problem?
+  - Externalities (second-hand smoke)
+  - Moral hazard due to insurance
+  
+---
+# In our case
+We want to focus on estimating demand for cigarettes. By this, I mean estimating price elasticity of demand.
+
+--
+<br>
+
+We'll show that standard OLS isn't going to do this very well.
 
 <!-- New Section -->
 ---
@@ -242,20 +266,48 @@ name: smoking_data
 ---
 # The Data
 ```{r eval=T, include=F}
-cig.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/CDC-Tobacco/data/TaxBurden_Data.rds")
 #cig.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/CDC-Tobacco/data/TaxBurden_Data.rds")
+cig.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/CDC-Tobacco/data/TaxBurden_Data.rds")
+```
+- Data from [CDC Tax Burden on Tobacco](https://data.cdc.gov/Policy/The-Tax-Burden-on-Tobacco-1970-2018/7nwe-3aj9/data)
+- Visit GitHub repository for other info: [Tobacco GitHub repository](https://github.com/imccart/CDC-Tobacco)
+- Supplement with CPI data, also in GitHub repo.
 
 
+---
+# Cigarette Sales
+```{r cig-sales, eval=FALSE, warning=FALSE}
+cig.data %>% 
+  ggplot(aes(x=Year,y=sales_per_capita)) + 
+  stat_summary(fun.y="mean",geom="line") +
+  labs(
+    x="Year",
+    y="Packs per Capita",
+    title="Cigarette Sales"
+  ) + theme_bw() +
+  scale_x_continuous(breaks=seq(1970, 2020, 5))
+```
+.plot-callout[
+```{r cig-sales-callout, ref.label="cig-sales", fig.callout=TRUE, warning=FALSE}
+```
+]
+
+---
+# Cigarette Sales
+
+```{r cig-sales-output, ref.label="cig-sales", fig.callout=TRUE, warning=FALSE}
 ```
 
+---
+# Cigarette Prices
 ```{r cig-price, eval=FALSE, warning=FALSE}
 cig.data %>% 
-  ggplot(aes(x=Year,y=cost_per_pack)) + 
+  ggplot(aes(x=Year,y=price_cpi)) + 
   stat_summary(fun.y="mean",geom="line") +
   labs(
     x="Year",
     y="Price per Pack ($)",
-    title="Cigarette Prices"
+    title="Cigarette Prices in 2010 Real Dollars"
   ) + theme_bw() +
   scale_x_continuous(breaks=seq(1970, 2020, 5))
 ```
@@ -263,6 +315,12 @@ cig.data %>%
 ```{r cig-price-callout, ref.label="cig-price", fig.callout=TRUE, warning=FALSE}
 ```
 ]
+
+---
+# Cigarette Prices
+
+```{r cig-price-output, ref.label="cig-price", fig.callout=TRUE, warning=FALSE}
+```
 
 
 <!-- New Section -->
@@ -276,27 +334,106 @@ name: smoking_demand
 
 ---
 # Naive estimate
-Let's start with just OLS:
+Clearly a strong relationship between prices and sales. For example, just from OLS:
 ```{r}
-ols <- lm(sales_per_capita ~ cost_per_pack, data=cig.data)
+cig.data <- cig.data %>% mutate(ln_sales=log(sales_per_capita),
+                                ln_price_cpi=log(price_cpi),
+                                ln_price=log(cost_per_pack),
+                                tax_cpi=tax_state*(index/218),
+                                total_tax_cpi=tax_dollar*(index/218),                                
+                                ln_state_tax=log(tax_cpi))
+ols <- lm(ln_sales ~ ln_price, data=cig.data)
 summary(ols)
 ```
 
 ---
-# IV Estimate
-```{r}
-ivs <- ivreg(sales_per_capita ~ cost_per_pack | tax_percent, 
-             data=cig.data)
-```
+# Is this causal?
+- But is that the true demand curve?
 
-```{r}
+- Aren't other things changing that tend to reduce cigarette sales?
+
+---
+# Tax as an IV
+```{r cig-tax, eval=FALSE, warning=FALSE}
 cig.data %>% 
-  ggplot(aes(x=Year,y=tax_dollar)) + 
+  ggplot(aes(x=Year,y=total_tax_cpi)) + 
   stat_summary(fun.y="mean",geom="line") +
   labs(
     x="Year",
     y="Tax per Pack ($)",
-    title="Cigarette Prices"
+    title="Cigarette Taxes in 2010 Real Dollars"
   ) + theme_bw() +
   scale_x_continuous(breaks=seq(1970, 2020, 5))
 ```
+
+.plot-callout[
+```{r cig-tax-callout, ref.label="cig-tax", fig.callout=TRUE, warning=FALSE}
+```
+]
+
+---
+# Tax as an IV
+
+```{r cig-tax-output, ref.label="cig-tax", fig.callout=TRUE, warning=FALSE}
+```
+
+
+---
+# IV Results
+
+```{r}
+ivs <- ivreg(ln_sales ~ ln_price | total_tax_cpi, 
+             data=cig.data)
+summary(ivs)
+```
+
+
+---
+# Different specifications
+```{r echo=FALSE}
+ols1 <- lm(ln_sales ~ ln_price_cpi, data=cig.data)
+ols2 <- lm(ln_sales ~ ln_price_cpi + factor(state), data=cig.data)
+ols3 <- lm(ln_sales ~ ln_price_cpi + factor(state) + factor(Year), data=cig.data)
+
+ivs1 <- ivreg(ln_sales ~ ln_price_cpi | total_tax_cpi, data=cig.data)
+ivs2 <- ivreg(ln_sales ~ ln_price_cpi + factor(state) | 
+                total_tax_cpi + factor(state), data=cig.data)
+ivs3 <- ivreg(ln_sales ~ ln_price_cpi + factor(state) + factor(Year) | 
+                total_tax_cpi + factor(state) + factor(Year), data=cig.data)
+stargazer(ols1, ols2, ols3, ivs1, ivs2, ivs3, 
+          keep=c("ln_price_cpi"), 
+          type="html",
+          column.labels = c("OLS","IV"),
+          column.separate=c(3,3),
+          keep.stat=c("n"),
+          model.names=FALSE,
+          add.lines=list(c("State FE","No","Yes","Yes","No","Yes","Yes"),
+                         c("Year FE","No","No","Yes","No","No","Yes")),
+          covariate.labels = "Log Price",
+          dep.var.labels = "Log Sales per Capita")
+```
+
+
+---
+# Test the IV
+```{r echo=FALSE}
+ols1 <- lm(ln_price_cpi ~ total_tax_cpi, data=cig.data)
+ols2 <- lm(ln_price_cpi ~ total_tax_cpi + factor(state), data=cig.data)
+ols3 <- lm(ln_price_cpi ~ total_tax_cpi + factor(state) + factor(Year), data=cig.data)
+
+stargazer(ols1, ols2, ols3, 
+          keep=c("total_tax_cpi"), 
+          type="html",
+          keep.stat=c("n"),
+          model.names=FALSE,
+          add.lines=list(c("State FE","No","Yes","Yes"),
+                         c("Year FE","No","No","Yes")),
+          covariate.labels = "Tax per Pack",
+          dep.var.labels = "Log Price")
+```
+
+---
+# Summary
+1. Most elasticities of around -0.25% to -0.37%
+2. Much larger elasticities when including year fixed effects
+3. Perhaps not too outlandish given more recent evidence: [NBER Working Paper](https://www.nber.org/papers/w22251.pdf).
