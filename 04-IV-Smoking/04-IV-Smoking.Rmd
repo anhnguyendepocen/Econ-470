@@ -387,6 +387,17 @@ ivs <- ivreg(ln_sales ~ ln_price | total_tax_cpi,
 summary(ivs)
 ```
 
+---
+# Two-stage equivalence
+```{r}
+step1 <- lm(ln_price ~ total_tax_cpi, data=cig.data)
+pricehat <- predict(step1)
+step2 <- lm(ln_sales ~ pricehat, data=cig.data)
+summary(step2)
+```
+
+
+
 
 ---
 # Different specifications
@@ -417,17 +428,24 @@ stargazer(ols1, ols2, ols3, ivs1, ivs2, ivs3,
 ---
 # Test the IV
 ```{r echo=FALSE}
-ols1 <- lm(ln_price_cpi ~ total_tax_cpi, data=cig.data)
-ols2 <- lm(ln_price_cpi ~ total_tax_cpi + factor(state), data=cig.data)
-ols3 <- lm(ln_price_cpi ~ total_tax_cpi + factor(state) + factor(Year), data=cig.data)
+first1 <- lm(ln_price_cpi ~ total_tax_cpi, data=cig.data)
+first2 <- lm(ln_price_cpi ~ total_tax_cpi + factor(state), data=cig.data)
+first3 <- lm(ln_price_cpi ~ total_tax_cpi + factor(state) + factor(Year), data=cig.data)
 
-stargazer(ols1, ols2, ols3, 
+rf1 <- lm(ln_sales ~ total_tax_cpi, data=cig.data)
+rf2 <- lm(ln_sales ~ total_tax_cpi + factor(state), data=cig.data)
+rf3 <- lm(ln_sales ~ total_tax_cpi + factor(state) + factor(Year), data=cig.data)
+
+
+stargazer(first1, first2, first3, rf1, rf2, rf3,
           keep=c("total_tax_cpi"), 
           type="html",
+          column.labels = c("First Stage","Reduced Form"),
+          column.separate=c(3,3),
           keep.stat=c("n"),
           model.names=FALSE,
-          add.lines=list(c("State FE","No","Yes","Yes"),
-                         c("Year FE","No","No","Yes")),
+          add.lines=list(c("State FE","No","Yes","Yes","No","Yes","Yes"),
+                         c("Year FE","No","No","Yes","No","No","Yes")),
           covariate.labels = "Tax per Pack",
           dep.var.labels = "Log Price")
 ```
