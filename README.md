@@ -28,3 +28,4 @@ We'll use the following GitHub repositories throughout the course. Each repo dea
 
 1. [Medicare Advantage repository](https://github.com/imccart/Medicare-Advantage)
 2. [HCRIS  repository](https://github.com/imccart/HCRIS)
+3. [CDC Tax Burden on Tobacco](https://github.com/imccart/CDC-Tobacco)
