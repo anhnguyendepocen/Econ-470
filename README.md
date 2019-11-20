@@ -15,7 +15,7 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 3. Selection on Observables and Hospital Pricing
 \[[Slides](03-Selection-HospitalPricing/03-Selection-HospitalPricing.html)\]
 
-4. Instrumental variables and demand for cigarettes \[[Slides](04-Selection-HospitalPricing/04-IV-Smoking.html)\]
+4. Instrumental variables and demand for cigarettes \[[Slides](04-IV-Smoking/04-IV-Smoking.html)\]
 
 
 ## Assignments
