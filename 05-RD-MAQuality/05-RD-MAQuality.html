@@ -366,6 +366,44 @@ Frame 175 (100%)
 
 &lt;img src="05-RD-MAQuality_files/figure-html/animate-1.gif" style="display: block; margin: auto;" /&gt;
 
+---
+# Estimation
+Goal is to estimate `\(E[Y(1)|X=c] - E[Y(0)|X=c]\)`
+1. Trim to reasonable window around threshold ("bandwidth"), `\(X \in [c-h, c+h]\)`
+2. Transform running variable, `\(\tilde{X}=X-c\)`
+3. Estimate regressions...
+  - Linear, same slope: `\(y = \alpha + \delta W + \beta \tilde{X} + \varepsilon\)`
+  - Linear, different slope: `\(y = \alpha + \delta W + \beta \tilde{X} + \gamma W\tilde{X} + \varepsilon\)`
+  - Nonlinear: add polynomials in `\(\tilde{X}\)` and interactions `\(W \tilde{X}\)` (i.e, `\(\tilde{X}^{2}\)` and `\(\tilde{X}^{2} W\)`. 
+
+
+---
+# Some practical concerns
+- Selecting bandwidth, `\(h\)`
+- Check for sorting around threshold (e.g., gaming)
+- Covariate balance (love plots around threshold)
+- Should we control for other covariates?
+- Sensitivity to polynomial specification
+
+---
+# Back to simulated data
+&lt;img src="05-RD-MAQuality_files/figure-html/rd-real1-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Back to simulated data
+
+```r
+ols &lt;- lm(Y~X+W, data=rd.dat2)
+
+rd.dat3 &lt;- rd.dat2 %&gt;%
+  mutate(x_dev = X-1) %&gt;%
+  filter( (X&gt;0.8 &amp; X &lt;1.2) )
+rd &lt;- lm(Y~x_dev + W, data=rd.dat3)
+```
+- True effect: 4
+- Standard linear regression with same slopes: 3.94
+- RD (linear with same slopes): 3.6
+
 &lt;!-- New Section --&gt;
 ---
 class: inverse, center, middle
