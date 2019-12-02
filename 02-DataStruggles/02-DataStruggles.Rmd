@@ -941,7 +941,7 @@ full.ma.data %>%
 
 ---
 # Interactive plot
-```{r eval=TRUE, include=FALSE}
+```{r echo=FALSE}
 ## Count of plans by type (across years)
 ma.plot <- full.ma.data %>% group_by(fips, year, plan_type) %>% 
   select(fips, year, plan_type) %>% summarize(plan_count=n())
@@ -955,23 +955,17 @@ ma.plot.means <- ma.plot.means %>%
   mutate(plan_type = fct_recode(plan_type,
           "PDP Only" = "Medicare Prescription Drug Plan",
           "Employer PDP" = "Employer/Union Only Direct Contract PDP"))
-```
 
-.left-code[
-```{r anim-plot, fig.show="hide"}
 plot_ly(ma.plot.means,
         y=~as.factor(plan_type), 
         x=~mean_count, 
         frame=~as.factor(year), 
-        type='bar') %>%
+        type='bar',
+        width=800,
+        height=400) %>%
   animation_slider(
     currentvalue = list(prefix = "Year ", font = list(color="blue"))
   ) %>%
   layout(xaxis = list(title = "Count per County"), 
          yaxis = list(title = ""))
 ```
-]
-
-.right-plot[
-![](`r knitr::fig_chunk("anim-plot","png")`)
-]
