@@ -1,0 +1,205 @@
+---
+title: "Section 5: Medicare Advantage Quality and Regression Discontinuity"
+subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1050px></html>"
+author: Ian McCarthy | Emory University
+date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
+header-includes: 
+  - \usepackage{graphicx}
+  - \usepackage{amsmath}
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, custom.css] 
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      beforeInit: "macros.js"
+---
+
+<!-- Adjust some CSS code for font size and maintain R code font size -->
+<style type="text/css">
+.remark-slide-content {
+    font-size: 30px;
+    padding: 1em 2em 1em 2em;    
+}
+.remark-code {
+  font-size: 15px;
+}
+.remark-inline-code { 
+    font-size: 20px;
+}
+</style>
+
+
+<!-- Set R options for how code chunks are displayed and load packages -->
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(knitr)
+knitr::opts_chunk$set(
+  fig.align="center",  
+  fig.height=3, #fig.width=6,
+  # out.width="748px", #out.length="520.75px",
+  dpi=300, #fig.path='Figs/',
+  cache=T,# echo=F, warning=F, message=F
+  warning = FALSE, 
+  message = FALSE, 
+  cache.lazy = FALSE,
+  error=TRUE
+  )
+
+knitr::opts_hooks$set(fig.callout = function(options) {
+  if(options$fig.callout) {
+    options$echo = FALSE
+  }
+  options
+})
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
+               scales, plotly, gganimate, cobalt, ivpack, stargazer, haven)
+```
+
+# Table of contents
+
+1. [Medicare Advantage and Quality](#ma_quality)
+
+2. [Regression Discontinuity](#rd)
+
+3. [Medicare Advantage Data](#ma_data)
+
+4. [Quality and Insurance Choice](#insurance_stars)
+
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: ma_quality
+
+# Background on Medicare Advantage and Quality
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+
+---
+# What is Medicare Advantage
+- Private provision of health insurance for Medicare beneficiaries
+- Medicare "replacement" plans
+--
+- It's just private insurance for Medicare folks
+
+---
+# Medicare Advantage History
+- Existed since 1980s, formalized in the 1990s, expanded in 2000s
+- Medicare+Choice as part of Balanced Budget Act in 1997
+- Largest expansion: Medicare Modernization Act in 2003 (also brought Medicare Part D)
+
+---
+# Medicare Advantage Details
+In its current form...
+- Insurers submit plan details and a price needed to cover traditional Medicare ("bid")
+- If approved, Medicare pays risk-adjusted bid *or* benchmark
+- Bid $<$ benchmark, insurer gets a rebate
+- Bid $>$ benchamrk, insurer charges premium
+- Seperate bidding for Part D
+
+---
+# Medicare Advantage in Real Life
+Let's take a look at the Medicare Advantage plan options...
+
+--
+<br>
+[Medicare Plan Finder](https://www.medicare.gov/plan-compare/)
+
+
+---
+# Medicare Advantage Quality Ratings
+- Initial MA Star Ratings (2007)
+- Overall rating introduced in 2010
+- Complicated formula...
+
+--
+<br>
+key point: ratings from several domains are averaged and then rounded
+
+
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: rd
+
+# Regression Discontinuity
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+---
+# Intuition
+Key intuition from RD: 
+
+--
+*identical* just above/below threshold
+
+---
+# Inutition
+Highly relevant in "rule-based" world...
+- School eligibility based on age cutoffs
+- Program participation based on discrete income thresholds
+- Performance scores rounded to nearest integer
+
+---
+# Types of RD
+1. Strict regression discontinuity
+  - those above the threshold guaranteed to participate
+  
+2. Fuzzy regression discontinuity
+  - those above the threshold are eligible but may not participate
+
+---
+# Strict RD
+$W_{i} = 1(x_{i}>c) = \begin{cases}
+    1 & \text{if} & x_{i}>c \\
+    0 & \text{if} & x_{i}<c 
+\end{cases}$
+
+<br>
+- $x$ is "forcing variable"
+- $c$ is the threshold value or cutoff point
+
+---
+# Strict RD
+
+
+---
+# Example
+Just to fix ideas, let's work with election data from 
+```{r data}
+rd.data <- read_dta("C:/Users/immccar/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Economics and Health Policy/data/hainmueller-rd-example.dta")
+head(rd.data)
+```
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: ma_data
+
+# Medicare Advantage Data
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: insurance_stars
+
+# Quality and Insurance Choice
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
