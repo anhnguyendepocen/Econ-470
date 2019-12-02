@@ -86,7 +86,6 @@ name: smoking_lit
 ---
 # History of Smoking
 
-<br>
 .center[
   ![:scale 700px](https://media.giphy.com/media/TdQfYM6KpYQUM/giphy.gif)
 ]
@@ -335,7 +334,7 @@ name: smoking_demand
 ---
 # Naive estimate
 Clearly a strong relationship between prices and sales. For example, just from OLS:
-```{r}
+```{r echo=FALSE}
 cig.data <- cig.data %>% mutate(ln_sales=log(sales_per_capita),
                                 ln_price_cpi=log(price_cpi),
                                 ln_price=log(cost_per_pack),
@@ -381,7 +380,7 @@ cig.data %>%
 ---
 # IV Results
 
-```{r}
+```{r echo=FALSE}
 ivs <- ivreg(ln_sales ~ ln_price | total_tax_cpi, 
              data=cig.data)
 summary(ivs)

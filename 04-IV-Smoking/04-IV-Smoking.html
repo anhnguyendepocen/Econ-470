@@ -67,15 +67,39 @@ name: smoking_lit
 
 
 ---
-# Cigarettes
+# History of Smoking
 
 &lt;br&gt;
 .center[
-  ![:scale 800px](https://media.giphy.com/media/TdQfYM6KpYQUM/giphy.gif)
+  ![:scale 700px](https://media.giphy.com/media/TdQfYM6KpYQUM/giphy.gif)
 ]
 
+---
+# History of Smoking
+- Widespread smoking begin in late 1800s
+- Lung cancer becoming more common after 1930s
+- First evidence of link in 1950s
+- Surgeon general's report in 1964
 
 
+---
+# Why it matters
+1. Extreme public health concerns
+  - Lung cancer prevalence
+  - Fetal and baby health
+2. Economic questions
+  - Is it an information problem?
+  - Externalities (second-hand smoke)
+  - Moral hazard due to insurance
+  
+---
+# In our case
+We want to focus on estimating demand for cigarettes. By this, I mean estimating price elasticity of demand.
+
+--
+&lt;br&gt;
+
+We'll show that standard OLS isn't going to do this very well.
 
 &lt;!-- New Section --&gt;
 ---
@@ -240,7 +264,7 @@ cig.data %&gt;%
   labs(
     x="Year",
     y="Packs per Capita",
-    title="Cigarette Prices"
+    title="Cigarette Sales"
   ) + theme_bw() +
   scale_x_continuous(breaks=seq(1970, 2020, 5))
 ```
@@ -251,7 +275,7 @@ cig.data %&gt;%
 ---
 # Cigarette Sales
 
-
+&lt;img src="04-IV-Smoking_files/figure-html/cig-sales-output-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Cigarette Prices
@@ -263,7 +287,7 @@ cig.data %&gt;%
   labs(
     x="Year",
     y="Price per Pack ($)",
-    title="Cigarette Prices"
+    title="Cigarette Prices in 2010 Real Dollars"
   ) + theme_bw() +
   scale_x_continuous(breaks=seq(1970, 2020, 5))
 ```
@@ -274,9 +298,7 @@ cig.data %&gt;%
 ---
 # Cigarette Prices
 
-
-
-
+&lt;img src="04-IV-Smoking_files/figure-html/cig-price-output-1.png" style="display: block; margin: auto;" /&gt;
 
 
 &lt;!-- New Section --&gt;
@@ -290,56 +312,165 @@ name: smoking_demand
 
 ---
 # Naive estimate
-Let's start with just OLS:
+Clearly a strong relationship between prices and sales. For example, just from OLS:
+
+```
+## 
+## Call:
+## lm(formula = ln_sales ~ ln_price, data = cig.data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.23899 -0.17057  0.02239  0.18605  1.13866 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  4.689838   0.007209  650.55   &lt;2e-16 ***
+## ln_price    -0.420307   0.006464  -65.02   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3073 on 2497 degrees of freedom
+## Multiple R-squared:  0.6287,	Adjusted R-squared:  0.6285 
+## F-statistic:  4228 on 1 and 2497 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+# Is this causal?
+- But is that the true demand curve?
+
+- Aren't other things changing that tend to reduce cigarette sales?
+
+---
+# Tax as an IV
 
 ```r
-ols &lt;- lm(sales_per_capita ~ cost_per_pack, data=cig.data)
-summary(ols)
+cig.data %&gt;% 
+  ggplot(aes(x=Year,y=total_tax_cpi)) + 
+  stat_summary(fun.y="mean",geom="line") +
+  labs(
+    x="Year",
+    y="Tax per Pack ($)",
+    title="Cigarette Taxes in 2010 Real Dollars"
+  ) + theme_bw() +
+  scale_x_continuous(breaks=seq(1970, 2020, 5))
+```
+
+.plot-callout[
+&lt;img src="04-IV-Smoking_files/figure-html/cig-tax-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Tax as an IV
+
+&lt;img src="04-IV-Smoking_files/figure-html/cig-tax-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# IV Results
+
+
+```
+## 
+## Call:
+## ivreg(formula = ln_sales ~ ln_price | total_tax_cpi, data = cig.data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.14066 -0.21289  0.02394  0.20571  1.25285 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  4.767051   0.008394  567.90   &lt;2e-16 ***
+## ln_price    -0.552826   0.008805  -62.79   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3321 on 2497 degrees of freedom
+## Multiple R-Squared: 0.5662,	Adjusted R-squared: 0.566 
+## Wald test:  3942 on 1 and 2497 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+# Two-stage equivalence
+
+```r
+step1 &lt;- lm(ln_price ~ total_tax_cpi, data=cig.data)
+pricehat &lt;- predict(step1)
+step2 &lt;- lm(ln_sales ~ pricehat, data=cig.data)
+summary(step2)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = sales_per_capita ~ cost_per_pack, data = cig.data)
+## lm(formula = ln_sales ~ pricehat, data = cig.data)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -62.849 -14.641  -2.601   9.532 167.894 
+##      Min       1Q   Median       3Q      Max 
+## -0.93630 -0.14892  0.01832  0.14572  0.98954 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   133.6049     0.8013  166.74   &lt;2e-16 ***
-## cost_per_pack -14.3597     0.2296  -62.54   &lt;2e-16 ***
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  4.767051   0.007154  666.36   &lt;2e-16 ***
+## pricehat    -0.552826   0.007504  -73.67   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 25.68 on 2497 degrees of freedom
-## Multiple R-squared:  0.6103,	Adjusted R-squared:  0.6102 
-## F-statistic:  3911 on 1 and 2497 DF,  p-value: &lt; 2.2e-16
+## Residual standard error: 0.2831 on 2497 degrees of freedom
+## Multiple R-squared:  0.6849,	Adjusted R-squared:  0.6848 
+## F-statistic:  5428 on 1 and 2497 DF,  p-value: &lt; 2.2e-16
+```
+
+
+
+
+---
+# Different specifications
+
+```
+## 
+## &lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="7" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="6"&gt;&lt;em&gt;Dependent variable:&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td colspan="6" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="6"&gt;Log Sales per Capita&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;OLS&lt;/td&gt;&lt;td colspan="3"&gt;IV&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;td&gt;(3)&lt;/td&gt;&lt;td&gt;(4)&lt;/td&gt;&lt;td&gt;(5)&lt;/td&gt;&lt;td&gt;(6)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan="7" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Log Price&lt;/td&gt;&lt;td&gt;-0.257&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.250&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-1.213&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.374&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.349&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-1.633&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.004)&lt;/td&gt;&lt;td&gt;(0.003)&lt;/td&gt;&lt;td&gt;(0.034)&lt;/td&gt;&lt;td&gt;(0.007)&lt;/td&gt;&lt;td&gt;(0.005)&lt;/td&gt;&lt;td&gt;(0.048)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan="7" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;State FE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;Year FE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan="7" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td colspan="6" style="text-align:right"&gt;&lt;sup&gt;*&lt;/sup&gt;p&lt;0.1; &lt;sup&gt;**&lt;/sup&gt;p&lt;0.05; &lt;sup&gt;***&lt;/sup&gt;p&lt;0.01&lt;/td&gt;&lt;/tr&gt;
+## &lt;/table&gt;
+```
+
+
+---
+# Test the IV
+
+```
+## 
+## &lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="7" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="6"&gt;&lt;em&gt;Dependent variable:&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td colspan="6" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;Log Price&lt;/td&gt;&lt;td colspan="3"&gt;ln_sales&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;First Stage&lt;/td&gt;&lt;td colspan="3"&gt;Reduced Form&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;td&gt;(3)&lt;/td&gt;&lt;td&gt;(4)&lt;/td&gt;&lt;td&gt;(5)&lt;/td&gt;&lt;td&gt;(6)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan="7" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Tax per Pack&lt;/td&gt;&lt;td&gt;0.961&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;1.008&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.138&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.359&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.352&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.226&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.017)&lt;/td&gt;&lt;td&gt;(0.017)&lt;/td&gt;&lt;td&gt;(0.003)&lt;/td&gt;&lt;td&gt;(0.005)&lt;/td&gt;&lt;td&gt;(0.003)&lt;/td&gt;&lt;td&gt;(0.006)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan="7" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;State FE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;Year FE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan="7" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td colspan="6" style="text-align:right"&gt;&lt;sup&gt;*&lt;/sup&gt;p&lt;0.1; &lt;sup&gt;**&lt;/sup&gt;p&lt;0.05; &lt;sup&gt;***&lt;/sup&gt;p&lt;0.01&lt;/td&gt;&lt;/tr&gt;
+## &lt;/table&gt;
 ```
 
 ---
-# IV Estimate
-
-```r
-ivs &lt;- ivreg(sales_per_capita ~ cost_per_pack | tax_percent, 
-             data=cig.data)
-```
-
-
-```r
-cig.data %&gt;% 
-  ggplot(aes(x=Year,y=tax_dollar)) + 
-  stat_summary(fun.y="mean",geom="line") +
-  labs(
-    x="Year",
-    y="Tax per Pack ($)",
-    title="Cigarette Prices"
-  ) + theme_bw() +
-  scale_x_continuous(breaks=seq(1970, 2020, 5))
-```
-
-&lt;img src="04-IV-Smoking_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+# Summary
+1. Most elasticities of around -0.25% to -0.37%
+2. Much larger elasticities when including year fixed effects
+3. Perhaps not too outlandish given more recent evidence: [NBER Working Paper](https://www.nber.org/papers/w22251.pdf).
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
