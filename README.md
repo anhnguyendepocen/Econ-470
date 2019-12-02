@@ -17,6 +17,8 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 4. Instrumental variables and demand for cigarettes \[[Slides](04-IV-Smoking/04-IV-Smoking.html)\]
 
+5. Regression discontinuity and Medicare Advantage \[[Slides](05-RD-MAQuality/05-RD-MAQuality.html)\]
+
 
 ## Assignments
 1. GitHub and Data Management \[[Instructions](assignments/hwk-01.html)\]

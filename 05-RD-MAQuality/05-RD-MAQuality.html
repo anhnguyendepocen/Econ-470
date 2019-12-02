@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Section 5: Medicare Advantage Quality and Regression Discontinuity</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ian McCarthy | Emory University" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Section 5: Medicare Advantage Quality and Regression Discontinuity
+## <html>
+<div style="float:left">
+
+</div>
+<hr color='#EB811B' size=1px width=1050px>
+</html>
+### Ian McCarthy | Emory University
+### Econ 470 &amp; HLTH 470
+
+---
+
+
+&lt;!-- Adjust some CSS code for font size and maintain R code font size --&gt;
+&lt;style type="text/css"&gt;
+.remark-slide-content {
+    font-size: 30px;
+    padding: 1em 2em 1em 2em;    
+}
+.remark-code {
+  font-size: 15px;
+}
+.remark-inline-code { 
+    font-size: 20px;
+}
+&lt;/style&gt;
+
+
+&lt;!-- Set R options for how code chunks are displayed and load packages --&gt;
+
+
+# Table of contents
+
+1. [Medicare Advantage and Quality](#ma_quality)
+
+2. [Regression Discontinuity](#rd)
+
+3. [Medicare Advantage Data](#ma_data)
+
+4. [Quality and Insurance Choice](#insurance_stars)
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: ma_quality
+
+# Background on Medicare Advantage and Quality
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+
+---
+# What is Medicare Advantage
+- Private provision of health insurance for Medicare beneficiaries
+- Medicare "replacement" plans
+--
+- It's just private insurance for Medicare folks
+
+---
+# Medicare Advantage History
+- Existed since 1980s, formalized in the 1990s, expanded in 2000s
+- Medicare+Choice as part of Balanced Budget Act in 1997
+- Largest expansion: Medicare Modernization Act in 2003 (also brought Medicare Part D)
+
+---
+# Medicare Advantage Details
+In its current form...
+- Insurers submit plan details and a price needed to cover traditional Medicare ("bid")
+- If approved, Medicare pays risk-adjusted bid *or* benchmark
+- Bid `\(&lt;\)` benchmark, insurer gets a rebate
+- Bid `\(&gt;\)` benchamrk, insurer charges premium
+- Seperate bidding for Part D
+
+---
+# Medicare Advantage in Real Life
+Let's take a look at the Medicare Advantage plan options...
+
+--
+&lt;br&gt;
+[Medicare Plan Finder](https://www.medicare.gov/plan-compare/)
+
+
+---
+# Medicare Advantage Quality Ratings
+- Initial MA Star Ratings (2007)
+- Overall rating introduced in 2010
+- Complicated formula...
+
+--
+&lt;br&gt;
+key point: ratings from several domains are averaged and then rounded
+
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: rd
+
+# Regression Discontinuity
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+---
+# Intuition
+Key intuition from RD: 
+
+--
+*identical* just above/below threshold
+
+---
+# Inutition
+Highly relevant in "rule-based" world...
+- School eligibility based on age cutoffs
+- Program participation based on discrete income thresholds
+- Performance scores rounded to nearest integer
+
+---
+# Types of RD
+1. Sharp regression discontinuity
+  - those above the threshold guaranteed to participate
+  
+2. Fuzzy regression discontinuity
+  - those above the threshold are eligible but may not participate
+
+---
+# Sharp RD
+&lt;br&gt;
+`$$W_{i} = 1(x_{i}&gt;c) = \begin{cases}
+    1 &amp; \text{if} &amp; x_{i}&gt;c \\
+    0 &amp; \text{if} &amp; x_{i}&lt;c 
+\end{cases}$$`
+
+&lt;br&gt;
+- `\(x\)` is "forcing variable"
+- `\(c\)` is the threshold value or cutoff point
+
+---
+# Sharp RD Scatterplot
+&lt;img src="05-RD-MAQuality_files/figure-html/rd-plot1-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Sharp RD Linear Predictions
+&lt;img src="05-RD-MAQuality_files/figure-html/rd-plot2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Sharp RD Linear Predictions
+&lt;img src="05-RD-MAQuality_files/figure-html/rd-plot3-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Different averages
+
+- Mean difference around threshold of 0.2, 3.91 - 2.33 = 1.57
+- Mean overall difference, 3.73 - 1.44 = 2.29
+
+
+---
+# More generally
+- Running variable may affect outcome directly
+- Focusing on area around cutoff does two things:
+  1. Controls for running variable
+  2. "Controls" for unobserved things correlated with running variable and outcome
+
+---
+# Animations!
+
+```
+## 
+Frame 1 (0%)
+Frame 2 (1%)
+Frame 3 (1%)
+Frame 4 (2%)
+Frame 5 (2%)
+Frame 6 (3%)
+Frame 7 (4%)
+Frame 8 (4%)
+Frame 9 (5%)
+Frame 10 (5%)
+Frame 11 (6%)
+Frame 12 (6%)
+Frame 13 (7%)
+Frame 14 (8%)
+Frame 15 (8%)
+Frame 16 (9%)
+Frame 17 (9%)
+Frame 18 (10%)
+Frame 19 (10%)
+Frame 20 (11%)
+Frame 21 (12%)
+Frame 22 (12%)
+Frame 23 (13%)
+Frame 24 (13%)
+Frame 25 (14%)
+Frame 26 (14%)
+Frame 27 (15%)
+Frame 28 (16%)
+Frame 29 (16%)
+Frame 30 (17%)
+Frame 31 (17%)
+Frame 32 (18%)
+Frame 33 (18%)
+Frame 34 (19%)
+Frame 35 (20%)
+Frame 36 (20%)
+Frame 37 (21%)
+Frame 38 (21%)
+Frame 39 (22%)
+Frame 40 (22%)
+Frame 41 (23%)
+Frame 42 (24%)
+Frame 43 (24%)
+Frame 44 (25%)
+Frame 45 (25%)
+Frame 46 (26%)
+Frame 47 (26%)
+Frame 48 (27%)
+Frame 49 (28%)
+Frame 50 (28%)
+Frame 51 (29%)
+Frame 52 (29%)
+Frame 53 (30%)
+Frame 54 (30%)
+Frame 55 (31%)
+Frame 56 (32%)
+Frame 57 (32%)
+Frame 58 (33%)
+Frame 59 (33%)
+Frame 60 (34%)
+Frame 61 (34%)
+Frame 62 (35%)
+Frame 63 (36%)
+Frame 64 (36%)
+Frame 65 (37%)
+Frame 66 (37%)
+Frame 67 (38%)
+Frame 68 (38%)
+Frame 69 (39%)
+Frame 70 (40%)
+Frame 71 (40%)
+Frame 72 (41%)
+Frame 73 (41%)
+Frame 74 (42%)
+Frame 75 (42%)
+Frame 76 (43%)
+Frame 77 (44%)
+Frame 78 (44%)
+Frame 79 (45%)
+Frame 80 (45%)
+Frame 81 (46%)
+Frame 82 (46%)
+Frame 83 (47%)
+Frame 84 (48%)
+Frame 85 (48%)
+Frame 86 (49%)
+Frame 87 (49%)
+Frame 88 (50%)
+Frame 89 (50%)
+Frame 90 (51%)
+Frame 91 (52%)
+Frame 92 (52%)
+Frame 93 (53%)
+Frame 94 (53%)
+Frame 95 (54%)
+Frame 96 (54%)
+Frame 97 (55%)
+Frame 98 (56%)
+Frame 99 (56%)
+Frame 100 (57%)
+Frame 101 (57%)
+Frame 102 (58%)
+Frame 103 (58%)
+Frame 104 (59%)
+Frame 105 (60%)
+Frame 106 (60%)
+Frame 107 (61%)
+Frame 108 (61%)
+Frame 109 (62%)
+Frame 110 (62%)
+Frame 111 (63%)
+Frame 112 (64%)
+Frame 113 (64%)
+Frame 114 (65%)
+Frame 115 (65%)
+Frame 116 (66%)
+Frame 117 (66%)
+Frame 118 (67%)
+Frame 119 (68%)
+Frame 120 (68%)
+Frame 121 (69%)
+Frame 122 (69%)
+Frame 123 (70%)
+Frame 124 (70%)
+Frame 125 (71%)
+Frame 126 (72%)
+Frame 127 (72%)
+Frame 128 (73%)
+Frame 129 (73%)
+Frame 130 (74%)
+Frame 131 (74%)
+Frame 132 (75%)
+Frame 133 (76%)
+Frame 134 (76%)
+Frame 135 (77%)
+Frame 136 (77%)
+Frame 137 (78%)
+Frame 138 (78%)
+Frame 139 (79%)
+Frame 140 (80%)
+Frame 141 (80%)
+Frame 142 (81%)
+Frame 143 (81%)
+Frame 144 (82%)
+Frame 145 (82%)
+Frame 146 (83%)
+Frame 147 (84%)
+Frame 148 (84%)
+Frame 149 (85%)
+Frame 150 (85%)
+Frame 151 (86%)
+Frame 152 (86%)
+Frame 153 (87%)
+Frame 154 (88%)
+Frame 155 (88%)
+Frame 156 (89%)
+Frame 157 (89%)
+Frame 158 (90%)
+Frame 159 (90%)
+Frame 160 (91%)
+Frame 161 (92%)
+Frame 162 (92%)
+Frame 163 (93%)
+Frame 164 (93%)
+Frame 165 (94%)
+Frame 166 (94%)
+Frame 167 (95%)
+Frame 168 (96%)
+Frame 169 (96%)
+Frame 170 (97%)
+Frame 171 (97%)
+Frame 172 (98%)
+Frame 173 (98%)
+Frame 174 (99%)
+Frame 175 (100%)
+## Finalizing encoding... done!
+```
+
+&lt;img src="05-RD-MAQuality_files/figure-html/animate-1.gif" style="display: block; margin: auto;" /&gt;
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: ma_data
+
+# Medicare Advantage Data
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: insurance_stars
+
+# Quality and Insurance Choice
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
