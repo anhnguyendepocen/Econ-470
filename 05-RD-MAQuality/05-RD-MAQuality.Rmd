@@ -58,7 +58,8 @@ knitr::opts_hooks$set(fig.callout = function(options) {
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
-               scales, plotly, gganimate, cobalt, ivpack, stargazer, haven, ggthemes)
+               scales, plotly, gganimate, cobalt, ivpack, stargazer, haven, ggthemes,
+               gifski, magick)
 ```
 
 # Table of contents
@@ -231,7 +232,7 @@ mean.1.all <- rd.dat %>% filter(W == TRUE) %>% summarize(mean=mean(Y))
 
 ---
 # Animations!
-```{r animate, echo=FALSE, message=FALSE, warning=FALSE}
+```{r animate, message=FALSE, warning=FALSE, include=FALSE}
 df <- data.frame(xaxisTime=runif(300)*20) %>%
   mutate(Y = .2*xaxisTime+3*(xaxisTime>10)-.1*xaxisTime*(xaxisTime>10)+rnorm(300),
          state="1",
@@ -276,8 +277,16 @@ p <- ggplot(dffull,aes(y=Y,x=xaxisTime))+geom_point()+
   ease_aes('sine-in-out')+
   exit_fade()+enter_fade()
 
-animate(p,nframes=175)
+anim.p <- animate(p,nframes=175)
+
+anim_save("rd_animate.gif",
+          anim.p,path="C:/Users/immccar/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Economics and Health Policy/05-RD-MAQuality/pics")
 ```
+
+.center[
+  ![:scale 800px](pics/rd_animate.gif)
+]
+
 
 ---
 # Estimation
@@ -342,6 +351,26 @@ name: ma_data
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
 
+---
+# Medicare Advantage
+Recall the Medicare Advantage repository, [Medicare Advantage GitHub repository](https://github.com/imccart/Medicare-Advantage)
+
+--
+<br>
+Now we need to work with the full dataset
+
+---
+# Full MA Data
+```{r eval=T, include=T}
+ma.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/ma_data.rds")
+```
+
+---
+# Clean the data
+```{r}
+ma.data.clean <- ma.data %>%
+  filter(!is.na(avg_enrollment) & year==2010 & !is.na(partc_score))
+```
 
 
 
