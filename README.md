@@ -22,6 +22,7 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 ## Assignments
 1. GitHub and Data Management \[[Instructions](assignments/hwk-01.html)\]
+
 2. HCRIS Data and Hospital Pricing \[[Instructions](assignments/hwk-02.html)\]
 
 
@@ -29,5 +30,7 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 We'll use the following GitHub repositories throughout the course. Each repo deals with a different group of datasets.
 
 1. [Medicare Advantage repository](https://github.com/imccart/Medicare-Advantage)
+
 2. [HCRIS  repository](https://github.com/imccart/HCRIS)
+
 3. [CDC Tax Burden on Tobacco](https://github.com/imccart/CDC-Tobacco)
