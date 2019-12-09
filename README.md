@@ -6,7 +6,6 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 
 ## Notes and slides
-
 1. Introduction: Motivation and software setup \[[Slides](01-Introduction/01-Introduction.html)\]
 
 2. Struggling with data
@@ -19,6 +18,8 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 5. Regression discontinuity and Medicare Advantage \[[Slides](05-RD-MAQuality/05-RD-MAQuality.html)\]
 
+5. Difference-in-Differences and Access to Insurance \[[Slides](06-DD-ACA/06-DD-ACA.html)\]
+
 
 ## Assignments
 1. GitHub and Data Management \[[Instructions](assignments/hwk-01.html)\]
@@ -29,8 +30,10 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 ## GitHub Repositories
 We'll use the following GitHub repositories throughout the course. Each repo deals with a different group of datasets.
 
-1. [Medicare Advantage repository](https://github.com/imccart/Medicare-Advantage)
+1. [Medicare Advantage](https://github.com/imccart/Medicare-Advantage)
 
-2. [HCRIS  repository](https://github.com/imccart/HCRIS)
+2. [HCRIS](https://github.com/imccart/HCRIS)
 
 3. [CDC Tax Burden on Tobacco](https://github.com/imccart/CDC-Tobacco)
+
+4. [ACS and Medicaid Expansion](https://github.com/imccart/Insurance-Access)

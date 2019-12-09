@@ -1,0 +1,148 @@
+---
+title: "Section 6: Difference-in-Differences and Effects of Medicaid Expansion"
+subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1050px></html>"
+author: Ian McCarthy | Emory University
+date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
+header-includes: 
+  - \usepackage{graphicx}
+  - \usepackage{amsmath}
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, custom.css] 
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      beforeInit: "macros.js"
+---
+
+<!-- Adjust some CSS code for font size and maintain R code font size -->
+<style type="text/css">
+.remark-slide-content {
+    font-size: 30px;
+    padding: 1em 2em 1em 2em;    
+}
+.remark-code {
+  font-size: 15px;
+}
+.remark-inline-code { 
+    font-size: 20px;
+}
+</style>
+
+
+<!-- Set R options for how code chunks are displayed and load packages -->
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(knitr)
+knitr::opts_chunk$set(
+  fig.align="center",  
+  fig.height=3, #fig.width=6,
+  # out.width="748px", #out.length="520.75px",
+  dpi=300, #fig.path='Figs/',
+  cache=T,# echo=F, warning=F, message=F
+  warning = FALSE, 
+  message = FALSE, 
+  cache.lazy = FALSE,
+  error=TRUE
+  )
+
+knitr::opts_hooks$set(fig.callout = function(options) {
+  if(options$fig.callout) {
+    options$echo = FALSE
+  }
+  options
+})
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
+               scales, plotly, gganimate, cobalt, ivpack, stargazer, haven, ggthemes,
+               gifski, magick)
+set.seed(1234)
+```
+
+# Table of contents
+
+1. [The Affordable Care Act](#aca)
+
+2. [Difference-in-Differences](#dd)
+
+3. [ACA Data](#aca_data)
+
+4. [Medicaid Expansion and Prevalence of Health Insurance](#medicaid)
+
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: aca
+
+# Background on the Affordable Care Act
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+---
+# Affordable Care Act
+
+</br>
+.center[
+  ![](https://media.giphy.com/media/Awb1k8lX8a3Re/giphy.gif)
+]
+
+
+---
+# Some background
+
+1. Where do people get health insurance?
+--
+<br>
+
+
+---
+# What does the literature say
+The *Kaiser Family Foundation* has some great info on this...
+<br>
+- [KFF Medicaid Coverage](https://www.kff.org/medicaid/)
+- [KFF Report on ACA Expansion](https://www.kff.org/medicaid/issue-brief/the-effects-of-medicaid-expansion-under-the-aca-updated-findings-from-a-literature-review-august-2019/)
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: dd
+
+# Difference-in-Differences
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: aca_data
+
+# Insurance Data and Medicaid Expansion
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+---
+# Data sources
+We'll use two main data sources here:
+1. Data on which states expanded Medicaid (and when) <br>
+ - Available from 
+2. Data on insurance status and source of health insurance by state
+ - Available from the *American Community Survey*
+ - These data can be tricky to work with due to their size, but there are some handy tricks in `R`
+
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: medicaid
+
+# How did Medicaid expansion affect health insurance?
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
