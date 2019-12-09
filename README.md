@@ -18,7 +18,7 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 5. Regression discontinuity and Medicare Advantage \[[Slides](05-RD-MAQuality/05-RD-MAQuality.html)\]
 
-5. Difference-in-Differences and Access to Insurance \[[Slides](06-DD-ACA/06-DD-ACA.html)\]
+6. Difference-in-Differences and Access to Insurance \[[Slides](06-DD-ACA/06-DD-ACA.html)\]
 
 
 ## Assignments
