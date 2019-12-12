@@ -30,6 +30,8 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 4. Quality and Insurance Choice \[[Instructions](assignments/hwk-04.html)\]
 
+5. Medicaid Expansion and Uninsurance Rates \[[Instructions](assignments/hwk-05.html)\]
+
 
 ## GitHub Repositories
 We'll use the following GitHub repositories throughout the course. Each repo deals with a different group of datasets.
