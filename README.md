@@ -28,6 +28,8 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 3. Smoking Data and Cigarette Demand \[[Instructions](assignments/hwk-03.html)\]
 
+4. Quality and Insurance Choice \[[Instructions](assignments/hwk-04.html)\]
+
 
 ## GitHub Repositories
 We'll use the following GitHub repositories throughout the course. Each repo deals with a different group of datasets.
