@@ -1,0 +1,25 @@
+---
+title: "Homework 5"
+author: "Econ 470/HLTH 470: Research in Health Economics"
+date: "Due: Monday, April 27"
+output: 
+  bookdown::html_document2:
+    toc: TRUE
+    toc_float: TRUE
+    theme: darkly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+# Instructions
+
+In this assignment, you'll recreate the CDC Tax Burden on Tobacco data and answer a few questions along the way. As with the last assignment, the first step is to make sure you've forked the [CDC Tax Burden on Tobacco repository](https://github.com/imccart/CDC-Tobacco) and downloaded all of the raw data sources. Once you have the data downloaded and the code running, answer the following questions:
+
+# Organize the data
+
+
+# Estimate ATEs
+For the rest of the assignment...

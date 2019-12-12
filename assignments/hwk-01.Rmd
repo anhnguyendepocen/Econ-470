@@ -15,7 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Instructions
-
 This assignment is just about GitHub and data management. The goal is to give you a chance to practice wrangling and tidying data. We do this very early in the class because soon (**next week**) we will start doing some empirical analysis using real data. The sooner you are comfortable with the datasets, the better.
 
 Please turn in your empirical work as an `R Markdown` document. If you are not familiar with `R Markdown`, take a look at the following resources:
@@ -29,7 +28,6 @@ You can submit your answers as an html document in your personal GitHub repo. Pl
 
 
 # Using *Git* and *GitHub*
-
 The first part of the assignment is to confirm you're good with *Git* and *GitHub*. 
 
 1. Log in to [LinkedIn Learning](https://www.linkedin.com/learning/). It's free if you sign in through Emory, then you can link to your personal LinkedIn account. 
