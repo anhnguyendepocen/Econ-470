@@ -54,7 +54,7 @@ knitr::opts_hooks$set(fig.callout = function(options) {
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
-               scales, plotly)
+               scales, plotly, widgetframe)
 ```
 
 # Table of contents
@@ -954,7 +954,7 @@ ma.plot.means <- ma.plot.means %>%
           "PDP Only" = "Medicare Prescription Drug Plan",
           "Employer PDP" = "Employer/Union Only Direct Contract PDP"))
 
-plot_ly(ma.plot.means,
+plot.int <- plot_ly(ma.plot.means,
         y=~as.factor(plan_type), 
         x=~mean_count, 
         frame=~as.factor(year), 
@@ -966,4 +966,5 @@ plot_ly(ma.plot.means,
   ) %>%
   layout(xaxis = list(title = "Count per County"), 
          yaxis = list(title = ""))
+frameWidget(plot.int, width='75%', height='50%')
 ```
