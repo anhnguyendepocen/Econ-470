@@ -1,0 +1,81 @@
+---
+title: "Research Project"
+author: "Econ 470/HLTH 470: Research in Health Economics"
+date: "Due: Thursday, April 30"
+output: 
+  bookdown::html_document2:
+    toc: TRUE
+    toc_float: TRUE
+    theme: darkly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+# Instructions
+For the main project, you will need to select from the list of pre-approved research topics below. The topics are divided based on the underlying dataset(s) you will need to use to address the question. Each underlying dataset has a corresponding *GitHub* repo also indicated below, in addition to some other external data you must collect on your own. We will work with each repo throughout the semester, but feel free to ask questions if you'd like to get started on the data in advance. Please also note the relevant deadlines in the [deadlines](#deadlines) section below.
+
+Your final product will consist of a research paper and presentation. The paper will focus on the appropriate use of empirical methods to evaluate your selected research question and should consist of all the usual parts of a professional research paper, including: introduction, literature review, data description, empirical methods, results, and conclusions. Your final paper must be between 10 and 15 pages of text (1.5-spacing, 12-pt font, with sufficient margins), not including references, tables, and figures. You must provide at least 1 table (no more than 3) and at least 2 figures (no more than 6).
+
+Your presentation will be no more than 30 minutes total. Please allow at least 10 minutes of your allotted time to answer questions. I also encourage you to use *RMarkdown* for your presentation. Reference the lecture notes as a basic guide to constructing a presentation in .html format. Please also look into the [R Bookdown Online Book, Chapter 7](https://bookdown.org/yihui/rmarkdown/xaringan.html) for more details on the package I'm currently using.
+
+# Research Topics
+The following research topics, and associated *GitHub* repositories, are available as a research topic. No more than 2 students can select any single question, so please be sure to make your selections quickly. Note that each of these questions can be addressed with one of the three main causal inference tools that we cover this semester. You will need to select the most appropriate tool as part of your research design.
+
+## Hospital Pricing. 
+This topic uses the [HCRIS Repo](https://github.com/imccart/HCRIS).
+
+1. What is the effect of hospital ownership type (for-profit versus not-for-profit) on hospital prices? 
+
+Data on "for-profit" versus "not-for-profit" is available from the Hospital Provider of Service Files. Adam Sacarny has a nice *GitHub* repo to help work with these data, [Provider of Services Repo](https://github.com/asacarny/provider-of-services).
+ 
+2. How did Medicaid expansion affect hospital "bad debt"?
+
+Data on Medicaid expansion are available from the Kaiser Family Foundation, which is part of the [ACS and Medicaid Expansion Repo](https://github.com/imccart/Insurance-Access). You will also need to find "bad debt" in the hospital cost reports and edit the code file accordingly.
+
+
+## Demand for Cigarettes. 
+This topic uses the [CDC Tax Burden on Tobacco Repo](https://github.com/imccart/CDC-Tobacco).
+
+3. How do smoking regulations affect cigarette demand?
+
+Data on smoking laws (such as clean indoor air laws) are available from the State Tobacco Activities Tracking and Evaluation System: [CDC smoking regulations link](https://www.cdc.gov/statesystem/index.html).
+
+4. What is the effect of smoking on obesity?
+
+Data on obesity rates at the state level are avalable from the CDC Overweight and Obesity datasets: [CDC obesity link](https://www.cdc.gov/obesity/data/index.html).
+
+
+## Medicare Advantage. 
+This topic uses the [Medicare Advantage Repo](https://github.com/imccart/Medicare-Advantage)
+
+5. Did the quality improvement program increase quality?
+
+Details of the MA quality improvement program can be found [here](https://www.gao.gov/assets/590/589473.pdf).
+
+6. Do higher-rated contracts charge higher premiums?
+
+This can be answered using the existing Medicare Advantage repo. While this project doesn't require any additional data collection, it is a challenging exercise and will take additional time to understand the nature of Medicare Advantage premiums. Total time is comparable to other topics.
+
+## Medicaid Expanion. 
+This topic uses the [ACS and Medicaid Expansion Repo](https://github.com/imccart/Insurance-Access).
+
+7. Does health insurance improve health?
+
+Data on health trends at different geographic levels is available from the Behavioral Risk Factor Surveillance System: [BRFSS data link](https://www.cdc.gov/brfss/data_tools.htm).
+
+8. Does Medicaid crowd-out private health insurance?
+
+This can be answered using the existing ACS and Medicaid Expansion repo. While this project doesn't require any additional data collection, it is a challenging exercise and will take additional time to understand the nature of the Medicaid and private health insurance markets. Total time is comparable to other topics.
+
+# Deadlines
+
+| Item                           | Due Date        |
+|:-------------------------------|:----------------|
+| Select research topic          | Wednesday, 1/22 |
+| Presentation  						     | April 15-27     |
+| Paper                          | Thursday, 4/30  |
+
+
