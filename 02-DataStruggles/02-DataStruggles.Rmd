@@ -960,11 +960,13 @@ plot.int <- plot_ly(ma.plot.means,
         frame=~as.factor(year), 
         type='bar',
         width=800,
-        height=400) %>%
+        height=500) %>%
   animation_slider(
     currentvalue = list(prefix = "Year ", font = list(color="blue"))
   ) %>%
   layout(xaxis = list(title = "Count per County"), 
          yaxis = list(title = ""))
-frameWidget(plot.int, width='75%', height='50%')
+htmltools::save_html(plot.int, file="plan-plot.html")
 ```
+
+<iframe src="plan-plot.html" width="900" height="600" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
