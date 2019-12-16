@@ -453,8 +453,113 @@ We'll use two main data sources here:
 Code and links available at the [Insurance Access GitHub repository](https://github.com/imccart/Insurance-Access)
 
 ---
-# Describing the data
+# Medicaid Expansion
+- Directly downloaded from KFF website
+- Just a raw .csv file
 
+---
+# Insurance status and source
+- Data from the American Community Survey
+- CPS data also available but questions changed in 2014
+- Easiest way to access ACS data is through a Census API and the `acs` package...details on the *GitHub* repo
+
+
+---
+# Describing the data
+First let's take a look at the final dataset
+
+```r
+head(ins.dat %&gt;% arrange(year, State))
+```
+
+```
+## # A tibble: 6 x 20
+##   State  year adult_pop ins_employer ins_direct ins_medicare ins_medicaid
+##   &lt;chr&gt; &lt;int&gt;     &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+## 1 Alab~  2012   2937335      1528419     180043        56890       190312
+## 2 Alas~  2012    460946       222769      15608         2027        28177
+## 3 Ariz~  2012   3866694      1867954     263076        41042       428972
+## 4 Arka~  2012   1761365       871970     106277        39157       114012
+## 5 Cali~  2012  23798381     12015639    1824564       180861      2275053
+## 6 Colo~  2012   3270163      1801613     303179        27254       213045
+## # ... with 13 more variables: uninsured &lt;dbl&gt;, expand_ever &lt;lgl&gt;,
+## #   date_adopted &lt;date&gt;, expand_year &lt;dbl&gt;, expand &lt;lgl&gt;,
+## #   perc_private &lt;dbl&gt;, perc_public &lt;dbl&gt;, perc_ins &lt;dbl&gt;,
+## #   perc_unins &lt;dbl&gt;, perc_employer &lt;dbl&gt;, perc_medicaid &lt;dbl&gt;,
+## #   perc_medicare &lt;dbl&gt;, perc_direct &lt;dbl&gt;
+```
+
+---
+# Uninsurance over time
+
+```r
+ins.dat %&gt;% group_by(year) %&gt;% summarize(mean=mean(perc_unins)) %&gt;%
+  ggplot(aes(x=year,y=mean)) + geom_line() + geom_point() + theme_bw() +
+  labs(
+    x="Year",
+    y="Fraction Uninsured",
+    title="Share of Uninsured over Time"
+  ) +
+  geom_vline(xintercept=2013.5, color="red")
+```
+
+.plot-callout[
+&lt;img src="06-DD-ACA_files/figure-html/unins-plot-small-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Uninsurance over time
+
+&lt;img src="06-DD-ACA_files/figure-html/unins-plot-big-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Direct purchase over time
+
+```r
+ins.dat %&gt;% group_by(year) %&gt;% summarize(mean=mean(perc_direct)) %&gt;%
+  ggplot(aes(x=year,y=mean)) + geom_line() + geom_point() + theme_bw() +
+  labs(
+    x="Year",
+    y="Fraction with Direct Purchase",
+    title="Share of Direct Purchase Insurance over Time"
+  ) +
+  geom_vline(xintercept=2013.5, color="red")
+```
+
+.plot-callout[
+&lt;img src="06-DD-ACA_files/figure-html/direct-plot-small-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Direct purchase over time
+
+&lt;img src="06-DD-ACA_files/figure-html/direct-plot-big-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Medicaid over time
+
+```r
+ins.dat %&gt;% group_by(year) %&gt;% summarize(mean=mean(perc_medicaid)) %&gt;%
+  ggplot(aes(x=year,y=mean)) + geom_line() + geom_point() + theme_bw() +
+  labs(
+    x="Year",
+    y="Fraction with Medicaid",
+    title="Share of Medicaid Insurance over Time"
+  ) +
+  geom_vline(xintercept=2013.5, color="red")
+```
+
+
+.plot-callout[
+&lt;img src="06-DD-ACA_files/figure-html/mcaid-plot-small-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Medicaid enrollment over time
+
+&lt;img src="06-DD-ACA_files/figure-html/mcaid-plot-big-1.png" style="display: block; margin: auto;" /&gt;
 
 
 &lt;!-- New Section --&gt;
@@ -465,6 +570,159 @@ name: medicaid
 # Medicaid expansion and health insurance?
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+---
+# Key issue
+What is the causal effect of Medicaid expansion?
+- Clearly affects insurance markets
+--
+- but Medicaid enrollment partially crowds out private insurance
+
+
+---
+# Research design
+Use pre/post and expansion/non-expansion states to identify effect of Medicaid expansion:
+`$$y_{it} = \alpha + \beta \times 1(Post) + \gamma \times 1(Expand) + \delta \times 1(Post) \times 1(Expand) + \varepsilon$$`
+
+---
+# Regression results
+
+```r
+ins.dat.2014 &lt;- ins.dat %&gt;% mutate(post = (year&gt;=2014)) %&gt;% filter(is.na(expand_year) | expand_year==2014)
+dd.ins.reg &lt;- lm(perc_unins ~ post + expand_ever + post*expand_ever, data=ins.dat.2014)
+summary(dd.ins.reg)
+```
+
+```
+## 
+## Call:
+## lm(formula = perc_unins ~ post + expand_ever + post * expand_ever, 
+##     data = ins.dat.2014)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.115667 -0.027106 -0.006804  0.027765  0.117597 
+## 
+## Coefficients:
+##                           Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)               0.213965   0.007180  29.799  &lt; 2e-16 ***
+## postTRUE                 -0.054068   0.008496  -6.364 7.22e-10 ***
+## expand_everTRUE          -0.046326   0.009166  -5.054 7.48e-07 ***
+## postTRUE:expand_everTRUE -0.018403   0.010845  -1.697   0.0908 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.04187 on 304 degrees of freedom
+##   (7 observations deleted due to missingness)
+## Multiple R-squared:  0.4995,	Adjusted R-squared:  0.4946 
+## F-statistic: 101.1 on 3 and 304 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+# Checking pre-trends
+First just plot seperately by group:
+
+```r
+ins.plot.dat &lt;- ins.dat %&gt;% filter(!is.na(expand_ever)) %&gt;%
+  group_by(expand_ever, year) %&gt;% summarize(mean=mean(perc_unins))
+  
+ggplot(data=ins.plot.dat, aes(x=year,y=mean,group=expand_ever,linetype=expand_ever)) + 
+  geom_line() + geom_point() + theme_bw() +
+  geom_vline(xintercept=2013.5, color="red") +
+  geom_text(data = ins.plot.dat %&gt;% filter(year == 2016), 
+            aes(label = c("Non-expansion","Expansion"),
+                x = year + 1,
+                y = mean)) +
+  guides(linetype=FALSE) +
+  labs(
+    x="Year",
+    y="Fraction Uninsured",
+    title="Share of Uninsured over Time"
+  )
+```
+
+.plot-callout[
+&lt;img src="06-DD-ACA_files/figure-html/unins-group-small-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Checking pre-trends
+
+&lt;img src="06-DD-ACA_files/figure-html/unins-group-big-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Event study
+This is poorly named:
+- In finance, even study is just an *interrupted time series*
+- In economics, we usually have a treatment/control group *and* a break in time
+
+---
+# Event study
+First create all of the treatment/year interactions:
+
+```r
+event.dat &lt;- ins.dat.2014 %&gt;%
+  mutate(expand_2012 = expand_ever*(year==2012),
+         expand_2013 = expand_ever*(year==2013),
+         expand_2014 = expand_ever*(year==2014),
+         expand_2015 = expand_ever*(year==2015),
+         expand_2016 = expand_ever*(year==2016),
+         expand_2017 = expand_ever*(year==2017),
+         expand_2018 = expand_ever*(year==2018))
+```
+
+---
+# Event study
+Second, run regression with full set of interactions and group/year dummies:
+
+```r
+event.ins.reg &lt;- lm(perc_unins ~ expand_2012 + expand_2014 + 
+                      expand_2015 + expand_2016 + expand_2017 + 
+                      expand_2018 + factor(year) + factor(State), data=event.dat)
+point.est &lt;- as_tibble(c(event.ins.reg$coefficients[c("expand_2012","expand_2014","expand_2015",
+                                            "expand_2016","expand_2017","expand_2018")]),
+                       rownames = "term")
+ci.est &lt;- as_tibble(confint(event.ins.reg)[c("expand_2012","expand_2014","expand_2015",
+                                   "expand_2016","expand_2017","expand_2018"),],
+                    rownames = "term")
+```
+
+---
+# Event study
+Third, organize results into a new dataset:
+
+```r
+point.est &lt;- point.est %&gt;% rename(estimate = value)
+ci.est &lt;- ci.est %&gt;% rename(conf.low = `2.5 %`, conf.high = `97.5 %`)
+new.row &lt;- tibble(
+  term = "expand_2013",
+  estimate = 0,
+  conf.low = 0,
+  conf.high = 0,
+  year = 2013
+)
+
+event.plot.dat &lt;- point.est %&gt;%
+  left_join(ci.est, by=c("term")) %&gt;%
+  mutate(year = c(2012, 2014, 2015, 2016, 2017, 2018)) %&gt;%
+  bind_rows(new.row) %&gt;%
+  arrange(year)
+```
+
+---
+# Event study
+Finally, plot coefficients and confidence intervals
+
+
+.plot-callout[
+&lt;img src="06-DD-ACA_files/figure-html/es-plot-small-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Event study
+
+&lt;img src="06-DD-ACA_files/figure-html/es-plot-big-1.png" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
