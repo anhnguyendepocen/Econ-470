@@ -32,6 +32,7 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 5. Medicaid Expansion and Uninsurance Rates \[[Instructions](assignments/hwk-05.html)\]
 
+6. Research Project \[[Instructions](assignments/project.html)\]
 
 ## GitHub Repositories
 We'll use the following GitHub repositories throughout the course. Each repo deals with a different group of datasets.
