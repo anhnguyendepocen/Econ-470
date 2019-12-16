@@ -77,7 +77,7 @@ name: tidy
 
 
 ---
-# The Tidyverse
+# The tidyverse
 
 - Suite of packages collectively known as the [tidyverse](https://www.tidyverse.org/)
 - Different from `base` R in many ways
@@ -96,9 +96,7 @@ Resources:
 - Vignette: [Tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) (from the `tidyr` package)
 
 --
-
-</br>
-
+<br>
 Essentially:
 1. Variables are columns
 2. Observations are rows
@@ -133,9 +131,7 @@ summarise(group_by(filter(mpg, manufacturer=="audi"), model), hwy_mean = mean(hw
 
 --
 
-The first line reads from left to right and from data to operation.
-
-The `Base R` version (line 2) works in the opposite order.
+The first line reads from left to right and from data to operation. The `Base R` version (line 2) works in the opposite order.
 
 ---
 # Pipes: %>%
@@ -232,7 +228,7 @@ starwars %>%
 ---
 # 3) dplyr::select()
 
-Use `select(contains(PATTERN))` to find rows that contain some strings of interes
+Use `select(contains(PATTERN))` to find rows that contain some strings of interest
 ```{r select3}
 starwars %>% 
   select(name, contains("color")) %>% head(5)
@@ -296,7 +292,7 @@ starwars %>%
 ```
 
 --
-*note*: `na.rm = T` is usually a good idea, otherwise your summary will be `NA` too.
+*Note*: `na.rm = T` is usually a good idea, otherwise your summary will be `NA` too.
 
 
 ---
@@ -327,7 +323,8 @@ Central feature of the `dplyr` package invovles merging data from multiple table
 ---
 # Joining operations
 
-For some simple examples, we'll need some data sets that come bundled with the [nycflights13 package](http://github.com/hadley/nycflights13). 
+- For some simple examples, we'll need some data sets that come bundled with the [nycflights13 package](http://github.com/hadley/nycflights13). 
+
 - Load it now and then inspect these data frames in your own console.
 
 ```{r flights, echo = F}
@@ -356,9 +353,10 @@ left_join(flights, planes) %>%
 
 `dplyr` guessed about which columns to join on (i.e. columns that share the same name). It also told us its choices: 
 
+```{r}
+## Joining, by = c("year", "tailnum")
 ```
-*## Joining, by = c("year", "tailnum")
-```
+
 --
 Problem: the variable "year" does not have a consistent meaning across our joining datasets!
 - *year of flight* versus *year of construction*
@@ -402,20 +400,20 @@ What is "year.x" vs "year.y"?
 ---
 # Other dplyr goodies
 
-`pull()`: Extract a column from as a data frame as a vector or scalar.
-- E.g. `starwars %>% filter(gender=="female") %>% pull(height)`
+`pull()`: Extract a column from a data frame as a vector or scalar.
+- e.g. `starwars %>% filter(gender=="female") %>% pull(height)`
 
 --
 
 `count()` and `distinct()`: Number and isolate unique observations.
-- E.g. `starwars %>% count(species)`, or `starwars %>% distinct(species)`
+- e.g. `starwars %>% count(species)`, or `starwars %>% distinct(species)`
 - You could also use a combination of `mutate()`, `group_by()`, and `n()`, e.g. `starwars %>% group_by(species) %>% mutate(num = n())`.
 
 
 ---
 # Other dplyr goodies
 
-There are also a whole class of [window functions](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) for getting leads and lags, ranking, creating cumulative aggregates, etc.
+There is also a whole class of [window functions](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) for getting leads and lags, ranking, creating cumulative aggregates, etc.
 
 See `vignette("window-functions")` for more.
 
@@ -447,9 +445,9 @@ name: tidyr
 
 1. `pivot_wider()` and `pivot_longer()` to reshape data between wide and long format
 
-2. `separate()`: Splie one column into multiple columns
+2. `separate()`: Split one column into multiple columns
 
-3. `unite()`: Comine multiple columns into one
+3. `unite()`: Combine multiple columns into one
 
 ---
 # 1) tidyr::pivot_longer()
@@ -557,7 +555,7 @@ gdp_u
 
 --
 
-Use `mutate()`with [lubridate](https://lubridate.tidyverse.org/) date functions to change the variable type
+Use `mutate()` with [lubridate](https://lubridate.tidyverse.org/) date functions to change the variable type.
 
 ---
 
@@ -657,7 +655,7 @@ Let's work with the [Medicare Advantage GitHub repository](https://github.com/im
 
 First step is to download the raw data that we'll be using.
  - [Monthly Enrollment](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/Monthly-Enrollment-by-Contract-Plan-State-County.html)
- - [Plan Characteristics](https://www.cms.gov/Medicare/Prescription-Drug-Coverage/PrescriptionDrugCovGenIn/)
+ - [Plan Characteristics](https://www.cms.gov/Medicare/Prescription-Drug-Coverage/PrescriptionDrugCovGenIn/index)
  - [Service Areas](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/MA-Contract-Service-Area-by-State-County.html)
 
 --

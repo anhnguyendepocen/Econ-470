@@ -72,7 +72,7 @@ name: tidy
 
 
 ---
-# The Tidyverse
+# The tidyverse
 
 - Suite of packages collectively known as the [tidyverse](https://www.tidyverse.org/)
 - Different from `base` R in many ways
@@ -91,9 +91,7 @@ Resources:
 - Vignette: [Tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) (from the `tidyr` package)
 
 --
-
-&lt;/br&gt;
-
+&lt;br&gt;
 Essentially:
 1. Variables are columns
 2. Observations are rows
@@ -130,9 +128,7 @@ summarise(group_by(filter(mpg, manufacturer=="audi"), model), hwy_mean = mean(hw
 
 --
 
-The first line reads from left to right and from data to operation.
-
-The `Base R` version (line 2) works in the opposite order.
+The first line reads from left to right and from data to operation. The `Base R` version (line 2) works in the opposite order.
 
 ---
 # Pipes: %&gt;%
@@ -318,7 +314,7 @@ starwars %&gt;%
 ---
 # 3) dplyr::select()
 
-Use `select(contains(PATTERN))` to find rows that contain some strings of interes
+Use `select(contains(PATTERN))` to find rows that contain some strings of interest
 
 ```r
 starwars %&gt;% 
@@ -439,7 +435,7 @@ starwars %&gt;%
 ```
 
 --
-*note*: `na.rm = T` is usually a good idea, otherwise your summary will be `NA` too.
+*Note*: `na.rm = T` is usually a good idea, otherwise your summary will be `NA` too.
 
 
 ---
@@ -483,7 +479,8 @@ Central feature of the `dplyr` package invovles merging data from multiple table
 ---
 # Joining operations
 
-For some simple examples, we'll need some data sets that come bundled with the [nycflights13 package](http://github.com/hadley/nycflights13). 
+- For some simple examples, we'll need some data sets that come bundled with the [nycflights13 package](http://github.com/hadley/nycflights13). 
+
 - Load it now and then inspect these data frames in your own console.
 
 
@@ -523,9 +520,11 @@ left_join(flights, planes) %&gt;%
 
 `dplyr` guessed about which columns to join on (i.e. columns that share the same name). It also told us its choices: 
 
+
+```r
+## Joining, by = c("year", "tailnum")
 ```
-*## Joining, by = c("year", "tailnum")
-```
+
 --
 Problem: the variable "year" does not have a consistent meaning across our joining datasets!
 - *year of flight* versus *year of construction*
@@ -595,20 +594,20 @@ What is "year.x" vs "year.y"?
 ---
 # Other dplyr goodies
 
-`pull()`: Extract a column from as a data frame as a vector or scalar.
-- E.g. `starwars %&gt;% filter(gender=="female") %&gt;% pull(height)`
+`pull()`: Extract a column from a data frame as a vector or scalar.
+- e.g. `starwars %&gt;% filter(gender=="female") %&gt;% pull(height)`
 
 --
 
 `count()` and `distinct()`: Number and isolate unique observations.
-- E.g. `starwars %&gt;% count(species)`, or `starwars %&gt;% distinct(species)`
+- e.g. `starwars %&gt;% count(species)`, or `starwars %&gt;% distinct(species)`
 - You could also use a combination of `mutate()`, `group_by()`, and `n()`, e.g. `starwars %&gt;% group_by(species) %&gt;% mutate(num = n())`.
 
 
 ---
 # Other dplyr goodies
 
-There are also a whole class of [window functions](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) for getting leads and lags, ranking, creating cumulative aggregates, etc.
+There is also a whole class of [window functions](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) for getting leads and lags, ranking, creating cumulative aggregates, etc.
 
 See `vignette("window-functions")` for more.
 
@@ -640,9 +639,9 @@ name: tidyr
 
 1. `pivot_wider()` and `pivot_longer()` to reshape data between wide and long format
 
-2. `separate()`: Splie one column into multiple columns
+2. `separate()`: Split one column into multiple columns
 
-3. `unite()`: Comine multiple columns into one
+3. `unite()`: Combine multiple columns into one
 
 ---
 # 1) tidyr::pivot_longer()
@@ -850,7 +849,7 @@ gdp_u
 
 --
 
-Use `mutate()`with [lubridate](https://lubridate.tidyverse.org/) date functions to change the variable type
+Use `mutate()` with [lubridate](https://lubridate.tidyverse.org/) date functions to change the variable type.
 
 ---
 
@@ -961,7 +960,7 @@ Let's work with the [Medicare Advantage GitHub repository](https://github.com/im
 
 First step is to download the raw data that we'll be using.
  - [Monthly Enrollment](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/Monthly-Enrollment-by-Contract-Plan-State-County.html)
- - [Plan Characteristics](https://www.cms.gov/Medicare/Prescription-Drug-Coverage/PrescriptionDrugCovGenIn/)
+ - [Plan Characteristics](https://www.cms.gov/Medicare/Prescription-Drug-Coverage/PrescriptionDrugCovGenIn/index)
  - [Service Areas](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/MCRAdvPartDEnrolData/MA-Contract-Service-Area-by-State-County.html)
 
 --
@@ -1253,7 +1252,7 @@ full.ma.data %&gt;%
 ---
 # Interactive plot
 <div id="htmlwidget-f9b778bea4c85b831d62" style="width:800px;height:400px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f9b778bea4c85b831d62">{"x":{"visdat":{"5ff448e67fca":["function () ","plotlyVisDat"]},"cur_data":"5ff448e67fca","attrs":{"5ff448e67fca":{"y":{},"x":{},"frame":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"width":800,"height":400,"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Count per County","range":[-11.7526673970369,387.804433059294]},"yaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"]},"hovermode":"closest","showlegend":false,"sliders":[{"currentvalue":{"prefix":"Year ","xanchor":"right","font":{"size":16,"color":"blue"}},"steps":[{"method":"animate","args":[["2006"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2006","value":"2006"},{"method":"animate","args":[["2007"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2007","value":"2007"},{"method":"animate","args":[["2008"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2008","value":"2008"},{"method":"animate","args":[["2009"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2009","value":"2009"},{"method":"animate","args":[["2010"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2010","value":"2010"},{"method":"animate","args":[["2011"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2011","value":"2011"},{"method":"animate","args":[["2012"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2012","value":"2012"},{"method":"animate","args":[["2013"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2013","value":"2013"},{"method":"animate","args":[["2014"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2014","value":"2014"},{"method":"animate","args":[["2015"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2015","value":"2015"}],"visible":true,"pad":{"t":40}}],"updatemenus":[{"type":"buttons","direction":"right","showactive":false,"y":0,"x":0,"yanchor":"top","xanchor":"right","pad":{"t":60,"r":5},"buttons":[{"label":"Play","method":"animate","args":[null,{"fromcurrent":true,"mode":"immediate","transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true}}]}]}]},"source":"A","config":{"showSendToCloud":false},"data":[{"y":["Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"],"x":[12.0365438216166,15,22.6325459317585,7.87933954276037,268.416950201052,83.4271123491179,16,8.23251098344035],"frame":"2006","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"frames":[{"name":"2006","data":[{"y":["Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"],"x":[12.0365438216166,15,22.6325459317585,7.87933954276037,268.416950201052,83.4271123491179,16,8.23251098344035],"frame":"2006","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2007","data":[{"y":["Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"],"x":[9.97118066315463,13,30.7592414014786,8.71881188118812,318.849319306931,119.632785869228,15,9.69694960212202],"frame":"2007","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2008","data":[{"y":["Employer PDP","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[8.97087077781221,34.579063883618,14.056106633602,330.065594059406,200.765726681128,10.3074901445466],"frame":"2008","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2009","data":[{"y":["Employer PDP","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[7.97396156230626,160.082455052697,127.87228766274,319.926051980198,215.894948868919,9.78304644365054],"frame":"2009","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2010","data":[{"y":["Employer PDP","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[8.8735275883447,168.9079640533,132.300278896808,302.314877822456,122.817843866171,9.72234762979684],"frame":"2010","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2011","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[6.40901898734177,8.87259764414135,11,175.51657886582,163.237682057639,261.570058768945,16.3081542351454,9.28493414712496],"frame":"2011","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2012","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[7.00717131474104,8.87333126358274,11,169.189323401614,200.946013031337,274.274358181256,12.7591888466413,8.53376413570275],"frame":"2012","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2013","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[6.93693009118541,7.89847873331264,10,178.604283054004,200.308098045299,278.130838230745,11.1652918781726,9.4583031182016],"frame":"2013","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2014","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[6.43726521412472,7.89419795221843,9,175.644009931719,209.211604095563,369.642746674915,8.55541441727533,8.96134208606856],"frame":"2014","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2015","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","Regional PPO"],"x":[6.42215785662563,7.91964008687558,9,162.91061452514,221.300495662949,327.8614290133,8.30222222222222],"frame":"2015","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]}],"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-f9b778bea4c85b831d62">{"x":{"visdat":{"37fc30344654":["function () ","plotlyVisDat"]},"cur_data":"37fc30344654","attrs":{"37fc30344654":{"y":{},"x":{},"frame":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"width":800,"height":400,"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Count per County","range":[-11.7526673970369,387.804433059294]},"yaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"]},"hovermode":"closest","showlegend":false,"sliders":[{"currentvalue":{"prefix":"Year ","xanchor":"right","font":{"size":16,"color":"blue"}},"steps":[{"method":"animate","args":[["2006"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2006","value":"2006"},{"method":"animate","args":[["2007"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2007","value":"2007"},{"method":"animate","args":[["2008"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2008","value":"2008"},{"method":"animate","args":[["2009"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2009","value":"2009"},{"method":"animate","args":[["2010"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2010","value":"2010"},{"method":"animate","args":[["2011"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2011","value":"2011"},{"method":"animate","args":[["2012"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2012","value":"2012"},{"method":"animate","args":[["2013"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2013","value":"2013"},{"method":"animate","args":[["2014"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2014","value":"2014"},{"method":"animate","args":[["2015"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true},"mode":"immediate"}],"label":"2015","value":"2015"}],"visible":true,"pad":{"t":40}}],"updatemenus":[{"type":"buttons","direction":"right","showactive":false,"y":0,"x":0,"yanchor":"top","xanchor":"right","pad":{"t":60,"r":5},"buttons":[{"label":"Play","method":"animate","args":[null,{"fromcurrent":true,"mode":"immediate","transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":true}}]}]}]},"source":"A","config":{"showSendToCloud":false},"data":[{"y":["Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"],"x":[12.0365438216166,15,22.6325459317585,7.87933954276037,268.416950201052,83.4271123491179,16,8.23251098344035],"frame":"2006","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"frames":[{"name":"2006","data":[{"y":["Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"],"x":[12.0365438216166,15,22.6325459317585,7.87933954276037,268.416950201052,83.4271123491179,16,8.23251098344035],"frame":"2006","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2007","data":[{"y":["Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Pilot","Regional PPO"],"x":[9.97118066315463,13,30.7592414014786,8.71881188118812,318.849319306931,119.632785869228,15,9.69694960212202],"frame":"2007","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2008","data":[{"y":["Employer PDP","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[8.97087077781221,34.579063883618,14.056106633602,330.065594059406,200.765726681128,10.3074901445466],"frame":"2008","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2009","data":[{"y":["Employer PDP","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[7.97396156230626,160.082455052697,127.87228766274,319.926051980198,215.894948868919,9.78304644365054],"frame":"2009","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2010","data":[{"y":["Employer PDP","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[8.8735275883447,168.9079640533,132.300278896808,302.314877822456,122.817843866171,9.72234762979684],"frame":"2010","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2011","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[6.40901898734177,8.87259764414135,11,175.51657886582,163.237682057639,261.570058768945,16.3081542351454,9.28493414712496],"frame":"2011","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2012","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[7.00717131474104,8.87333126358274,11,169.189323401614,200.946013031337,274.274358181256,12.7591888466413,8.53376413570275],"frame":"2012","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2013","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[6.93693009118541,7.89847873331264,10,178.604283054004,200.308098045299,278.130838230745,11.1652918781726,9.4583031182016],"frame":"2013","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2014","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","PFFS","Regional PPO"],"x":[6.43726521412472,7.89419795221843,9,175.644009931719,209.211604095563,369.642746674915,8.55541441727533,8.96134208606856],"frame":"2014","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]},{"name":"2015","data":[{"y":["1876 Cost","Employer PDP","HCPP - 1833 Cost","HMO/HMOPOS","Local PPO","PDP Only","Regional PPO"],"x":[6.42215785662563,7.91964008687558,9,162.91061452514,221.300495662949,327.8614290133,8.30222222222222],"frame":"2015","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","visible":true}],"traces":[0]}],"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
