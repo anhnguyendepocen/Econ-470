@@ -34,6 +34,7 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 6. Research Project \[[Instructions](assignments/project.html)\]
 
+
 ## GitHub Repositories
 We'll use the following GitHub repositories throughout the course. Each repo deals with a different group of datasets.
 
@@ -44,3 +45,15 @@ We'll use the following GitHub repositories throughout the course. Each repo dea
 3. [CDC Tax Burden on Tobacco](https://github.com/imccart/CDC-Tobacco)
 
 4. [ACS and Medicaid Expansion](https://github.com/imccart/Insurance-Access)
+
+
+## Acknowledgements
+This class (and in particular the *R Markdown* formatting and animations) have benefitted significantly from several people who have been generous enough to make their website and other programs available to the public. Some of those people include:
+
+1. [Grant McDermott](https://grantmcdermott.com/) at the University of Oregon. His *GitHub* repository for [Data Science for Economists](https://github.com/uo-ec607/lectures) offers a wealth of information.
+
+2. [Nick Huntington-Klein](http://nickchk.com/) at CSU Fullerton. His causal inference animations are hugely helpful, in addition to the notes for his causal inference class. All of this information is available at his website.
+
+3. [Adam Sacarny](http://sacarny.com/) at Columbia University. He has some great hospital data made available through several *GitHub* respositories, this includes repositories for [HCRIS Data](https://github.com/asacarny/hospital-cost-reports) and [Provider of Services Data](https://github.com/asacarny/provider-of-services).
+
+https://github.com/uo-ec607/lectures
