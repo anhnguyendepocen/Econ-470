@@ -8,7 +8,7 @@
 
 
 # Preliminaries -----------------------------------------------------------
-setwd("C:/users/immccar/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Research in Health Economics and Policy")
+setwd("D:/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Economics and Health Policy")
 
 ## Read in data
 for (t in 2003:2015) {

@@ -48,7 +48,7 @@ knitr::opts_hooks$set(fig.callout = function(options) {
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
-               scales, gganimate, gapminder, gifski, png)
+               scales, gganimate, gapminder, gifski, png, tufte)
 ```
 
 
@@ -164,7 +164,7 @@ ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop)) +
 ---
 # Spending and Health
 ```{r include=FALSE}
-source("C:/users/immccar/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Research in Health Economics and Policy/01-Introduction/DartmouthAtlas.R")
+source("D:/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Economics and Health Policy/01-Introduction/DartmouthAtlas.R")
 ```
 
 
@@ -207,10 +207,11 @@ ggplot(data = (dartmouth.data %>% filter(Year==2015)),
 
 1. Understand and implement selected methods for causal inference
 --
-
+<br>
 2. Along the way...data management and version control with real data
 
 --
+<br>
 3. Summarize, visualize, and explain research results
 
 
@@ -237,7 +238,7 @@ name: syllabus
 --
 
 > *"Nobody knew health care could be so complicated"*
-
+> `r tufte::quote_footer('--- Donald Trump')`
 
 ---
 # Structure
@@ -288,7 +289,7 @@ name: syllabus
 
 - Homework (x5)
 
-- Research paper (see [syllabus](Syllabus/Econ470-Syllabus.pdf) for list)
+- Research paper (see [Research Project](assignments/project.html) for list)
 
 - Presentation
 
