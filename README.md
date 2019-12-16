@@ -55,5 +55,3 @@ This class (and in particular the *R Markdown* formatting and animations) have b
 2. [Nick Huntington-Klein](http://nickchk.com/) at CSU Fullerton. His causal inference animations are hugely helpful, in addition to the notes for his causal inference class. All of this information is available at his website.
 
 3. [Adam Sacarny](http://sacarny.com/) at Columbia University. He has some great hospital data made available through several *GitHub* respositories, this includes repositories for [HCRIS Data](https://github.com/asacarny/hospital-cost-reports) and [Provider of Services Data](https://github.com/asacarny/provider-of-services).
-
-https://github.com/uo-ec607/lectures
