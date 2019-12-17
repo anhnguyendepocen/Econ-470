@@ -750,7 +750,7 @@ $\hat{\delta}^{IPW} = \hat{\mu}_{1} - \hat{\mu}_{0}$
 2. Regress $Y_{i}$ on $X_{i}$ among $W_{i}=0$ to form $\hat{\mu}_{0}(X_{i})$
 3. Form difference in predictions:<br>
 .center[
-$\hat{\delta}^{reg} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{\mu}_{1}(X_{i}) - \hat{\mu}_{0}(X_{i})\right)$
+$$\hat{\delta}^{reg} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{\mu}_{1}(X_{i}) - \hat{\mu}_{0}(X_{i})\right)$$
 ]
 
 --
@@ -758,7 +758,7 @@ $\hat{\delta}^{reg} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{\mu}_{1}(X_{i}) - \h
 
 Or estimate in one step, 
 .center[
-$Y_{i} = \delta W_{i} + \beta X_{i} + W_{i} \times \left(X_{i} - \bar{X}\right) \gamma + \varepsilon_{i}$
+$$Y_{i} = \delta W_{i} + \beta X_{i} + W_{i} \times \left(X_{i} - \bar{X}\right) \gamma + \varepsilon_{i}$$
 ]
 
 
@@ -870,7 +870,7 @@ mean(pred1-pred0)
 ---
 # Violation of selection on observables
 .pull-left[
-<ul>NN Matching</ul>
+<u>NN Matching</u>
 ```{r}
 nn.est3 <- Matching::Match(Y=select.dat$y_alt,
                             Tr=select.dat$w_alt,
@@ -883,7 +883,7 @@ summary(nn.est3)
 ]
 
 .pull-right[
-<ul>Regression</ul>
+<u>Regression</u>
 ```{r}
 reg1.dat <- select.dat %>% filter(w_alt==1)
 reg1 <- lm(y_alt ~ x, data=reg1.dat)
@@ -1068,14 +1068,14 @@ Always important to look at your data before doing any formal analysis. Ask your
 .pull-left[
 ```{r}
 summary(hcris.data$price)
-dist(hcris.data$price)
+plot(density(hcris.data$price))
 ```
 ]
 
 .pull-right[
 ```{r}
 summary(final.hcris$price)
-dist(final.hcris$price)
+plot(density(final.hcris$price))
 ```
 ]
 
