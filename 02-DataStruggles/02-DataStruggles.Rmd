@@ -354,7 +354,9 @@ left_join(flights, planes) %>%
 `dplyr` guessed about which columns to join on (i.e. columns that share the same name). It also told us its choices: 
 
 <br>
-`r ## Joining, by = c("year", "tailnum")`
+```{r, eval=FALSE}
+## Joining, by = c("year", "tailnum")`
+```
 
 --
 <br>
