@@ -637,17 +637,13 @@ Let's look at covariate balance using a love plot, part of the `library(cobalt)`
 # Love plots without adjustment
 
 
+
+
 ```r
-lp.vars &lt;- final.hcris %&gt;% 
-  select(beds, mcaid_discharges, penalty, ip_charges, 
-         mcare_discharges, tot_mcare_payment, price) %&gt;%
-  filter(complete.cases(.))
-lp.covs &lt;- lp.vars %&gt;% select(-c("penalty","price"))
 love.plot(bal.tab(lp.covs,treat=lp.vars$penalty), colors="black", shapes="circle", threshold=0.1) + 
   theme_bw() + theme(legend.position="none")
 ```
 
-&lt;img src="03-Selection-HospitalPricing_files/figure-html/cov-balance-1.png" style="display: block; margin: auto;" /&gt;
 .plot-callout[
 &lt;img src="03-Selection-HospitalPricing_files/figure-html/cov-balance-callout-1.png" style="display: block; margin: auto;" /&gt;
 ]
@@ -871,7 +867,7 @@ love.plot(bal.tab(m.nn.ps, covs = lp.covs, treat = lp.vars$penalty),
 
 ---
 # 3. Weighting
-&lt;img src="03-Selection-HospitalPricing_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Different estimators

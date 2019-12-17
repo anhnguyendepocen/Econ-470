@@ -864,15 +864,19 @@ Let's look at covariate balance using a love plot, part of the `library(cobalt)`
 ---
 # Love plots without adjustment
 
-```{r cov-balance, eval=TRUE, warning=FALSE}
+```{r include=FALSE}
 lp.vars <- final.hcris %>% 
   select(beds, mcaid_discharges, penalty, ip_charges, 
          mcare_discharges, tot_mcare_payment, price) %>%
   filter(complete.cases(.))
 lp.covs <- lp.vars %>% select(-c("penalty","price"))
+```
+
+```{r cov-balance, eval=FALSE, warning=FALSE}
 love.plot(bal.tab(lp.covs,treat=lp.vars$penalty), colors="black", shapes="circle", threshold=0.1) + 
   theme_bw() + theme(legend.position="none")
 ```
+
 .plot-callout[
 ```{r cov-balance-callout, ref.label="cov-balance", fig.callout=TRUE, warning=FALSE}
 ```

@@ -355,7 +355,7 @@ left_join(flights, planes) %>%
 
 <br>
 ```{r, eval=FALSE}
-## Joining, by = c("year", "tailnum")`
+## Joining, by = c("year", "tailnum")
 ```
 
 --
