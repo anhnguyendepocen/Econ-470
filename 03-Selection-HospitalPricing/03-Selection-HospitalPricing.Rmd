@@ -76,8 +76,6 @@ set.seed(12345)
 
 6. [Pricing and Pay for Performance](#price_pfp)
 
-7. [What have we learned](#summary)
-
 <!-- New Section -->
 ---
 class: inverse, center, middle
