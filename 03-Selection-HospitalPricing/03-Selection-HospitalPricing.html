@@ -299,9 +299,10 @@ More formally:
 - `\(E[Y(1)|W,shape]=E[Y(1)|shape]\)`
 - `\(Y(1),Y(0) \perp\!\!\!\perp W | shape\)`
 
-` `
+
 --
 &lt;br&gt;
+
 In words...nothing unobserved that determines treatment selection and affects your outcome of interest.
 
 ---
@@ -350,10 +351,11 @@ Potential outcomes:
 - `\(Y_{i}(1)\)` for `\(W_{i}=1\)`
 - `\(Y_{i}(0)\)` for `\(W_{i}=0\)`
 
-` `
+
 --
 &lt;br&gt;
 &lt;br&gt;
+
 Average treatment effect is `\(E[Y_{i}(1)-Y_{i}(0)]\)`, but: 
 - `\(E[Y_{i}|W_{i}=1] \neq E[Y_{i}(1)]\)`
 - `\(E[Y_{i}|W_{i}=0] \neq E[Y_{i}(0)]\)`
@@ -373,8 +375,9 @@ Solution for now: find covariates `\(X_{i}\)` such that the following assumption
 1. Selection on observables: `$$Y_{i}(1), Y_{i}(0) \perp\!\!\!\perp W_{i} | X_{i}$$`
 2. Common support: `$$0 &lt; \text{Pr}(W_{i}=1|X_{i}) &lt; 1$$`
 
-` `
 --
+&lt;br&gt;
+
 Then we can use `\(X_{i}\)` to group observations and use expectations for control as the predicted counterfactuals among treated, and vice versa. 
 
 ---
@@ -465,9 +468,9 @@ What's the difference?
 `\(\hat{\delta}^{reg} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{\mu}_{1}(X_{i}) - \hat{\mu}_{0}(X_{i})\right)\)`
 ]
 
-` `
 --
 &lt;br&gt;
+
 Or estimate in one step, 
 .center[
 `\(Y_{i} = \delta W_{i} + \beta X_{i} + W_{i} \times \left(X_{i} - \bar{X}\right) \gamma + \varepsilon_{i}\)`
@@ -21551,10 +21554,10 @@ name: summary
 1. Selection on observables
 2. Common support
 
-` `
 --
 &lt;br&gt;
 &lt;br&gt;
+
 These become more nuanced but the intuition is the same in almost all questions of causal inference.
 
 ---
