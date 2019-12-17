@@ -69,7 +69,7 @@ pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
 
 3. [Cigarette Data](#smoking_data)
 
-4. [Estimated Demand for Cigarettes](#smoking_demand)
+4. [Estimating Demand for Cigarettes](#smoking_demand)
 
 
 
@@ -219,14 +219,14 @@ Interested in estimating $\delta$ from $y_{i} = \alpha + \beta x_{i} + \delta W_
 --
 <br>
 
-Step 1: With instrument $Z_{i}$, we can regress $W_{i}$ on $Z_{i}$ and $x_{i}$,<br>
-$W_{i} = \lambda + \theta Z_{i} + \kappa x_{i} + \nu$<br>
+<b>Step 1:</b> With instrument $Z_{i}$, we can regress $W_{i}$ on $Z_{i}$ and $x_{i}$,<br>
+$W_{i} = \lambda + \theta Z_{i} + \kappa x_{i} + \nu$,<br>
 and form prediction $\hat{W}_{i}$.
 
 --
 <br>
 
-Step 2: Regress $y_{i}$ on $x_{i}$ and $\hat{W}_{i}$,<br>
+<b>Step 2:</b> Regress $y_{i}$ on $x_{i}$ and $\hat{W}_{i}$,<br>
 $y_{i} = \alpha + \beta x_{i} + \delta \hat{W}_{i} + \xi_{i}$
 
 ---
@@ -242,7 +242,9 @@ Because standard errors are wrong...not accounting for noise in prediction, $\ha
 ---
 # Key IV assumptions
 1. *Exclusion:* Instrument is uncorrelated with the error term<br>
+
 2. *Validity:* Instrument is correlated with the endogenous variable<br>
+
 3. *Monotonicity:* Treatment more (less) likely for those with higher (lower) values of the instrument<br>
 
 --
@@ -265,11 +267,12 @@ name: smoking_data
 ---
 # The Data
 ```{r eval=T, include=F}
-#cig.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/CDC-Tobacco/data/TaxBurden_Data.rds")
 cig.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/CDC-Tobacco/data/TaxBurden_Data.rds")
 ```
 - Data from [CDC Tax Burden on Tobacco](https://data.cdc.gov/Policy/The-Tax-Burden-on-Tobacco-1970-2018/7nwe-3aj9/data)
+
 - Visit GitHub repository for other info: [Tobacco GitHub repository](https://github.com/imccart/CDC-Tobacco)
+
 - Supplement with CPI data, also in GitHub repo.
 
 
@@ -458,5 +461,7 @@ stargazer(first1, first2, first3, rf1, rf2, rf3,
 ---
 # Summary
 1. Most elasticities of around -0.25% to -0.37%
+
 2. Much larger elasticities when including year fixed effects
+
 3. Perhaps not too outlandish given more recent evidence: [NBER Working Paper](https://www.nber.org/papers/w22251.pdf).

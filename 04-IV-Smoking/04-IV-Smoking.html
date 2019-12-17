@@ -52,7 +52,7 @@ class: center, middle, inverse, title-slide
 
 3. [Cigarette Data](#smoking_data)
 
-4. [Estimated Demand for Cigarettes](#smoking_demand)
+4. [Estimating Demand for Cigarettes](#smoking_demand)
 
 
 
@@ -202,14 +202,14 @@ Interested in estimating `\(\delta\)` from `\(y_{i} = \alpha + \beta x_{i} + \de
 --
 &lt;br&gt;
 
-Step 1: With instrument `\(Z_{i}\)`, we can regress `\(W_{i}\)` on `\(Z_{i}\)` and `\(x_{i}\)`,&lt;br&gt;
-`\(W_{i} = \lambda + \theta Z_{i} + \kappa x_{i} + \nu\)`&lt;br&gt;
+&lt;b&gt;Step 1:&lt;/b&gt; With instrument `\(Z_{i}\)`, we can regress `\(W_{i}\)` on `\(Z_{i}\)` and `\(x_{i}\)`,&lt;br&gt;
+`\(W_{i} = \lambda + \theta Z_{i} + \kappa x_{i} + \nu\)`,&lt;br&gt;
 and form prediction `\(\hat{W}_{i}\)`.
 
 --
 &lt;br&gt;
 
-Step 2: Regress `\(y_{i}\)` on `\(x_{i}\)` and `\(\hat{W}_{i}\)`,&lt;br&gt;
+&lt;b&gt;Step 2:&lt;/b&gt; Regress `\(y_{i}\)` on `\(x_{i}\)` and `\(\hat{W}_{i}\)`,&lt;br&gt;
 `\(y_{i} = \alpha + \beta x_{i} + \delta \hat{W}_{i} + \xi_{i}\)`
 
 ---
@@ -225,7 +225,9 @@ Because standard errors are wrong...not accounting for noise in prediction, `\(\
 ---
 # Key IV assumptions
 1. *Exclusion:* Instrument is uncorrelated with the error term&lt;br&gt;
+
 2. *Validity:* Instrument is correlated with the endogenous variable&lt;br&gt;
+
 3. *Monotonicity:* Treatment more (less) likely for those with higher (lower) values of the instrument&lt;br&gt;
 
 --
@@ -249,7 +251,9 @@ name: smoking_data
 # The Data
 
 - Data from [CDC Tax Burden on Tobacco](https://data.cdc.gov/Policy/The-Tax-Burden-on-Tobacco-1970-2018/7nwe-3aj9/data)
+
 - Visit GitHub repository for other info: [Tobacco GitHub repository](https://github.com/imccart/CDC-Tobacco)
+
 - Supplement with CPI data, also in GitHub repo.
 
 
@@ -456,7 +460,9 @@ summary(step2)
 ---
 # Summary
 1. Most elasticities of around -0.25% to -0.37%
+
 2. Much larger elasticities when including year fixed effects
+
 3. Perhaps not too outlandish given more recent evidence: [NBER Working Paper](https://www.nber.org/papers/w22251.pdf).
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
