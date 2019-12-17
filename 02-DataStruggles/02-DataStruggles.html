@@ -79,10 +79,13 @@ name: tidy
 # What is Tidy data?
 
 Resources:
-- Paper: [*Tidy Data*](https://vita.had.co.nz/papers/tidy-data.pdf) (Hadley Wickham, 2014 JSS)
-- Vignette: [Tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) (from the `tidyr` package)
+&lt;ul&gt;
+  &lt;li&gt;Paper: [*Tidy Data*](https://vita.had.co.nz/papers/tidy-data.pdf) (Hadley Wickham, 2014 JSS)&lt;/li&gt;
+  &lt;li&gt;Vignette: [Tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) (from the `tidyr` package)&lt;/li&gt;
+&lt;/ul&gt;
 
 --
+&lt;br&gt;
 &lt;br&gt;
 Essentially:
 1. Variables are columns
@@ -653,10 +656,10 @@ stocks
 
 ```
 ## # A tibble: 2 x 4
-##   time            X     Y     Z
-##   &lt;date&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 2009-01-01 -1.17  -2.46  9.13
-## 2 2009-01-02 -0.436 -2.22 -4.32
+##   time             X     Y     Z
+##   &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 2009-01-01 -0.0407 0.162 -4.69
+## 2 2009-01-02 -1.88   0.978  2.66
 ```
 ---
 # 1) tidyr::pivot_longer()
@@ -670,14 +673,14 @@ tidy_stocks
 
 ```
 ## # A tibble: 6 x 3
-##   time       stock  price
-##   &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt;
-## 1 2009-01-01 X     -1.17 
-## 2 2009-01-01 Y     -2.46 
-## 3 2009-01-01 Z      9.13 
-## 4 2009-01-02 X     -0.436
-## 5 2009-01-02 Y     -2.22 
-## 6 2009-01-02 Z     -4.32
+##   time       stock   price
+##   &lt;date&gt;     &lt;chr&gt;   &lt;dbl&gt;
+## 1 2009-01-01 X     -0.0407
+## 2 2009-01-01 Y      0.162 
+## 3 2009-01-01 Z     -4.69  
+## 4 2009-01-02 X     -1.88  
+## 5 2009-01-02 Y      0.978 
+## 6 2009-01-02 Z      2.66
 ```
 
 ---
@@ -700,10 +703,10 @@ tidy_stocks %&gt;%
 
 ```
 ## # A tibble: 2 x 4
-##   time            X     Y     Z
-##   &lt;date&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 2009-01-01 -1.17  -2.46  9.13
-## 2 2009-01-02 -0.436 -2.22 -4.32
+##   time             X     Y     Z
+##   &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 2009-01-01 -0.0407 0.162 -4.69
+## 2 2009-01-02 -1.88   0.978  2.66
 ```
 
 ---
@@ -800,10 +803,10 @@ gdp
 
 ```
 ##     yr mnth dy       gdp
-## 1 2016    1  1  99.41028
-## 2 2016    1  2 101.53020
-## 3 2016    1  3  99.60630
-## 4 2016    1  4 102.74802
+## 1 2016    1  1  98.85093
+## 2 2016    1  2 100.29174
+## 3 2016    1  3  99.27931
+## 4 2016    1  4 102.45491
 ```
 ---
 # 4) tidyr::unite()
@@ -815,10 +818,10 @@ gdp %&gt;% unite(date, c("yr", "mnth", "dy"), sep = "-")
 
 ```
 ##       date       gdp
-## 1 2016-1-1  99.41028
-## 2 2016-1-2 101.53020
-## 3 2016-1-3  99.60630
-## 4 2016-1-4 102.74802
+## 1 2016-1-1  98.85093
+## 2 2016-1-2 100.29174
+## 3 2016-1-3  99.27931
+## 4 2016-1-4 102.45491
 ```
 
 ---
@@ -835,10 +838,10 @@ gdp_u
 ## # A tibble: 4 x 2
 ##   date       gdp
 ##   &lt;chr&gt;    &lt;dbl&gt;
-## 1 2016-1-1  99.4
-## 2 2016-1-2 102. 
-## 3 2016-1-3  99.6
-## 4 2016-1-4 103.
+## 1 2016-1-1  98.9
+## 2 2016-1-2 100. 
+## 3 2016-1-3  99.3
+## 4 2016-1-4 102.
 ```
 
 --
@@ -859,10 +862,10 @@ gdp_u %&gt;% mutate(date = ymd(date))
 ## # A tibble: 4 x 2
 ##   date         gdp
 ##   &lt;date&gt;     &lt;dbl&gt;
-## 1 2016-01-01  99.4
-## 2 2016-01-02 102. 
-## 3 2016-01-03  99.6
-## 4 2016-01-04 103.
+## 1 2016-01-01  98.9
+## 2 2016-01-02 100. 
+## 3 2016-01-03  99.3
+## 4 2016-01-04 102.
 ```
 
 ---
