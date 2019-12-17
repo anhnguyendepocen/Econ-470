@@ -92,14 +92,13 @@ name: tidy
 # What is Tidy data?
 
 Resources:
-<ul>
-  <li>Paper:</li> [*Tidy Data*](https://vita.had.co.nz/papers/tidy-data.pdf) (Hadley Wickham, 2014 JSS)
-  <li>Vignette:</li> [Tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) (from the `tidyr` package)
-</ul>
+- Paper: [*Tidy Data*](https://vita.had.co.nz/papers/tidy-data.pdf) (Hadley Wickham, 2014 JSS)
+- Vignette: [Tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) (from the `tidyr` package)
 
 --
 <br>
 <br>
+
 Essentially:
 1. Variables are columns
 2. Observations are rows
