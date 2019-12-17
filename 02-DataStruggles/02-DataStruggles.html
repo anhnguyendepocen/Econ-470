@@ -512,12 +512,11 @@ left_join(flights, planes) %&gt;%
 
 `dplyr` guessed about which columns to join on (i.e. columns that share the same name). It also told us its choices: 
 
+&lt;br&gt;
 
-```r
-## Joining, by = c("year", "tailnum")
-```
 
 --
+&lt;br&gt;
 Problem: the variable "year" does not have a consistent meaning across our joining datasets!
 - *year of flight* versus *year of construction*
 
@@ -651,10 +650,10 @@ stocks
 
 ```
 ## # A tibble: 2 x 4
-##   time            X     Y     Z
-##   &lt;date&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 2009-01-01 -0.119  4.47 -1.86
-## 2 2009-01-02  0.304  4.52  4.77
+##   time           X      Y     Z
+##   &lt;date&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 2009-01-01 0.565 -0.773  2.79
+## 2 2009-01-02 1.06  -1.04  -5.64
 ```
 ---
 # 1) tidyr::pivot_longer()
@@ -670,12 +669,12 @@ tidy_stocks
 ## # A tibble: 6 x 3
 ##   time       stock  price
 ##   &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt;
-## 1 2009-01-01 X     -0.119
-## 2 2009-01-01 Y      4.47 
-## 3 2009-01-01 Z     -1.86 
-## 4 2009-01-02 X      0.304
-## 5 2009-01-02 Y      4.52 
-## 6 2009-01-02 Z      4.77
+## 1 2009-01-01 X      0.565
+## 2 2009-01-01 Y     -0.773
+## 3 2009-01-01 Z      2.79 
+## 4 2009-01-02 X      1.06 
+## 5 2009-01-02 Y     -1.04 
+## 6 2009-01-02 Z     -5.64
 ```
 
 ---
@@ -698,10 +697,10 @@ tidy_stocks %&gt;%
 
 ```
 ## # A tibble: 2 x 4
-##   time            X     Y     Z
-##   &lt;date&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 2009-01-01 -0.119  4.47 -1.86
-## 2 2009-01-02  0.304  4.52  4.77
+##   time           X      Y     Z
+##   &lt;date&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 2009-01-01 0.565 -0.773  2.79
+## 2 2009-01-02 1.06  -1.04  -5.64
 ```
 
 ---
@@ -798,10 +797,10 @@ gdp
 
 ```
 ##     yr mnth dy       gdp
-## 1 2016    1  1 100.74686
-## 2 2016    1  2 102.49500
-## 3 2016    1  3 101.04134
-## 4 2016    1  4  99.39158
+## 1 2016    1  1 100.13750
+## 2 2016    1  2 100.22191
+## 3 2016    1  3  99.01296
+## 4 2016    1  4  98.53403
 ```
 ---
 # 4) tidyr::unite()
@@ -813,10 +812,10 @@ gdp %&gt;% unite(date, c("yr", "mnth", "dy"), sep = "-")
 
 ```
 ##       date       gdp
-## 1 2016-1-1 100.74686
-## 2 2016-1-2 102.49500
-## 3 2016-1-3 101.04134
-## 4 2016-1-4  99.39158
+## 1 2016-1-1 100.13750
+## 2 2016-1-2 100.22191
+## 3 2016-1-3  99.01296
+## 4 2016-1-4  98.53403
 ```
 
 ---
@@ -833,10 +832,10 @@ gdp_u
 ## # A tibble: 4 x 2
 ##   date       gdp
 ##   &lt;chr&gt;    &lt;dbl&gt;
-## 1 2016-1-1 101. 
-## 2 2016-1-2 102. 
-## 3 2016-1-3 101. 
-## 4 2016-1-4  99.4
+## 1 2016-1-1 100. 
+## 2 2016-1-2 100. 
+## 3 2016-1-3  99.0
+## 4 2016-1-4  98.5
 ```
 
 --
@@ -857,10 +856,10 @@ gdp_u %&gt;% mutate(date = ymd(date))
 ## # A tibble: 4 x 2
 ##   date         gdp
 ##   &lt;date&gt;     &lt;dbl&gt;
-## 1 2016-01-01 101. 
-## 2 2016-01-02 102. 
-## 3 2016-01-03 101. 
-## 4 2016-01-04  99.4
+## 1 2016-01-01 100. 
+## 2 2016-01-02 100. 
+## 3 2016-01-03  99.0
+## 4 2016-01-04  98.5
 ```
 
 ---

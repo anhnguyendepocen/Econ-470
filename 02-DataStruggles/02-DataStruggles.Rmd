@@ -353,11 +353,11 @@ left_join(flights, planes) %>%
 
 `dplyr` guessed about which columns to join on (i.e. columns that share the same name). It also told us its choices: 
 
-```{r}
-## Joining, by = c("year", "tailnum")
-```
+<br>
+`r ## Joining, by = c("year", "tailnum")`
 
 --
+<br>
 Problem: the variable "year" does not have a consistent meaning across our joining datasets!
 - *year of flight* versus *year of construction*
 
