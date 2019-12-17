@@ -959,8 +959,8 @@ plot.int <- plot_ly(ma.plot.means,
         x=~mean_count, 
         frame=~as.factor(year), 
         type='bar',
-        width=800,
-        height=500) %>%
+        width=700,
+        height=400) %>%
   animation_slider(
     currentvalue = list(prefix = "Year ", font = list(color="blue"))
   ) %>%
@@ -969,4 +969,4 @@ plot.int <- plot_ly(ma.plot.means,
 htmltools::save_html(plot.int, file="plan-plot.html")
 ```
 
-<iframe src="plan-plot.html" width="900" height="600" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
+<iframe src="plan-plot.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
