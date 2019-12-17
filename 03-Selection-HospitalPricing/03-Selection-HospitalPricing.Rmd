@@ -139,9 +139,9 @@ Not clear what exactly is negotiated...
 --
 .pull-right[
 ### Capitation
-- payment per patient </br>
-  $+$ pay-for-performance </br>
-  $+$ shared savings
+- payment per patient
+- pay-for-performance
+- shared savings
 ]
 
 ---
@@ -149,7 +149,9 @@ Not clear what exactly is negotiated...
 We'll get into the real data in a bit, but for now...a few facts:
 
 1. Hospital services are expensive
+
 2. Prices vary dramatically across different areas
+
 3. Lack of competition is a major reason for high prices
 
 ---
@@ -458,11 +460,17 @@ plot6 + annotate("text",x=mean.x0, y=mean.blue, label="E[Y(1)|c]", size=4) +
 ---
 # Assumption 1: Selection on Observables
 
-More formally:<br>
-$E[Y(1)|W,shape]=E[Y(1)|shape]$<br>
-$Y(1),Y(0) \perp\!\!\!\perp W | shape$<br>
+More formally:
 
 --
+<br>
+<br>
+- $E[Y(1)|W,shape]=E[Y(1)|shape]$
+- $Y(1),Y(0) \perp\!\!\!\perp W | shape$
+
+---
+# Assumption 1: Selection on Observables
+
 In words...nothing unobserved that determines treatment selection and affects your outcome of interest.
 
 ---
@@ -548,17 +556,18 @@ Potential outcomes:
 - $Y_{i}(0)$ for $W_{i}=0$
 
 --
+<br>
+<br>
 Average treatment effect is $E[Y_{i}(1)-Y_{i}(0)]$, but: 
 - $E[Y_{i}|W_{i}=1] \neq E[Y_{i}(1)]$
 - $E[Y_{i}|W_{i}=0] \neq E[Y_{i}(0)]$
 
---
-We don't observe the counterfactual outcome...what would have happened if a treated unit was actually untreated.
-
-
 ---
 # Fundamental Problem of Causal Inference
-*ALL* attempts at causal inference represent some attempt at estimating the counterfactual outcome. We need an estimate for $E[Y_{i}(0)]$ among those that were treated, and vice versa for $E[Y_{i}(1)]$.
+
+- We don't observe the counterfactual outcome...what would have happened if a treated unit was actually untreated.
+
+- *ALL* attempts at causal inference represent some attempt at estimating the counterfactual outcome. We need an estimate for $E[Y_{i}(0)]$ among those that were treated, and vice versa for $E[Y_{i}(1)]$.
 
 
 ---
@@ -626,16 +635,16 @@ plot6 + annotate("text",x=mean.x0, y=mean.blue, label="E[Y(1)|c]", size=4) +
 # Matching: The process
 1. For each observation $i$, find the $m$ "nearest" neighbors, $J_{m}(i)$. 
 2. Impute $\hat{Y}_{i}(0)$ and $\hat{Y}_{i}(1)$ for each observation:<br>
-$\hat{Y}_{i}(0) = \begin{cases}
+$$\hat{Y}_{i}(0) = \begin{cases}
     Y_{i} & \text{if} & W_{i}=0 \\
     \frac{1}{m} \sum_{j \in J_{m}(i)} Y_{j} & \text{if} & W_{i}=1 
-\end{cases}$<br>
-
-$\hat{Y}_{i}(1) = \begin{cases}
+\end{cases} \text{ and }
+\hat{Y}_{i}(1) = \begin{cases}
     Y_{i} & \text{if} & W_{i}=1 \\
     \frac{1}{m} \sum_{j \in J_{m}(i)} Y_{j} & \text{if} & W_{i}=0 
-\end{cases}$
+\end{cases}$$
 
+<br>
 3. Form "matched" ATE:<br>
 $\hat{\delta}^{\text{match}} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{Y}_{i}(1) - \hat{Y}_{i}(0) \right)$
 
@@ -644,8 +653,10 @@ $\hat{\delta}^{\text{match}} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{Y}_{i}(1) -
 
 1. Euclidean distance:<br>
 $\sum_{k=1}^{K} (X_{ik} - X_{jk})^{2}$
+
 2. Scaled Euclidean distance:<br>
 $\frac{1}{\sigma_{X_{k}}^{2}} \sum_{k=1}^{K} (X_{ik} - X_{jk})^{2}$
+
 3. Mahalanobis distance:<br>
 $(X_{i} - X_{j})' \Sigma_{X}^{-1} (X_{i} - X_{j})$
 
@@ -718,9 +729,7 @@ Let's work with the [HCRIS GitHub repository](https://github.com/imccart/HCRIS).
 ---
 # The Data
 ```{r eval=T, include=F}
-#hcris.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
-
-hcris.data <- read_rds("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
+hcris.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/HCRIS/data/HCRIS_Data.rds")
 ```
 
 ```{r hospital-count, eval=FALSE, warning=FALSE}
@@ -848,12 +857,14 @@ mean.nopen <- round(mean(final.hcris$price[which(final.hcris$penalty==0)]),2)
 Are penalized hospitals sufficiently similar to non-penalized hospitals?
 
 --
+<br>
+<br>
 Let's look at covariate balance using a love plot, part of the `library(cobalt)` package.
 
 ---
 # Love plots without adjustment
 
-```{r cov-balance, eval=FALSE, warning=FALSE}
+```{r cov-balance, eval=TRUE, warning=FALSE}
 lp.vars <- final.hcris %>% 
   select(beds, mcaid_discharges, penalty, ip_charges, 
          mcare_discharges, tot_mcare_payment, price) %>%
@@ -934,7 +945,7 @@ love.plot(bal.tab(m.exact, covs = lp.covs2, treat = lp.vars$penalty),
 m.nn.var <- Matching::Match(Y=lp.vars$price,
                             Tr=lp.vars$penalty,
                             X=lp.covs,
-                            M=4,
+                            M=4,  #<<
                             Weight=1,
                             estimand="ATE")
 
@@ -967,16 +978,13 @@ love.plot(bal.tab(m.nn.var, covs = lp.covs, treat = lp.vars$penalty),
 ```{r lp-var-output1, ref.label="lp-var-dist1", fig.callout=TRUE, warning=FALSE}
 ```
 
-
-
-
 ---
 # 2. Nearest neighbor matching (inverse variance)
 ```{r var-match2, echo=TRUE, warning=FALSE}
 m.nn.var2 <- Matching::Match(Y=lp.vars$price,
                              Tr=lp.vars$penalty,
                              X=lp.covs,
-                             M=1,
+                             M=1,   #<<
                              Weight=1,
                              estimand="ATE")
 ```
@@ -1091,7 +1099,7 @@ ggplot(lp.vars, aes(x=ps)) + geom_histogram() +
 
 ---
 # Different estimators
-1. <u>Exact matching</u>
+ 1. <u>Exact matching</u>
 ```{r echo=FALSE}
 summary(m.exact)
 ```
@@ -1099,7 +1107,7 @@ summary(m.exact)
 
 ---
 # Different estimators
-2. <u>Nearest neighbor</u>
+ 2. <u>Nearest neighbor</u>
 
 - Inverse variance
 ```{r echo=FALSE}
@@ -1108,7 +1116,7 @@ summary(m.nn.var2)
 
 ---
 # Different estimators
-2. <u>Nearest neighbor</u>
+ 2. <u>Nearest neighbor</u>
 - Mahalanobis
 ```{r echo=FALSE}
 summary(m.nn.md)
@@ -1116,7 +1124,7 @@ summary(m.nn.md)
 
 ---
 # Different estimators
-2. <u>Nearest neighbor</u>
+ 2. <u>Nearest neighbor</u>
 - Propensity score
 ```{r echo=FALSE}
 summary(m.nn.ps)
@@ -1125,7 +1133,7 @@ summary(m.nn.ps)
 
 ---
 # Different estimators
-3. <u>IPW Weighting</u>
+ 3. <u>IPW Weighting</u>
 ```{r}
 lp.vars <- lp.vars %>%
   mutate(ipw = case_when(
@@ -1142,7 +1150,7 @@ mean.t1$mean_p - mean.t0$mean_p
 
 ---
 # Different estimators
-3. <u>IPW Weighting with Regression</u>
+ 3. <u>IPW Weighting with Regression</u>
 ```{r}
 ipw.reg <- lm(price ~ penalty, data=lp.vars, weights=ipw)
 summary(ipw.reg)
@@ -1150,7 +1158,7 @@ summary(ipw.reg)
 
 ---
 # Different estimators
-4. <u>Regression Only</u>
+ 4. <u>Regression Only</u>
 ```{r}
 reg1.dat <- lp.vars %>% filter(penalty==1, complete.cases(.))
 reg1 <- lm(price ~ beds+ mcaid_discharges + ip_charges + mcare_discharges +
@@ -1166,7 +1174,7 @@ mean(pred1-pred0)
 
 ---
 # Different estimators
-4. <u>Regression in one step</u>
+ 4. <u>Regression in one step</u>
 ```{r}
 reg.dat <- lp.vars %>% ungroup() %>% filter(complete.cases(.)) %>%
   mutate(beds_diff = penalty*(beds - mean(beds)),
@@ -1195,7 +1203,7 @@ summary(reg)
 4. NN matching, pscore: `r round(m.nn.ps$est[1],2)`
 5. Inverse pscore weighting: `r round(mean.t1$mean_p - mean.t0$mean_p,2)`
 6. IPW regression: `r round(ipw.reg$coeff[2],2)`
-7. Regression: `r round(pred1-pred0,2)`
+7. Regression: `r round(mean(pred1-pred0),2)`
 8. Regression 1-step: `r round(reg$coeff[2],2)`
 
 
@@ -1221,6 +1229,7 @@ These become more nuanced but the intuition is the same in almost all questions 
 If we assume selection on observables holds, then we only need to condition on the relevant covariates to identify a causal effect. But we still need to ensure common support...<br>
 
 --
+<br>
 1. Matching
 2. Reweighting
 3. Regression
