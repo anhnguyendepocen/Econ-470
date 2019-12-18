@@ -142,7 +142,7 @@ Highly relevant in "rule-based" world...
 1. Sharp regression discontinuity
   - those above the threshold guaranteed to participate
 
----
+--
 &lt;br&gt;
 
 2. Fuzzy regression discontinuity
@@ -185,6 +185,7 @@ Highly relevant in "rule-based" world...
 # More generally
 - Running variable may affect outcome directly
 - Focusing on area around cutoff does two things:
+
 --
 &lt;br&gt;
 
@@ -249,12 +250,12 @@ name: ma_data
 
 ---
 # Medicare Advantage
-Recall the Medicare Advantage repository, [Medicare Advantage GitHub repository](https://github.com/imccart/Medicare-Advantage)
+- Recall the Medicare Advantage repository, [Medicare Advantage GitHub repository](https://github.com/imccart/Medicare-Advantage)
 
 --
 &lt;br&gt;
 
-Now we need to work with the full dataset
+- Now we need to work with the full dataset
 
 ---
 # Full MA Data
@@ -268,18 +269,22 @@ ma.data &lt;- read_rds("D:/CloudStation/Professional/Research Projects/_Git/Medi
 Focus on enrollments and star ratings:
 
 ```r
-stargazer(as.data.frame(ma.data %&gt;% select(avg_enrollments, avg_eligibles, Star_Rating)), type="html")
+stargazer(as.data.frame(ma.data %&gt;% select(avg_enrollment, avg_eligibles, Star_Rating)), type="html")
 ```
 
-```
-## Error in .f(.x[[i]], ...): object 'avg_enrollments' not found
-```
+
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="8" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Statistic&lt;/td&gt;&lt;td&gt;N&lt;/td&gt;&lt;td&gt;Mean&lt;/td&gt;&lt;td&gt;St. Dev.&lt;/td&gt;&lt;td&gt;Min&lt;/td&gt;&lt;td&gt;Pctl(25)&lt;/td&gt;&lt;td&gt;Pctl(75)&lt;/td&gt;&lt;td&gt;Max&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="8" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;planid&lt;/td&gt;&lt;td&gt;895,495&lt;/td&gt;&lt;td&gt;35.849&lt;/td&gt;&lt;td&gt;69.789&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;41&lt;/td&gt;&lt;td&gt;999&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;avg_enrollment&lt;/td&gt;&lt;td&gt;204,173&lt;/td&gt;&lt;td&gt;397.404&lt;/td&gt;&lt;td&gt;1,578.641&lt;/td&gt;&lt;td&gt;11.000&lt;/td&gt;&lt;td&gt;31.250&lt;/td&gt;&lt;td&gt;231.667&lt;/td&gt;&lt;td&gt;63,234.080&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;avg_eligibles&lt;/td&gt;&lt;td&gt;749,267&lt;/td&gt;&lt;td&gt;42,587.920&lt;/td&gt;&lt;td&gt;98,741.840&lt;/td&gt;&lt;td&gt;11.571&lt;/td&gt;&lt;td&gt;3,798.000&lt;/td&gt;&lt;td&gt;37,116.570&lt;/td&gt;&lt;td&gt;1,355,734.000&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Star_Rating&lt;/td&gt;&lt;td&gt;448,793&lt;/td&gt;&lt;td&gt;3.307&lt;/td&gt;&lt;td&gt;0.783&lt;/td&gt;&lt;td&gt;1.500&lt;/td&gt;&lt;td&gt;2.500&lt;/td&gt;&lt;td&gt;4.000&lt;/td&gt;&lt;td&gt;5.000&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="8" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 
 ---
 # Clean the data
 Limit to plans with:
-- Observed enrollments ($&gt;$ 10)
+- Observed enrollments, `\(&gt;\)` 10
 - First year of star rating (2009)
 - Observed star rating
 
@@ -439,27 +444,24 @@ star25.3 &lt;- lm(mkt_share ~ score + treat, data= (ma.rd1 %&gt;% filter(window2
 ---
 # RD estimates
 
-```
-## 
-## &lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="2"&gt;&lt;em&gt;Dependent variable:&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="2"&gt;Market Share&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Raw Score&lt;/td&gt;&lt;td&gt;0.030&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.044&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;td&gt;(0.009)&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style="text-align:left"&gt;Treatment&lt;/td&gt;&lt;td&gt;-0.008&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.009&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.001)&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Bandwith&lt;/td&gt;&lt;td&gt;0.5&lt;/td&gt;&lt;td&gt;0.175&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;9,006&lt;/td&gt;&lt;td&gt;3,095&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td colspan="2" style="text-align:right"&gt;&lt;sup&gt;*&lt;/sup&gt;p&lt;0.1; &lt;sup&gt;**&lt;/sup&gt;p&lt;0.05; &lt;sup&gt;***&lt;/sup&gt;p&lt;0.01&lt;/td&gt;&lt;/tr&gt;
-## &lt;/table&gt;
-```
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;&lt;em&gt;Dependent variable:&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;Market Share&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;td&gt;(3)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Raw Score&lt;/td&gt;&lt;td&gt;0.030&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.044&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.090&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;td&gt;(0.009)&lt;/td&gt;&lt;td&gt;(0.011)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Treatment&lt;/td&gt;&lt;td&gt;-0.008&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.009&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.012&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.001)&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Bandwith&lt;/td&gt;&lt;td&gt;0.5&lt;/td&gt;&lt;td&gt;0.175&lt;/td&gt;&lt;td&gt;0.125&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;9,006&lt;/td&gt;&lt;td&gt;3,095&lt;/td&gt;&lt;td&gt;2,937&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td colspan="3" style="text-align:right"&gt;&lt;sup&gt;*&lt;/sup&gt;p&lt;0.1; &lt;sup&gt;**&lt;/sup&gt;p&lt;0.05; &lt;sup&gt;***&lt;/sup&gt;p&lt;0.01&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
 
 ---
 # Interpretation
-These estimates suggest a 1% increase in market shares among 2.5-star plans versus an "identical" 2-star plan.
+These estimates suggest a 1% increase in market shares among 2.5-star plans versus an "identical" 2-star plan, compared to an OLS estimate of -1% increase.
 
 
 ---
