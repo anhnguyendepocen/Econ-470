@@ -753,8 +753,8 @@ $\hat{\delta}^{IPW} = \hat{\mu}_{1} - \hat{\mu}_{0}$
 $$\hat{\delta}^{reg} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{\mu}_{1}(X_{i}) - \hat{\mu}_{0}(X_{i})\right)$$
 ]
 
---
-<br>
+---
+# Regression
 
 Or estimate in one step, 
 .center[
@@ -1068,7 +1068,7 @@ Always important to look at your data before doing any formal analysis. Ask your
 .pull-left[
 ```{r}
 summary(hcris.data$price)
-plot(density(hcris.data$price))
+plot(density(hcris.data$price, na.rm=TRUE))
 ```
 ]
 

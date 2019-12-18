@@ -800,12 +800,10 @@ summary(hcris.data$price)
 ```
 
 ```r
-plot(density(hcris.data$price))
+plot(density(hcris.data$price, na.rm=TRUE))
 ```
 
-```
-## Error in density.default(hcris.data$price): 'x' contains missing values
-```
+&lt;img src="03-Selection-HospitalPricing_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
