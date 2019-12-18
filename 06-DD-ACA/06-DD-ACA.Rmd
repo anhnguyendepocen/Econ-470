@@ -550,6 +550,13 @@ head(ins.dat %>% arrange(year, State))
 ```
 
 ---
+# Summary stats
+And now for some basic summary stats (pooling all years):
+```{r, results="asis"}
+stargazer(as.data.frame(ins.dat %>% select(perc_unis, perc_direct, perc_medicaid)), type="html")
+```
+
+---
 # Uninsurance over time
 ```{r unins-plot, eval=FALSE}
 ins.dat %>% group_by(year) %>% summarize(mean=mean(perc_unins)) %>%
