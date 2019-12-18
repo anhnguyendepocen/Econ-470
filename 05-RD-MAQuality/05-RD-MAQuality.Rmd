@@ -237,7 +237,6 @@ mean.1.all <- rd.dat %>% filter(W == TRUE) %>% summarize(mean=mean(Y))
 
 --
 <br>
-
   1. Controls for running variable
   2. "Controls" for unobserved things correlated with running variable and outcome
 
@@ -459,7 +458,6 @@ ma.data.clean %>%
 
 ---
 # Enrollments and star ratings
-Let's just look at the correlation between the two:
 ```{r, echo=FALSE}
 summary(lm(avg_enrollment~factor(Star_Rating), data=ma.data.clean))
 ```
@@ -467,7 +465,7 @@ summary(lm(avg_enrollment~factor(Star_Rating), data=ma.data.clean))
 
 ---
 # Problems
-Certainly not the effect of a higher rating...
+- Certainly not the effect of a higher rating...
 - Lots of things unobserved, like
   - actual quality
   - perceived quality
@@ -525,7 +523,7 @@ stargazer(star25.1, star25.2, star25.3,
           keep.stat=c("n"),
           model.names=FALSE,
           dep.var.caption="",
-          font.size="footnotesize",
+          font.size="scriptsize",
           no.space=TRUE,
           add.lines=list(c("Bandwith","0.5","0.175","0.125")),
           covariate.labels = c("Raw Score","Treatment"),
@@ -534,7 +532,7 @@ stargazer(star25.1, star25.2, star25.3,
 
 ---
 # Interpretation
-These estimates suggest a `r round(star25.3$coef[3],2)*100`% increase in market shares among 2.5-star plans versus an "identical" 2-star plan, compared to an OLS estimate of `r round(star25.1$coef[2],2)*100`%.
+These estimates suggest a `r round(star25.3$coef[3],3)*100`% increase in market shares among 2.5-star plans versus an "identical" 2-star plan, compared to an OLS estimate of `r round(star25.1$coef[2],3)*100`%.
 
 
 ---
