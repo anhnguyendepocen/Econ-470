@@ -86,6 +86,7 @@ name: smoking_lit
 1. Extreme public health concerns
   - Lung cancer prevalence
   - Fetal and baby health
+  
 2. Economic questions
   - Is it an information problem?
   - Externalities (second-hand smoke)
@@ -236,6 +237,171 @@ Because standard errors are wrong...not accounting for noise in prediction, `\(\
 Assumptions 1 and 2 sometimes grouped into an *only through* condition.
 
 
+---
+# Animation for IV
+
+
+.center[
+  ![:scale 900px](pics/iv_animate.gif)
+]
+
+---
+# Simulated data
+.pull-left[
+
+```r
+n &lt;- 5000
+b.true &lt;- 5.25
+iv.dat &lt;- tibble(
+  z = rnorm(n,0,2),
+  eps = rnorm(n,0,1),
+  w = (z + 1.5*eps&gt;0.15),
+  y = 2.5 + b.true*w + eps + rnorm(n,0,0.5)
+)
+```
+]
+
+.pull-right[
+- endogenous `eps`: affects treatment and outcome
+- `z` is an instrument: affects treatment but no direct effect on outcome
+]
+
+---
+# Results with simulated data
+Recall that the *true* treatment effect is 5.25
+.pull-left[
+
+```
+## 
+## Call:
+## lm(formula = y ~ w, data = iv.dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.1970 -0.6855  0.0165  0.6909  3.8918 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.05552    0.01980   103.8   &lt;2e-16 ***
+## wTRUE        6.16334    0.02888   213.4   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.019 on 4998 degrees of freedom
+## Multiple R-squared:  0.9011,	Adjusted R-squared:  0.9011 
+## F-statistic: 4.555e+04 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+
+.pull-right[
+
+```
+## 
+## Call:
+## ivreg(formula = y ~ w | z, data = iv.dat)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -4.195633 -0.757563 -0.005334  0.762432  4.371933 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.49687    0.02803   89.07   &lt;2e-16 ***
+## wTRUE        5.22429    0.04917  106.25   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.122 on 4998 degrees of freedom
+## Multiple R-Squared: 0.8802,	Adjusted R-squared: 0.8802 
+## Wald test: 1.129e+04 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+---
+# Checking instrument
+.pull-left[
+- Check the 'first stage'
+
+```
+## 
+## Call:
+## lm(formula = w ~ z, data = iv.dat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.05670 -0.30655 -0.00749  0.30865  1.07049 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 0.469158   0.005386    87.1   &lt;2e-16 ***
+## z           0.160127   0.002673    59.9   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3809 on 4998 degrees of freedom
+## Multiple R-squared:  0.4179,	Adjusted R-squared:  0.4178 
+## F-statistic:  3588 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+.pull-right[
+- Check the 'reduced form'
+
+```
+## 
+## Call:
+## lm(formula = y ~ z, data = iv.dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.9179 -2.0366 -0.1102  2.0793  8.1543 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  4.94789    0.03915  126.39   &lt;2e-16 ***
+## z            0.83655    0.01943   43.06   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.768 on 4998 degrees of freedom
+## Multiple R-squared:  0.2706,	Adjusted R-squared:  0.2704 
+## F-statistic:  1854 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+
+---
+# Two-stage equivalence
+
+```r
+step1 &lt;- lm(w ~ z, data=iv.dat)
+w.hat &lt;- predict(step1)
+step2 &lt;- lm(y ~ w.hat, data=iv.dat)
+summary(step2)
+```
+
+```
+## 
+## Call:
+## lm(formula = y ~ w.hat, data = iv.dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.9179 -2.0366 -0.1102  2.0793  8.1543 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.49687    0.06917   36.10   &lt;2e-16 ***
+## w.hat        5.22429    0.12134   43.06   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.768 on 4998 degrees of freedom
+## Multiple R-squared:  0.2706,	Adjusted R-squared:  0.2704 
+## F-statistic:  1854 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+```
+
 
 &lt;!-- New Section --&gt;
 ---
@@ -255,6 +421,21 @@ name: smoking_data
 - Visit GitHub repository for other info: [Tobacco GitHub repository](https://github.com/imccart/CDC-Tobacco)
 
 - Supplement with CPI data, also in GitHub repo.
+
+---
+# Summary stats
+We're interested in cigarette prices and sales, so let's focus our summaries on those two variables
+
+```r
+stargazer(as.data.frame(cig.data %&gt;% select(sales_per_capita, price_cpi, cost_per_pack)), type="html")
+```
+
+
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="8" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Statistic&lt;/td&gt;&lt;td&gt;N&lt;/td&gt;&lt;td&gt;Mean&lt;/td&gt;&lt;td&gt;St. Dev.&lt;/td&gt;&lt;td&gt;Min&lt;/td&gt;&lt;td&gt;Pctl(25)&lt;/td&gt;&lt;td&gt;Pctl(75)&lt;/td&gt;&lt;td&gt;Max&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="8" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;sales_per_capita&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;95.150&lt;/td&gt;&lt;td&gt;41.133&lt;/td&gt;&lt;td&gt;12.500&lt;/td&gt;&lt;td&gt;63.050&lt;/td&gt;&lt;td&gt;122.400&lt;/td&gt;&lt;td&gt;296.200&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;price_cpi&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2.388&lt;/td&gt;&lt;td&gt;2.564&lt;/td&gt;&lt;td&gt;0.052&lt;/td&gt;&lt;td&gt;0.342&lt;/td&gt;&lt;td&gt;3.893&lt;/td&gt;&lt;td&gt;11.917&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;cost_per_pack&lt;/td&gt;&lt;td&gt;2,499&lt;/td&gt;&lt;td&gt;2.678&lt;/td&gt;&lt;td&gt;2.238&lt;/td&gt;&lt;td&gt;0.287&lt;/td&gt;&lt;td&gt;0.780&lt;/td&gt;&lt;td&gt;4.237&lt;/td&gt;&lt;td&gt;10.376&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="8" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 
 ---
