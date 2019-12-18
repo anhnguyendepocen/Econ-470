@@ -105,7 +105,9 @@ Let's take a look at the Medicare Advantage plan options...
 - Complicated formula...&lt;br&gt;
 
 --
-key point: ratings from several domains are averaged and then rounded
+&lt;br&gt;
+
+&lt;b&gt;key point:&lt;/b&gt; ratings from several domains are averaged and then rounded
 
 
 
@@ -124,10 +126,12 @@ name: rd
 Key intuition from RD:&lt;br&gt;
 
 --
-*identical* just above/below threshold
+&lt;br&gt;
+
+Observations are &lt;b&gt;identical&lt;/b&gt; just above/below threshold
 
 ---
-# Inutition
+# Intuition
 Highly relevant in "rule-based" world...
 - School eligibility based on age cutoffs
 - Program participation based on discrete income thresholds
@@ -137,7 +141,10 @@ Highly relevant in "rule-based" world...
 # Types of RD
 1. Sharp regression discontinuity
   - those above the threshold guaranteed to participate
-  
+
+---
+&lt;br&gt;
+
 2. Fuzzy regression discontinuity
   - those above the threshold are eligible but may not participate
 
@@ -178,6 +185,9 @@ Highly relevant in "rule-based" world...
 # More generally
 - Running variable may affect outcome directly
 - Focusing on area around cutoff does two things:
+--
+&lt;br&gt;
+
   1. Controls for running variable
   2. "Controls" for unobserved things correlated with running variable and outcome
 
@@ -198,7 +208,7 @@ Goal is to estimate `\(E[Y(1)|X=c] - E[Y(0)|X=c]\)`
 3. Estimate regressions...
   - Linear, same slope: `\(y = \alpha + \delta W + \beta \tilde{X} + \varepsilon\)`
   - Linear, different slope: `\(y = \alpha + \delta W + \beta \tilde{X} + \gamma W\tilde{X} + \varepsilon\)`
-  - Nonlinear: add polynomials in `\(\tilde{X}\)` and interactions `\(W \tilde{X}\)` (i.e, `\(\tilde{X}^{2}\)` and `\(\tilde{X}^{2} W\)`. 
+  - Nonlinear: add polynomials in `\(\tilde{X}\)` and interactions `\(W \tilde{X}\)`
 
 
 ---
@@ -225,8 +235,8 @@ rd.dat3 &lt;- rd.dat2 %&gt;%
 rd &lt;- lm(Y~x_dev + W, data=rd.dat3)
 ```
 - True effect: 4
-- Standard linear regression with same slopes: 3.73
-- RD (linear with same slopes): 4.29
+- Standard linear regression with same slopes: 3.44
+- RD (linear with same slopes): 3.84
 
 &lt;!-- New Section --&gt;
 ---
@@ -243,6 +253,7 @@ Recall the Medicare Advantage repository, [Medicare Advantage GitHub repository]
 
 --
 &lt;br&gt;
+
 Now we need to work with the full dataset
 
 ---
@@ -253,13 +264,28 @@ ma.data &lt;- read_rds("D:/CloudStation/Professional/Research Projects/_Git/Medi
 ```
 
 ---
+# Summary stats
+Focus on enrollments and star ratings:
+
+```r
+stargazer(as.data.frame(ma.data %&gt;% select(avg_enrollments, avg_eligibles, Star_Rating)), type="html")
+```
+
+```
+## Error in .f(.x[[i]], ...): object 'avg_enrollments' not found
+```
+
+
+---
 # Clean the data
 Limit to plans with:
 - Observed enrollments ($&gt;$ 10)
 - First year of star rating (2009)
 - Observed star rating
 
+--
 &lt;br&gt;
+
 
 ```r
 ma.data.clean &lt;- ma.data %&gt;%
@@ -325,7 +351,33 @@ ma.data.clean %&gt;%
 
 ---
 # Enrollments and star ratings
+Let's just look at the correlation between the two:
 
+```
+## 
+## Call:
+## lm(formula = avg_enrollment ~ factor(Star_Rating), data = ma.data.clean)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##   -627   -388   -214    -51  41908 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)               87.31      43.32   2.016  0.04387 *  
+## factor(Star_Rating)2      32.75      50.62   0.647  0.51758    
+## factor(Star_Rating)2.5   194.65      47.15   4.128 3.67e-05 ***
+## factor(Star_Rating)3     433.95      49.84   8.707  &lt; 2e-16 ***
+## factor(Star_Rating)3.5   470.91      53.47   8.808  &lt; 2e-16 ***
+## factor(Star_Rating)4     552.30      57.91   9.538  &lt; 2e-16 ***
+## factor(Star_Rating)4.5   272.36      82.68   3.294  0.00099 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1440 on 17451 degrees of freedom
+## Multiple R-squared:  0.01559,	Adjusted R-squared:  0.01526 
+## F-statistic: 46.07 on 6 and 17451 DF,  p-value: &lt; 2.2e-16
+```
 
 
 ---
@@ -359,7 +411,7 @@ ma.rd1 %&gt;% ggplot(aes(x=raw_rating)) +
   ) 
 ```
 
-&lt;img src="05-RD-MAQuality_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-RD-MAQuality_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---

@@ -124,7 +124,9 @@ Let's take a look at the Medicare Advantage plan options...
 - Complicated formula...<br>
 
 --
-key point: ratings from several domains are averaged and then rounded
+<br>
+
+<b>key point:</b> ratings from several domains are averaged and then rounded
 
 
 
@@ -143,10 +145,12 @@ name: rd
 Key intuition from RD:<br>
 
 --
-*identical* just above/below threshold
+<br>
+
+Observations are <b>identical</b> just above/below threshold
 
 ---
-# Inutition
+# Intuition
 Highly relevant in "rule-based" world...
 - School eligibility based on age cutoffs
 - Program participation based on discrete income thresholds
@@ -156,7 +160,10 @@ Highly relevant in "rule-based" world...
 # Types of RD
 1. Sharp regression discontinuity
   - those above the threshold guaranteed to participate
-  
+
+---
+<br>
+
 2. Fuzzy regression discontinuity
   - those above the threshold are eligible but may not participate
 
@@ -228,6 +235,9 @@ mean.1.all <- rd.dat %>% filter(W == TRUE) %>% summarize(mean=mean(Y))
 # More generally
 - Running variable may affect outcome directly
 - Focusing on area around cutoff does two things:
+--
+<br>
+
   1. Controls for running variable
   2. "Controls" for unobserved things correlated with running variable and outcome
 
@@ -297,7 +307,7 @@ Goal is to estimate $E[Y(1)|X=c] - E[Y(0)|X=c]$
 3. Estimate regressions...
   - Linear, same slope: $y = \alpha + \delta W + \beta \tilde{X} + \varepsilon$
   - Linear, different slope: $y = \alpha + \delta W + \beta \tilde{X} + \gamma W\tilde{X} + \varepsilon$
-  - Nonlinear: add polynomials in $\tilde{X}$ and interactions $W \tilde{X}$ (i.e, $\tilde{X}^{2}$ and $\tilde{X}^{2} W$. 
+  - Nonlinear: add polynomials in $\tilde{X}$ and interactions $W \tilde{X}$
 
 
 ---
@@ -311,13 +321,13 @@ Goal is to estimate $E[Y(1)|X=c] - E[Y(0)|X=c]$
 ---
 # Back to simulated data
 ```{r rd-real1, echo=FALSE}
-n=5000
+n=10000
 rd.dat2 <- tibble(
   eps = rnorm(n,0,.3),
   Z = rnorm(n,0,1)+eps,
   X = runif(n,0,2)+eps,
   W = (X>1),
-  Y = 0.5 + 2*X + 4*W + eps + rnorm(n,0,.5) + 1.5*Z
+  Y = 0.5 + 2*X + 4*W + eps + rnorm(n,0,.5) + 1.5*Z - Z^2
 )
 rd.dat2 %>% ggplot(aes(x=X,y=Y)) + 
   geom_point() + theme_bw() +
@@ -358,6 +368,7 @@ Recall the Medicare Advantage repository, [Medicare Advantage GitHub repository]
 
 --
 <br>
+
 Now we need to work with the full dataset
 
 ---
@@ -367,13 +378,23 @@ ma.data <- read_rds("D:/CloudStation/Professional/Research Projects/_Git/Medicar
 ```
 
 ---
+# Summary stats
+Focus on enrollments and star ratings:
+```{r, results="asis"}
+stargazer(as.data.frame(ma.data %>% select(avg_enrollments, avg_eligibles, Star_Rating)), type="html")
+```
+
+
+---
 # Clean the data
 Limit to plans with:
 - Observed enrollments ($>$ 10)
 - First year of star rating (2009)
 - Observed star rating
 
+--
 <br>
+
 ```{r}
 ma.data.clean <- ma.data %>%
   filter(!is.na(avg_enrollment) & year==2009 & !is.na(partc_score)) #<<
@@ -438,7 +459,10 @@ ma.data.clean %>%
 
 ---
 # Enrollments and star ratings
-
+Let's just look at the correlation between the two:
+```{r, echo=FALSE}
+summary(lm(avg_enrollment~factor(Star_Rating), data=ma.data.clean))
+```
 
 
 ---
