@@ -159,11 +159,10 @@ Highly relevant in "rule-based" world...
 ---
 # Types of RD
 1. Sharp regression discontinuity
-  - those above the threshold guaranteed to participate
+  - those above the threshold guaranteed to participate<br>
 
 --
 <br>
-
 2. Fuzzy regression discontinuity
   - those above the threshold are eligible but may not participate
 
@@ -234,7 +233,7 @@ mean.1.all <- rd.dat %>% filter(W == TRUE) %>% summarize(mean=mean(Y))
 ---
 # More generally
 - Running variable may affect outcome directly
-- Focusing on area around cutoff does two things:
+- Focusing on area around cutoff does two things:<br>
 
 --
 <br>
@@ -512,7 +511,7 @@ ma.rd1 <- ma.rd1 %>%
          window2 = (score>-.125 & score<.125),
          mkt_share = avg_enrollment/avg_eligibles,
          ln_share = log(mkt_share))
-star25.1 <- lm(mkt_share ~ score + treat, data=ma.rd1)
+star25.1 <- lm(mkt_share ~ treat, data=ma.rd1)
 star25.2 <- lm(mkt_share ~ score + treat, data= (ma.rd1 %>% filter(window1==TRUE)))
 star25.3 <- lm(mkt_share ~ score + treat, data= (ma.rd1 %>% filter(window2==TRUE)))
 ```
@@ -525,6 +524,9 @@ stargazer(star25.1, star25.2, star25.3,
           keep=c("score","treat"),           
           keep.stat=c("n"),
           model.names=FALSE,
+          dep.var.caption="",
+          font.size="footnotesize",
+          no.space=TRUE,
           add.lines=list(c("Bandwith","0.5","0.175","0.125")),
           covariate.labels = c("Raw Score","Treatment"),
           dep.var.labels = "Market Share")
@@ -532,7 +534,7 @@ stargazer(star25.1, star25.2, star25.3,
 
 ---
 # Interpretation
-These estimates suggest a `r round(star25.3$coef[3],2)*100`% increase in market shares among 2.5-star plans versus an "identical" 2-star plan, compared to an OLS estimate of `r round(star25.1$coef[3],2)*100`% increase.
+These estimates suggest a `r round(star25.3$coef[3],2)*100`% increase in market shares among 2.5-star plans versus an "identical" 2-star plan, compared to an OLS estimate of `r round(star25.1$coef[2],2)*100`%.
 
 
 ---

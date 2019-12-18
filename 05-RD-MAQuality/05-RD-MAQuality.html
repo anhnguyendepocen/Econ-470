@@ -140,11 +140,10 @@ Highly relevant in "rule-based" world...
 ---
 # Types of RD
 1. Sharp regression discontinuity
-  - those above the threshold guaranteed to participate
+  - those above the threshold guaranteed to participate&lt;br&gt;
 
 --
 &lt;br&gt;
-
 2. Fuzzy regression discontinuity
   - those above the threshold are eligible but may not participate
 
@@ -184,7 +183,7 @@ Highly relevant in "rule-based" world...
 ---
 # More generally
 - Running variable may affect outcome directly
-- Focusing on area around cutoff does two things:
+- Focusing on area around cutoff does two things:&lt;br&gt;
 
 --
 &lt;br&gt;
@@ -436,7 +435,7 @@ ma.rd1 &lt;- ma.rd1 %&gt;%
          window2 = (score&gt;-.125 &amp; score&lt;.125),
          mkt_share = avg_enrollment/avg_eligibles,
          ln_share = log(mkt_share))
-star25.1 &lt;- lm(mkt_share ~ score + treat, data=ma.rd1)
+star25.1 &lt;- lm(mkt_share ~ treat, data=ma.rd1)
 star25.2 &lt;- lm(mkt_share ~ score + treat, data= (ma.rd1 %&gt;% filter(window1==TRUE)))
 star25.3 &lt;- lm(mkt_share ~ score + treat, data= (ma.rd1 %&gt;% filter(window2==TRUE)))
 ```
@@ -444,16 +443,12 @@ star25.3 &lt;- lm(mkt_share ~ score + treat, data= (ma.rd1 %&gt;% filter(window2
 ---
 # RD estimates
 
-&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;&lt;em&gt;Dependent variable:&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;Market Share&lt;/td&gt;&lt;/tr&gt;
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;Market Share&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;td&gt;(3)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Raw Score&lt;/td&gt;&lt;td&gt;0.030&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.044&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.090&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;td&gt;(0.009)&lt;/td&gt;&lt;td&gt;(0.011)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;Treatment&lt;/td&gt;&lt;td&gt;-0.008&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.009&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.012&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.001)&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Raw Score&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;-0.044&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.090&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(0.009)&lt;/td&gt;&lt;td&gt;(0.011)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Treatment&lt;/td&gt;&lt;td&gt;0.005&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.009&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.012&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.0004)&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;td&gt;(0.002)&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Bandwith&lt;/td&gt;&lt;td&gt;0.5&lt;/td&gt;&lt;td&gt;0.175&lt;/td&gt;&lt;td&gt;0.125&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;9,006&lt;/td&gt;&lt;td&gt;3,095&lt;/td&gt;&lt;td&gt;2,937&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td colspan="3" style="text-align:right"&gt;&lt;sup&gt;*&lt;/sup&gt;p&lt;0.1; &lt;sup&gt;**&lt;/sup&gt;p&lt;0.05; &lt;sup&gt;***&lt;/sup&gt;p&lt;0.01&lt;/td&gt;&lt;/tr&gt;
@@ -461,7 +456,7 @@ star25.3 &lt;- lm(mkt_share ~ score + treat, data= (ma.rd1 %&gt;% filter(window2
 
 ---
 # Interpretation
-These estimates suggest a 1% increase in market shares among 2.5-star plans versus an "identical" 2-star plan, compared to an OLS estimate of -1% increase.
+These estimates suggest a 1% increase in market shares among 2.5-star plans versus an "identical" 2-star plan, compared to an OLS estimate of 0%.
 
 
 ---
