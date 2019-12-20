@@ -6,6 +6,8 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 
 ## Notes and Slides
+Below are all of the slides that I'll use throughout the class. The slides will open as html files. Note that I've disabled "touch" navigation, which means that it's not possible to advance the slides with a touchscreen. I did this because I will record the screen in each class, and I'll annotate the slides throughout the class. If you want to see the slides in standard presentation format, you will need to access everything on a desktop or laptop rather than a phone or tablet. Everything is still accessible on a mobile platform, you just need to enable "simplified" view (or reader view in some browsers). This will remove the slide/presentation formatting and allow you just to see the whole slideshow as one big website.
+
 1. Introduction: Motivation and software setup \[[Slides](01-Introduction/01-Introduction.html)\]
 
 2. Struggling with data
