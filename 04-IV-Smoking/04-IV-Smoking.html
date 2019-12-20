@@ -278,18 +278,18 @@ Recall that the *true* treatment effect is 5.25
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -4.1970 -0.6855  0.0165  0.6909  3.8918 
+## -3.4848 -0.6739  0.0224  0.6565  3.8517 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  2.05552    0.01980   103.8   &lt;2e-16 ***
-## wTRUE        6.16334    0.02888   213.4   &lt;2e-16 ***
+## (Intercept)  2.06586    0.01927   107.2   &lt;2e-16 ***
+## wTRUE        6.18168    0.02826   218.7   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.019 on 4998 degrees of freedom
-## Multiple R-squared:  0.9011,	Adjusted R-squared:  0.9011 
-## F-statistic: 4.555e+04 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+## Residual standard error: 0.9968 on 4998 degrees of freedom
+## Multiple R-squared:  0.9054,	Adjusted R-squared:  0.9054 
+## F-statistic: 4.784e+04 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
 ```
 ]
 
@@ -302,19 +302,19 @@ Recall that the *true* treatment effect is 5.25
 ## ivreg(formula = y ~ w | z, data = iv.dat)
 ## 
 ## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -4.195633 -0.757563 -0.005334  0.762432  4.371933 
+##      Min       1Q   Median       3Q      Max 
+## -3.91719 -0.72886 -0.02287  0.73428  4.34924 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  2.49687    0.02803   89.07   &lt;2e-16 ***
-## wTRUE        5.22429    0.04917  106.25   &lt;2e-16 ***
+## (Intercept)  2.49831    0.02731   91.49   &lt;2e-16 ***
+## wTRUE        5.25170    0.04827  108.80   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.122 on 4998 degrees of freedom
-## Multiple R-Squared: 0.8802,	Adjusted R-squared: 0.8802 
-## Wald test: 1.129e+04 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+## Residual standard error: 1.099 on 4998 degrees of freedom
+## Multiple R-Squared: 0.8849,	Adjusted R-squared: 0.8849 
+## Wald test: 1.184e+04 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
 ```
 ]
 
@@ -330,18 +330,18 @@ Recall that the *true* treatment effect is 5.25
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -1.05670 -0.30655 -0.00749  0.30865  1.07049 
+## -0.95585 -0.31057 -0.01247  0.30690  1.06457 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 0.469158   0.005386    87.1   &lt;2e-16 ***
-## z           0.160127   0.002673    59.9   &lt;2e-16 ***
+## (Intercept) 0.466572   0.005387   86.62   &lt;2e-16 ***
+## z           0.161751   0.002705   59.80   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.3809 on 4998 degrees of freedom
-## Multiple R-squared:  0.4179,	Adjusted R-squared:  0.4178 
-## F-statistic:  3588 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+## Multiple R-squared:  0.4171,	Adjusted R-squared:  0.4169 
+## F-statistic:  3576 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
 ```
 ]
 
@@ -355,18 +355,18 @@ Recall that the *true* treatment effect is 5.25
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.9179 -2.0366 -0.1102  2.0793  8.1543 
+## -8.1446 -2.1188 -0.1141  2.0983  9.1127 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  4.94789    0.03915  126.39   &lt;2e-16 ***
-## z            0.83655    0.01943   43.06   &lt;2e-16 ***
+## (Intercept)  4.94860    0.03909  126.58   &lt;2e-16 ***
+## z            0.84947    0.01963   43.27   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.768 on 4998 degrees of freedom
-## Multiple R-squared:  0.2706,	Adjusted R-squared:  0.2704 
-## F-statistic:  1854 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+## Residual standard error: 2.764 on 4998 degrees of freedom
+## Multiple R-squared:  0.2725,	Adjusted R-squared:  0.2724 
+## F-statistic:  1872 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
 ```
 ]
 
@@ -388,18 +388,18 @@ summary(step2)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.9179 -2.0366 -0.1102  2.0793  8.1543 
+## -8.1446 -2.1188 -0.1141  2.0983  9.1127 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  2.49687    0.06917   36.10   &lt;2e-16 ***
-## w.hat        5.22429    0.12134   43.06   &lt;2e-16 ***
+## (Intercept)  2.49831    0.06865   36.39   &lt;2e-16 ***
+## w.hat        5.25170    0.12136   43.27   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.768 on 4998 degrees of freedom
-## Multiple R-squared:  0.2706,	Adjusted R-squared:  0.2704 
-## F-statistic:  1854 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
+## Residual standard error: 2.764 on 4998 degrees of freedom
+## Multiple R-squared:  0.2725,	Adjusted R-squared:  0.2724 
+## F-statistic:  1872 on 1 and 4998 DF,  p-value: &lt; 2.2e-16
 ```
 
 
@@ -653,7 +653,10 @@ summary(step2)
 "highlightStyle": "github",
 "highlightLines": true,
 "countIncrementalSlides": false,
-"ratio": "16:9"
+"ratio": "16:9",
+"navigation": {
+"touch": false
+}
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
