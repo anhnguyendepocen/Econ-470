@@ -1,6 +1,6 @@
 ---
 title: "Section 1: Introduction"
-subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1050px></html>"
+subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=0px></html>"
 author: Ian McCarthy | Emory University
 date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
 output:
@@ -73,7 +73,7 @@ name: welcome
 
 # Motivation
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 
 ---
@@ -224,9 +224,9 @@ name: syllabus
 
 # Syllabus highlights
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
-(Read the full document [here](Syllabus/Econ470-Syllabus.pdf).)
+(Read the full document [here](https://github.com/imccart/Econ-470/blob/master/Syllabus/Econ470-Syllabus.pdf).)
 
 ---
 # Why this course?
@@ -384,7 +384,7 @@ class: inverse, center, middle
 name: git_rstudio
 
 # Practice with Git and RStudio
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 
 ---
