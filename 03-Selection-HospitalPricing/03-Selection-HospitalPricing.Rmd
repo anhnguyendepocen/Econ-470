@@ -1,12 +1,13 @@
 ---
 title: "Section 3: Hospital Pricing and Selection on Observables"
-subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1050px></html>"
+subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=0px></html>"
 author: Ian McCarthy | Emory University
 date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
 header-includes: 
   - \usepackage{graphicx}
   - \usepackage{amsmath}
 output:
+  html_document: default  
   xaringan::moon_reader:
     css: [default, metropolis, metropolis-fonts, custom.css] 
     lib_dir: libs
@@ -85,7 +86,7 @@ name: hospital_pricing
 
 # Background on Hospital Pricing
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # What is a hospital price?
@@ -176,7 +177,7 @@ name: potential_outcomes
 
 # Potential Outcomes Framework
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 
 ---
@@ -316,7 +317,7 @@ name: selection_observables
 
 # Selection on Observables
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # Average Treatment Effect
@@ -546,7 +547,7 @@ name: methods
 
 # Causal Inference with Observational Data
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 
 ---
@@ -906,7 +907,7 @@ name: hcris
 
 # Understanding HCRIS Data
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 
 ---
@@ -1034,7 +1035,7 @@ name: price_pfp
 
 # Pricing and Pay for Performance
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 
 ---
@@ -1460,7 +1461,7 @@ name: summary
 
 # So what have we learned?
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # Key assumptions for causal inference

@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Section 3: Hospital Pricing and Selection on Observables</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ian McCarthy | Emory University" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Section 3: Hospital Pricing and Selection on Observables
+## <html>
+<div style="float:left">
+
+</div>
+<hr color='#EB811B' size=1px width=0px>
+</html>
+### Ian McCarthy | Emory University
+### Econ 470 &amp; HLTH 470
+
+---
+
+
+&lt;!-- Adjust some CSS code for font size and maintain R code font size --&gt;
+&lt;style type="text/css"&gt;
+.remark-slide-content {
+    font-size: 30px;
+    padding: 1em 2em 1em 2em;    
+}
+.remark-code {
+  font-size: 15px;
+}
+.remark-inline-code { 
+    font-size: 20px;
+}
+&lt;/style&gt;
+
+
+&lt;!-- Set R options for how code chunks are displayed and load packages --&gt;
+
+
+# Table of contents
+
+1. [Hospital Pricing](#hospital_pricing)
+
+2. [Potential Outcomes Framework](#potential_outcomes)
+
+3. [Selection on Observables](#selection_observables)
+
+4. [Methods](#methods)
+
+5. [HCRIS Data](#hcris)
+
+6. [Pricing and Pay for Performance](#price_pfp)
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: hospital_pricing
+
+# Background on Hospital Pricing
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+---
+# What is a hospital price?
+
+Defining characteristic of hospital services: *it's complicated!*
+
+--
+.center[
+  ![:scale 800px](pics/BillExample.jpg)
+]
+
+&lt;div class="smalltext"&gt;Brill, Steven. 2013. "Bitter Pill: Why Medical Bills are Killing Us." *Time Magazine*.&lt;/div&gt;
+
+---
+# What is a hospital price?
+
+Lots of different payers paying lots of different prices:
+- [Medicare fee-for-service prices](https://www.cms.gov/Outreach-and-Education/Medicare-Learning-Network-MLN/MLNProducts/Downloads/AcutePaymtSysfctsht.pdf)
+- [Medicaid payments](https://www.kff.org/report-section/understanding-medicaid-hospital-payments-and-the-impact-of-recent-policy-changes-issue-brief/)
+- Private insurance negotiations (including Medicare Advantage)
+- But what about the price to patients?
+
+--
+
+.center[
+Price `\(\neq\)` charge `\(\neq\)` cost `\(\neq\)` patient out-of-pocket spending
+]
+
+---
+# What is a hospital price?
+
+.center[
+  ![:scale 600px](pics/DifferentPrices.jpg)
+]
+
+&lt;div class="smalltext"&gt;Source: &lt;a href="https://healthcarepricingproject.org/"&gt;Health Care Pricing Project&lt;/a&gt;&lt;/div&gt;
+
+
+---
+# What is a hospital price?
+Not clear what exactly is negotiated...
+
+--
+.pull-left[
+### Fee-for-service
+- price per procedure
+- percentage of charges
+- markup over Medicare rates
+]
+
+--
+.pull-right[
+### Capitation
+- payment per patient
+- pay-for-performance
+- shared savings
+]
+
+---
+# Hospital prices in real life
+We'll get into the real data in a bit, but for now...a few facts:
+
+1. Hospital services are expensive
+
+2. Prices vary dramatically across different areas
+
+3. Lack of competition is a major reason for high prices
+
+---
+# Hospital prices in real life
+
+.pull-left[
+  ![:scale 450px](pics/HC_var_withinmkt_hip_ga_atlanta.png)
+]
+
+.pull-right[
+  ![:scale 450px](pics/HC_var_withinmkt_kmri_ga_atlanta.png)
+]
+
+&lt;div class="smalltext"&gt;Source: &lt;a href="https://healthcarepricingproject.org/"&gt;Health Care Pricing Project&lt;/a&gt;&lt;/div&gt;
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: potential_outcomes
+
+# Potential Outcomes Framework
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# What is a "Potential Outcome"
+.pull-left[
+![:scale 420px](pics/EmoryPicture.jpg)
+
+Y(1)= $75,000
+
+]
+
+.pull-right[
+![:scale 370px](pics/UNTPicture.jpg)
+
+Y(0)= $60,000
+]
+
+--
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='black' size=1px width=1100px&gt;&lt;/html&gt;
+Treatment effect =Y(1)-Y(0)= $15,000
+
+---
+# What is a "Potential Outcome"
+.pull-left[
+![:scale 420px](pics/EmoryPicture.jpg)
+
+Y(1)= $75,000
+
+]
+
+.pull-right[
+![:scale 370px](pics/UNTPicture.jpg)
+
+Y(0)= ?
+]
+
+--
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='black' size=1px width=1100px&gt;&lt;/html&gt;
+Treatment effect =Y(1)-Y(0)= ?
+
+---
+# Do we ever observe the potential outcomes?
+.center[
+  ![:scale 700px](https://media.giphy.com/media/zZeCRfPyXi9UI/giphy.gif)
+]
+
+--
+Without a time machine...hard to get *individual* treatment effects.
+
+---
+# *Average* Treatment Effect
+
+
+
+
+&lt;img src="03-slides_files/figure-html/ate-plot1-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# *Average* Treatment Effect
+
+
+&lt;img src="03-slides_files/figure-html/ate-plot2-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# *Average* Treatment Effect
+
+&lt;img src="03-slides_files/figure-html/ate-plot3-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# *Average* Treatment Effect
+
+
+&lt;img src="03-slides_files/figure-html/ate-plot4-output-1.png" style="display: block; margin: auto;" /&gt;
+
+--
+`$$ATE = E[Y(1)-Y(0)]$$`
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: selection_observables
+
+# Selection on Observables
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+---
+# Average Treatment Effect
+&lt;img src="03-slides_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# ...with Selection
+
+
+&lt;img src="03-slides_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# ...with Selection
+
+
+&lt;img src="03-slides_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# ...with Selection
+
+
+&lt;img src="03-slides_files/figure-html/ate-plot5-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# ...with Selection
+
+
+&lt;img src="03-slides_files/figure-html/ate-plot6-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumption 1: Selection on Observables
+
+
+&lt;img src="03-slides_files/figure-html/ate-plot7-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumption 1: Selection on Observables
+
+
+&lt;img src="03-slides_files/figure-html/ate-plot8-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumption 1: Selection on Observables
+
+More formally:
+
+--
+&lt;br&gt;
+&lt;br&gt;
+- `\(E[Y(1)|W,shape]=E[Y(1)|shape]\)`
+- `\(Y(1),Y(0) \perp\!\!\!\perp W | shape\)`
+
+
+--
+&lt;br&gt;
+
+In words...nothing unobserved that determines treatment selection and affects your outcome of interest.
+
+---
+# Violation of Selection on Observables
+
+
+&lt;img src="03-slides_files/figure-html/ate-select-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Violation of Selection on Observables
+
+
+&lt;img src="03-slides_files/figure-html/ate-plot9-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumption 2: Common Support
+Someone of each type must be in both the treated and untreated groups
+
+--
+`$$0 &lt; \text{Pr}(W=1|X) &lt;1$$`
+
+---
+# Assumption 2: Common Support
+&lt;img src="03-slides_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Violation of Common Support
+
+
+&lt;img src="03-slides_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: methods
+
+# Causal Inference with Observational Data
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# Fundamental Problem of Causal Inference
+
+Potential outcomes:
+- `\(Y_{i}(1)\)` for `\(W_{i}=1\)`
+- `\(Y_{i}(0)\)` for `\(W_{i}=0\)`
+
+
+--
+&lt;br&gt;
+&lt;br&gt;
+
+Average treatment effect is `\(E[Y_{i}(1)-Y_{i}(0)]\)`, but: 
+- `\(E[Y_{i}|W_{i}=1] \neq E[Y_{i}(1)]\)`
+- `\(E[Y_{i}|W_{i}=0] \neq E[Y_{i}(0)]\)`
+
+---
+# Fundamental Problem of Causal Inference
+
+- We don't observe the counterfactual outcome...what would have happened if a treated unit was actually untreated.
+
+- *ALL* attempts at causal inference represent some attempt at estimating the counterfactual outcome. We need an estimate for `\(E[Y_{i}(0)]\)` among those that were treated, and vice versa for `\(E[Y_{i}(1)]\)`.
+
+
+---
+# Causal inference with observational data
+Solution for now: find covariates `\(X_{i}\)` such that the following assumptions are plausible: &lt;br&gt;
+
+1. Selection on observables: `$$Y_{i}(1), Y_{i}(0) \perp\!\!\!\perp W_{i} | X_{i}$$`
+2. Common support: `$$0 &lt; \text{Pr}(W_{i}=1|X_{i}) &lt; 1$$`
+
+--
+&lt;br&gt;
+
+Then we can use `\(X_{i}\)` to group observations and use expectations for control as the predicted counterfactuals among treated, and vice versa. 
+
+---
+# Causal inference with observational data
+With selection on observables and common support:
+1. Matching estimators: `$$E[Y_{i}(1) - Y_{i}(0)] = E[ E[Y_{i}|W_{i}=1, X_{i}] - E[Y_{i}|W_{i}=0, X_{i}] ]$$`
+2. Regression estimators: `$$E[Y_{i}(1) - Y_{i}(0)] = E[ E[Y_{i}|W_{i}=1, X_{i}] ] - E[ E[Y_{i}|W_{i}=0, X_{i}] ]$$`
+
+--
+&lt;br&gt;
+What's the difference?
+
+---
+# Matching
+&lt;img src="03-slides_files/figure-html/ate-plot8-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Regression
+
+
+&lt;img src="03-slides_files/figure-html/regression-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Estimation options
+- Matching
+- Weighting
+- Regression
+- Doubly-robust weighting + regression (won't cover)
+
+
+---
+# Matching: The process
+1. For each observation `\(i\)`, find the `\(m\)` "nearest" neighbors, `\(J_{m}(i)\)`. 
+2. Impute `\(\hat{Y}_{i}(0)\)` and `\(\hat{Y}_{i}(1)\)` for each observation:&lt;br&gt;
+`$$\hat{Y}_{i}(0) = \begin{cases}
+    Y_{i} &amp; \text{if} &amp; W_{i}=0 \\
+    \frac{1}{m} \sum_{j \in J_{m}(i)} Y_{j} &amp; \text{if} &amp; W_{i}=1 
+\end{cases}$$`
+`$$\hat{Y}_{i}(1) = \begin{cases}
+    Y_{i} &amp; \text{if} &amp; W_{i}=1 \\
+    \frac{1}{m} \sum_{j \in J_{m}(i)} Y_{j} &amp; \text{if} &amp; W_{i}=0 
+\end{cases}$$`
+
+3. Form "matched" ATE:&lt;br&gt;
+`\(\hat{\delta}^{\text{match}} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{Y}_{i}(1) - \hat{Y}_{i}(0) \right)\)`
+
+---
+# Matching: Defining "nearest"
+
+1. Euclidean distance:&lt;br&gt;
+`\(\sum_{k=1}^{K} (X_{ik} - X_{jk})^{2}\)`
+
+2. Scaled Euclidean distance:&lt;br&gt;
+`\(\frac{1}{\sigma_{X_{k}}^{2}} \sum_{k=1}^{K} (X_{ik} - X_{jk})^{2}\)`
+
+3. Mahalanobis distance:&lt;br&gt;
+`\((X_{i} - X_{j})' \Sigma_{X}^{-1} (X_{i} - X_{j})\)`
+
+---
+# Animation for matching
+
+
+.center[
+  ![:scale 900px](pics/match_animate.gif)
+]
+
+
+---
+# Weighting
+
+1. Estimate propensity score `ps &lt;- glm(W~X, family=binomial, data)`, denoted `\(\hat{\pi}(X_{i})\)`
+2. Weight by inverse of propensity score&lt;br&gt;
+.center[
+`\(\hat{\mu}_{1} = \frac{ \sum_{i=1}^{N} \frac{Y_{i} W_{i}}{\hat{\pi}(X_{i})} }{ \sum_{i=1}^{N} \frac{W_{i}}{\hat{\pi}(X_{i})} }\)` and 
+`\(\hat{\mu}_{0} = \frac{ \sum_{i=1}^{N} \frac{Y_{i} (1-W_{i})}{1-\hat{\pi}(X_{i})} }{ \sum_{i=1}^{N} \frac{1-W_{i}}{1-\hat{\pi}(X_{i})} }\)`
+]
+3. Form "inverse-propensity weighted" ATE:&lt;br&gt;
+.center[
+`\(\hat{\delta}^{IPW} = \hat{\mu}_{1} - \hat{\mu}_{0}\)`
+]
+
+---
+# Regression
+1. Regress `\(Y_{i}\)` on `\(X_{i}\)` among `\(W_{i}=1\)` to form `\(\hat{\mu}_{1}(X_{i})\)`
+2. Regress `\(Y_{i}\)` on `\(X_{i}\)` among `\(W_{i}=0\)` to form `\(\hat{\mu}_{0}(X_{i})\)`
+3. Form difference in predictions:&lt;br&gt;
+.center[
+`$$\hat{\delta}^{reg} = \frac{1}{N} \sum_{i=1}^{N} \left(\hat{\mu}_{1}(X_{i}) - \hat{\mu}_{0}(X_{i})\right)$$`
+]
+
+---
+# Regression
+
+Or estimate in one step, 
+.center[
+`$$Y_{i} = \delta W_{i} + \beta X_{i} + W_{i} \times \left(X_{i} - \bar{X}\right) \gamma + \varepsilon_{i}$$`
+]
+
+
+---
+# Animation for regression
+
+
+.center[
+  ![:scale 900px](pics/reg_animate.gif)
+]
+
+---
+# Simulated data
+Now let's do some matching, re-weighting, and regression with simulated data:
+
+```r
+n &lt;- 5000
+select.dat &lt;- tibble(
+  x = runif(n, 0, 1),
+  z = rnorm(n, 0, 1),
+  w = (x&gt;0.65),
+  y = -2.5 + 4*w + 1.5*x + rnorm(n,0,1),
+  w_alt = ( x + z &gt; 0.35),
+  y_alt = -2.5 + 4*w_alt + 1.5*x + 2.25*z + rnorm(n,0,1)
+)
+```
+
+---
+# Simulation: nearest neighbor matching
+
+```r
+nn.est1 &lt;- Matching::Match(Y=select.dat$y,
+                            Tr=select.dat$w,
+                            X=select.dat$x,
+                            M=1,
+                            Weight=1,
+                            estimand="ATE")
+summary(nn.est1)
+```
+
+```
+## 
+## Estimate...  4.0175 
+## AI SE......  0.52954 
+## T-stat.....  7.5869 
+## p.val......  3.2863e-14 
+## 
+## Original number of observations..............  5000 
+## Original number of treated obs...............  1732 
+## Matched number of observations...............  5000 
+## Matched number of observations  (unweighted).  5016
+```
+
+---
+# Simulation: nearest neighbor matching 
+
+```r
+nn.est2 &lt;- Matching::Match(Y=select.dat$y,
+                            Tr=select.dat$w,
+                            X=select.dat$x,
+                            M=1,
+*                           Weight=2,
+                            estimand="ATE")
+summary(nn.est2)
+```
+
+```
+## 
+## Estimate...  4.0175 
+## AI SE......  0.52954 
+## T-stat.....  7.5869 
+## p.val......  3.2863e-14 
+## 
+## Original number of observations..............  5000 
+## Original number of treated obs...............  1732 
+## Matched number of observations...............  5000 
+## Matched number of observations  (unweighted).  5016
+```
+
+
+---
+# Simulation: regression
+
+```r
+reg1.dat &lt;- select.dat %&gt;% filter(w==1)
+reg1 &lt;- lm(y ~ x, data=reg1.dat)
+
+reg0.dat &lt;- select.dat %&gt;% filter(w==0)
+reg0 &lt;- lm(y ~ x, data=reg0.dat)
+pred1 &lt;- predict(reg1,new=select.dat)
+pred0 &lt;- predict(reg0,new=select.dat)
+mean(pred1-pred0)
+```
+
+```
+## [1] 4.076999
+```
+
+
+---
+# Violation of selection on observables
+.pull-left[
+&lt;u&gt;NN Matching&lt;/u&gt;
+
+```r
+nn.est3 &lt;- Matching::Match(Y=select.dat$y_alt,
+                            Tr=select.dat$w_alt,
+                            X=select.dat$x,
+                            M=1,
+                            Weight=2,
+                            estimand="ATE")
+summary(nn.est3)
+```
+
+```
+## 
+## Estimate...  7.6642 
+## AI SE......  0.052903 
+## T-stat.....  144.87 
+## p.val......  &lt; 2.22e-16 
+## 
+## Original number of observations..............  5000 
+## Original number of treated obs...............  2748 
+## Matched number of observations...............  5000 
+## Matched number of observations  (unweighted).  23014
+```
+]
+
+.pull-right[
+&lt;u&gt;Regression&lt;/u&gt;
+
+```r
+reg1.dat &lt;- select.dat %&gt;% filter(w_alt==1)
+reg1 &lt;- lm(y_alt ~ x, data=reg1.dat)
+
+reg0.dat &lt;- select.dat %&gt;% filter(w_alt==0)
+reg0 &lt;- lm(y_alt ~ x, data=reg0.dat)
+pred1_alt &lt;- predict(reg1,new=select.dat)
+pred0_alt &lt;- predict(reg0,new=select.dat)
+mean(pred1_alt-pred0_alt)
+```
+
+```
+## [1] 7.646532
+```
+]
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: hcris
+
+# Understanding HCRIS Data
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# What is HCRIS?
+Healthcare Cost Report Information System ('cost reports')
+- Nursing Homes (SNFs)
+- Hospice
+- Home Health Agencies
+- Hospitals 
+
+---
+# Hospital Cost Reports
+
+.center[
+  ![:scale 800px](pics/HCRIS.png)
+]
+
+---
+# The Data
+
+Let's work with the [HCRIS GitHub repository](https://github.com/imccart/HCRIS). But forming the dataset is up to you this time.
+
+--
+.center[
+  ![:scale 700px](https://media.giphy.com/media/26DNdV3b6dqn1jzR6/giphy.gif)
+]
+
+
+---
+# The Data
+
+
+
+```r
+hcris.data %&gt;% 
+  ggplot(aes(x=as.factor(year))) + 
+  geom_bar() +
+  labs(
+    x="Year",
+    y="Number of Hospitals",
+    title="Number of Hospitals per Year"
+  ) + theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust=1))
+```
+.plot-callout[
+&lt;img src="03-slides_files/figure-html/hospital-count-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Number of hospitals
+
+&lt;img src="03-slides_files/figure-html/hospital-count-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Estimating hospital prices
+
+```r
+hcris.data &lt;- hcris.data %&gt;%
+  mutate( discount_factor = 1-tot_discounts/tot_charges,
+          price_num = (ip_charges + icu_charges + ancillary_charges)*discount_factor - tot_mcare_payment,
+          price_denom = tot_discharges - mcare_discharges,
+          price = price_num/price_denom)
+```
+
+---
+# Estimating hospital prices
+
+.left-code[
+
+```r
+hcris.data %&gt;% group_by(year) %&gt;% 
+  filter(price_denom&gt;10, !is.na(price_denom), 
+         price_num&gt;0, !is.na(price_num)) %&gt;%  
+  select(price, year) %&gt;% 
+  summarize(mean_price=mean(price, na.rm=TRUE)) %&gt;%
+  ggplot(aes(x=as.factor(year), y=mean_price)) + 
+  geom_line(aes(group=1)) +
+  labs(
+    x="Year",
+    y="Average Hospital Price",
+    title="Hospital Prices per Year"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust=1))
+```
+]
+
+.right-plot[
+![](03-slides_files/figure-html/price-plot1-1.png)
+]
+
+
+---
+# Estimating hospital prices
+
+.left-code[
+
+```r
+hcris.data %&gt;% group_by(year) %&gt;% 
+  filter(price_denom&gt;100, !is.na(price_denom), 
+         price_num&gt;0, !is.na(price_num),
+*        price&lt;100000) %&gt;%
+  select(price, year) %&gt;% 
+  summarize(mean_price=mean(price, na.rm=TRUE)) %&gt;%
+  ggplot(aes(x=as.factor(year), y=mean_price)) + 
+  geom_line(aes(group=1)) +
+  labs(
+    x="Year",
+    y="Average Hospital Price",
+    title="Hospital Prices per Year"
+  ) + scale_y_continuous(labels=comma) +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust=1))
+```
+]
+
+.right-plot[
+![](03-slides_files/figure-html/price-plot2-1.png)
+]
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: price_pfp
+
+# Pricing and Pay for Performance
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# Penalized hospitals
+
+```r
+final.hcris &lt;- hcris.data %&gt;% ungroup() %&gt;%
+  filter(price_denom&gt;100, !is.na(price_denom), 
+         price_num&gt;0, !is.na(price_num),
+         price&lt;100000, 
+*        beds&gt;30, year==2012) %&gt;%
+  mutate( hvbp_payment = ifelse(is.na(hvbp_payment),0,hvbp_payment),
+*         hrrp_payment = ifelse(is.na(hrrp_payment),0,abs(hrrp_payment)),
+*   penalty = (hvbp_payment-hrrp_payment&lt;0))
+```
+
+
+
+---
+# Summary stats
+Always important to look at your data before doing any formal analysis. Ask yourself a few questions:
+1. Are the magnitudes reasonable?
+
+2. Are there lots of missing values?
+
+3. Are there clear examples of misreporting?
+
+---
+# Summary stats
+
+.pull-left[
+
+```r
+summary(hcris.data$price)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+## -123697    4783    7113     Inf   10230     Inf   63662
+```
+
+```r
+plot(density(hcris.data$price, na.rm=TRUE))
+```
+
+&lt;img src="03-slides_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+summary(final.hcris$price)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   340.8  6129.9  8705.4  9646.9 11905.4 97688.8
+```
+
+```r
+plot(density(final.hcris$price))
+```
+
+&lt;img src="03-slides_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Dealing with problems
+We've adopted a very brute force way to deal with outlier prices. Other approaches include:
+1. Investigate very closely the hospitals with extreme values
+
+2. Winsorize at certain thresholds (replace extreme values with pre-determined thresholds)
+
+3. Impute prices for extreme hospitals
+
+---
+# Differences among penalized hospitals
+- Mean price among penalized hospitals: 9,896.31
+- Mean price among non-penalized hospitals: 9,560.41
+- Mean difference: 335.9
+
+---
+# Comparison of hospitals
+Are penalized hospitals sufficiently similar to non-penalized hospitals?
+
+--
+&lt;br&gt;
+&lt;br&gt;
+Let's look at covariate balance using a love plot, part of the `library(cobalt)` package.
+
+---
+# Love plots without adjustment
+
+
+
+
+```r
+love.plot(bal.tab(lp.covs,treat=lp.vars$penalty), colors="black", shapes="circle", threshold=0.1) + 
+  theme_bw() + theme(legend.position="none")
+```
+
+.plot-callout[
+&lt;img src="03-slides_files/figure-html/cov-balance-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Love plots without adjustment
+
+&lt;img src="03-slides_files/figure-html/cov-balance-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Using matching to improve balance
+Some things to think about:
+- exact versus nearest neighbor
+- with or without ties (and how to break ties)
+- measure of distance
+
+---
+# 1. Exact Matching
+
+```r
+m.exact &lt;- Matching::Match(Y=lp.vars$price,
+                           Tr=lp.vars$penalty,
+                           X=lp.covs,
+                           M=1,
+*                          exact=TRUE)
+print(m.exact)
+```
+
+```
+## [1] NA
+## attr(,"class")
+## [1] "Match"
+```
+
+---
+# 1. Exact Matching (on a subset)
+
+```r
+lp.covs2 &lt;- lp.covs %&gt;% select(beds, mcaid_discharges)
+m.exact &lt;- Matching::Match(Y=lp.vars$price,
+                           Tr=lp.vars$penalty,
+                           X=lp.covs2,
+                           M=1,
+                           exact=TRUE,
+*                          estimand="ATE")
+```
+
+---
+# 1. Exact Matching (on a subset)
+
+```r
+love.plot(bal.tab(m.exact, covs = lp.covs2, treat = lp.vars$penalty),  
+          threshold=0.1, 
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+&lt;img src="03-slides_files/figure-html/lp-exact-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# 1. Exact Matching (on a subset)
+
+&lt;img src="03-slides_files/figure-html/lp-exact-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+```r
+m.nn.var &lt;- Matching::Match(Y=lp.vars$price,
+                            Tr=lp.vars$penalty,
+                            X=lp.covs,
+*                           M=4,
+                            Weight=1,
+                            estimand="ATE")
+
+v.name=data.frame(new=c("Beds","Medicaid Discharges", "Inaptient Charges",
+                   "Medicare Discharges", "Medicare Payments"))
+```
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+
+```r
+love.plot(bal.tab(m.nn.var, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+&lt;img src="03-slides_files/figure-html/lp-var-callout1-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+&lt;img src="03-slides_files/figure-html/lp-var-output1-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+```r
+m.nn.var2 &lt;- Matching::Match(Y=lp.vars$price,
+                             Tr=lp.vars$penalty,
+                             X=lp.covs,
+*                            M=1,
+                             Weight=1,
+                             estimand="ATE")
+```
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+
+```r
+love.plot(bal.tab(m.nn.var2, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+&lt;img src="03-slides_files/figure-html/lp-var-callout2-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# 2. Nearest neighbor matching (inverse variance)
+
+&lt;img src="03-slides_files/figure-html/lp-var-output2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# 2. Nearest neighbor matching (Mahalanobis)
+
+```r
+m.nn.md &lt;- Matching::Match(Y=lp.vars$price,
+                           Tr=lp.vars$penalty,
+                           X=lp.covs,
+                           M=1,
+                           Weight=2,
+                           estimand="ATE")                           
+```
+
+---
+# 2. Nearest neighbor matching (Mahalanobis)
+
+
+```r
+love.plot(bal.tab(m.nn.md, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+&lt;img src="03-slides_files/figure-html/lp-md-callout1-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# 2. Nearest neighbor matching (Mahalanobis)
+
+&lt;img src="03-slides_files/figure-html/lp-md-output1-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# 2. Nearest neighbor matching (propensity score)
+
+```r
+logit.model &lt;- glm(penalty ~ beds + mcaid_discharges + ip_charges + mcare_discharges +
+            tot_mcare_payment, family=binomial, data=lp.vars)
+ps &lt;- fitted(logit.model)
+m.nn.ps &lt;- Matching::Match(Y=lp.vars$price,
+                           Tr=lp.vars$penalty,
+                           X=ps,
+                           M=1,
+                           estimand="ATE")
+```
+
+---
+# 2. Nearest neighbor matching (propensity score)
+
+
+```r
+love.plot(bal.tab(m.nn.ps, covs = lp.covs, treat = lp.vars$penalty), 
+          threshold=0.1, 
+          var.names=v.name,
+          grid=FALSE, sample.names=c("Unmatched", "Matched"),
+          position="top", shapes=c("circle","triangle"),
+          colors=c("black","blue")) + 
+  theme_bw()
+```
+
+.plot-callout[
+&lt;img src="03-slides_files/figure-html/lp-ps-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# 2. Nearest neighbor matching (propensity score)
+
+&lt;img src="03-slides_files/figure-html/lp-ps-output-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# 3. Weighting
+&lt;img src="03-slides_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Results: Exact matching
+
+```
+## 
+## Estimate...  1777.6 
+## AI SE......  34.725 
+## T-stat.....  51.191 
+## p.val......  &lt; 2.22e-16 
+## 
+## Original number of observations..............  2707 
+## Original number of treated obs...............  698 
+## Matched number of observations...............  12 
+## Matched number of observations  (unweighted).  12 
+## 
+## Number of obs dropped by 'exact' or 'caliper'  2695
+```
+
+
+---
+# Results: Nearest neighbor
+
+- Inverse variance
+
+```
+## 
+## Estimate...  -526.95 
+## AI SE......  223.06 
+## T-stat.....  -2.3623 
+## p.val......  0.01816 
+## 
+## Original number of observations..............  2707 
+## Original number of treated obs...............  698 
+## Matched number of observations...............  2707 
+## Matched number of observations  (unweighted).  2711
+```
+
+---
+# Results: Nearest neighbor
+
+- Mahalanobis
+
+```
+## 
+## Estimate...  -492.82 
+## AI SE......  223.55 
+## T-stat.....  -2.2046 
+## p.val......  0.027485 
+## 
+## Original number of observations..............  2707 
+## Original number of treated obs...............  698 
+## Matched number of observations...............  2707 
+## Matched number of observations  (unweighted).  2708
+```
+
+---
+# Results: Nearest neighbor
+
+- Propensity score
+
+```
+## 
+## Estimate...  -201.03 
+## AI SE......  275.76 
+## T-stat.....  -0.72898 
+## p.val......  0.46601 
+## 
+## Original number of observations..............  2707 
+## Original number of treated obs...............  698 
+## Matched number of observations...............  2707 
+## Matched number of observations  (unweighted).  14795
+```
+
+
+---
+# Results: IPW weighting
+
+
+```r
+lp.vars &lt;- lp.vars %&gt;%
+  mutate(ipw = case_when(
+    penalty==1 ~ 1/ps,
+    penalty==0 ~ 1/(1-ps),
+    TRUE ~ NA_real_
+  ))
+mean.t1 &lt;- lp.vars %&gt;% filter(penalty==1) %&gt;%
+  select(price, ipw) %&gt;% summarize(mean_p=weighted.mean(price,w=ipw))
+mean.t0 &lt;- lp.vars %&gt;% filter(penalty==0) %&gt;%
+  select(price, ipw) %&gt;% summarize(mean_p=weighted.mean(price,w=ipw))
+mean.t1$mean_p - mean.t0$mean_p
+```
+
+```
+## [1] -196.8922
+```
+
+---
+# Results: IPW weighting with regression
+
+
+```r
+ipw.reg &lt;- lm(price ~ penalty, data=lp.vars, weights=ipw)
+summary(ipw.reg)
+```
+
+```
+## 
+## Call:
+## lm(formula = price ~ penalty, data = lp.vars, weights = ipw)
+## 
+## Weighted Residuals:
+##    Min     1Q Median     3Q    Max 
+## -18691  -4802  -1422   2651  94137 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   9876.4      147.8  66.808   &lt;2e-16 ***
+## penaltyTRUE   -196.9      211.2  -0.932    0.351    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7829 on 2705 degrees of freedom
+## Multiple R-squared:  0.0003211,	Adjusted R-squared:  -4.85e-05 
+## F-statistic: 0.8688 on 1 and 2705 DF,  p-value: 0.3514
+```
+
+---
+# Results: Regression
+
+
+```r
+reg1.dat &lt;- lp.vars %&gt;% filter(penalty==1, complete.cases(.))
+reg1 &lt;- lm(price ~ beds+ mcaid_discharges + ip_charges + mcare_discharges +
+            tot_mcare_payment, data=reg1.dat)
+
+reg0.dat &lt;- lp.vars %&gt;% filter(penalty==0, complete.cases(.))
+reg0 &lt;- lm(price ~ beds + mcaid_discharges + ip_charges + mcare_discharges +
+            tot_mcare_payment, data=reg0.dat)
+pred1 &lt;- predict(reg1,new=lp.vars)
+pred0 &lt;- predict(reg0,new=lp.vars)
+mean(pred1-pred0)
+```
+
+```
+## [1] -5.845761
+```
+
+---
+# Results: Regression in one step
+
+
+```r
+reg.dat &lt;- lp.vars %&gt;% ungroup() %&gt;% filter(complete.cases(.)) %&gt;%
+  mutate(beds_diff = penalty*(beds - mean(beds)),
+         mcaid_diff = penalty*(mcaid_discharges - mean(mcaid_discharges)),
+         ip_diff = penalty*(ip_charges - mean(ip_charges)),
+         mcare_diff = penalty*(mcare_discharges - mean(mcare_discharges)),
+         mpay_diff = penalty*(tot_mcare_payment - mean(tot_mcare_payment)))
+reg &lt;- lm(price ~ penalty + beds + mcaid_discharges + ip_charges + mcare_discharges + tot_mcare_payment + 
+            beds_diff + mcaid_diff + ip_diff + mcare_diff + mpay_diff,
+          data=reg.dat)
+```
+
+---
+# Results: Regression in one step
+
+
+```
+## 
+## Call:
+## lm(formula = price ~ penalty + beds + mcaid_discharges + ip_charges + 
+##     mcare_discharges + tot_mcare_payment + beds_diff + mcaid_diff + 
+##     ip_diff + mcare_diff + mpay_diff, data = reg.dat)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -38175  -2900   -597   2105  67409 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        8.466e+03  1.711e+02  49.482  &lt; 2e-16 ***
+## penaltyTRUE       -5.846e+00  2.124e+02  -0.028  0.97804    
+## beds               1.107e+00  1.421e+00   0.779  0.43618    
+## mcaid_discharges  -4.714e-01  7.296e-02  -6.462 1.23e-10 ***
+## ip_charges         6.426e-06  1.285e-06   5.002 6.04e-07 ***
+## mcare_discharges  -8.122e-01  9.257e-02  -8.774  &lt; 2e-16 ***
+## tot_mcare_payment  9.502e-05  6.858e-06  13.857  &lt; 2e-16 ***
+## beds_diff          2.517e+00  2.986e+00   0.843  0.39931    
+## mcaid_diff         1.058e-01  1.570e-01   0.674  0.50050    
+## ip_diff           -4.534e-06  2.027e-06  -2.237  0.02539 *  
+## mcare_diff         4.806e-01  1.809e-01   2.657  0.00793 ** 
+## mpay_diff         -5.452e-05  1.321e-05  -4.128 3.78e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4728 on 2695 degrees of freedom
+## Multiple R-squared:  0.2477,	Adjusted R-squared:  0.2447 
+## F-statistic: 80.69 on 11 and 2695 DF,  p-value: &lt; 2.2e-16
+```
+
+
+---
+# Summary of ATEs
+1. Exact matching: 1777.63
+2. NN matching, inverse variance: -526.95
+3. NN matching, mahalanobis: -492.82
+4. NN matching, pscore: -201.03
+5. Inverse pscore weighting: -196.89
+6. IPW regression: -196.89
+7. Regression: -5.85
+8. Regression 1-step: -5.85
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: summary
+
+# So what have we learned?
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+---
+# Key assumptions for causal inference
+1. Selection on observables
+2. Common support
+
+--
+&lt;br&gt;
+&lt;br&gt;
+
+These become more nuanced but the intuition is the same in almost all questions of causal inference.
+
+---
+# Causal effect assuming selection on observables
+If we assume selection on observables holds, then we only need to condition on the relevant covariates to identify a causal effect. But we still need to ensure common support...&lt;br&gt;
+
+--
+&lt;br&gt;
+1. Matching
+2. Reweighting
+3. Regression
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"touch": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
