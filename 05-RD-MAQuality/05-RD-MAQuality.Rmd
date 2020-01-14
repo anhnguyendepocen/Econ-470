@@ -1,12 +1,13 @@
 ---
 title: "Section 5: Medicare Advantage Quality and Regression Discontinuity"
-subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1050px></html>"
+subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=0px></html>"
 author: Ian McCarthy | Emory University
 date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
 header-includes: 
   - \usepackage{graphicx}
   - \usepackage{amsmath}
 output:
+  html_document: default  
   xaringan::moon_reader:
     css: [default, metropolis, metropolis-fonts, custom.css] 
     lib_dir: libs
@@ -84,7 +85,7 @@ name: ma_quality
 
 # Background on Medicare Advantage and Quality
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 
 ---
@@ -140,7 +141,7 @@ name: rd
 
 # Regression Discontinuity
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # Intuition
@@ -361,7 +362,7 @@ name: ma_data
 
 # Medicare Advantage Data
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # Medicare Advantage
@@ -431,7 +432,7 @@ name: insurance_stars
 
 # Quality and Insurance Choice
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # Distribution of star ratings

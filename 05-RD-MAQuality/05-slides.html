@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 <div style="float:left">
 
 </div>
-<hr color='#EB811B' size=1px width=1050px>
+<hr color='#EB811B' size=1px width=0px>
 </html>
 ### Ian McCarthy | Emory University
 ### Econ 470 &amp; HLTH 470
@@ -63,7 +63,7 @@ name: ma_quality
 
 # Background on Medicare Advantage and Quality
 
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
 
 
 ---
@@ -119,7 +119,7 @@ name: rd
 
 # Regression Discontinuity
 
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
 
 ---
 # Intuition
@@ -161,16 +161,16 @@ Highly relevant in "rule-based" world...
 
 ---
 # Sharp RD Scatterplot
-&lt;img src="05-RD-MAQuality_files/figure-html/rd-plot1-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-slides_files/figure-html/rd-plot1-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Sharp RD Linear Predictions
-&lt;img src="05-RD-MAQuality_files/figure-html/rd-plot2-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-slides_files/figure-html/rd-plot2-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
 # Sharp RD Linear Predictions
-&lt;img src="05-RD-MAQuality_files/figure-html/rd-plot3-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-slides_files/figure-html/rd-plot3-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -220,7 +220,7 @@ Goal is to estimate `\(E[Y(1)|X=c] - E[Y(0)|X=c]\)`
 
 ---
 # Back to simulated data
-&lt;img src="05-RD-MAQuality_files/figure-html/rd-real1-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-slides_files/figure-html/rd-real1-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Back to simulated data
@@ -244,7 +244,7 @@ name: ma_data
 
 # Medicare Advantage Data
 
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
 
 ---
 # Medicare Advantage
@@ -326,7 +326,7 @@ name: insurance_stars
 
 # Quality and Insurance Choice
 
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
 
 ---
 # Distribution of star ratings
@@ -343,14 +343,14 @@ ma.data.clean %&gt;%
   ) + theme_bw()
 ```
 .plot-callout[
-&lt;img src="05-RD-MAQuality_files/figure-html/rating-count-callout-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-slides_files/figure-html/rating-count-callout-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 
 ---
 # Distribution of star ratings
 
-&lt;img src="05-RD-MAQuality_files/figure-html/rating-count-output-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-slides_files/figure-html/rating-count-output-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Enrollments and star ratings
@@ -413,7 +413,7 @@ ma.rd1 %&gt;% ggplot(aes(x=raw_rating)) +
   ) 
 ```
 
-&lt;img src="05-RD-MAQuality_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-slides_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -468,13 +468,13 @@ rdplot(y=ma.rd1$mkt_share, x=ma.rd1$score, binselect="es", ci=95,
 ```
 
 .plot-callout[
-&lt;img src="05-RD-MAQuality_files/figure-html/rd-ma-plot-callout-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-slides_files/figure-html/rd-ma-plot-callout-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 # RD Plot
 
-&lt;img src="05-RD-MAQuality_files/figure-html/rd-ma-plot-output-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-slides_files/figure-html/rd-ma-plot-output-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
