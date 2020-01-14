@@ -7,7 +7,7 @@ header-includes:
   - \usepackage{graphicx}
   - \usepackage{amsmath}
 output:
-  html_document: default  
+  html_document: default
   xaringan::moon_reader:
     css: [default, metropolis, metropolis-fonts, custom.css] 
     lib_dir: libs
