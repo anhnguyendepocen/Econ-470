@@ -4,6 +4,7 @@ subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px widt
 author: Ian McCarthy | Emory University
 date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
 output:
+  html_document: default
   xaringan::moon_reader:
     css: [default, metropolis, metropolis-fonts, custom.css] 
     lib_dir: libs

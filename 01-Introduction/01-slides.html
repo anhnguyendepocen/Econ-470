@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Section 1: Introduction</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ian McCarthy | Emory University" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Section 1: Introduction
+## <html>
+<div style="float:left">
+
+</div>
+<hr color='#EB811B' size=1px width=0px>
+</html>
+### Ian McCarthy | Emory University
+### Econ 470 &amp; HLTH 470
+
+---
+
+
+&lt;!-- Adjust some CSS code for font size and maintain R code font size --&gt;
+&lt;style type="text/css"&gt;
+.remark-slide-content {
+    font-size: 30px;
+    padding: 1em 2em 1em 2em;    
+}
+.remark-code, .remark-inline-code { 
+    font-size: 20px;
+}
+&lt;/style&gt;
+
+
+&lt;!-- Set R options for how code chunks are displayed and load packages --&gt;
+
+
+
+# Table of contents
+
+1. [Motivation](#welcome)
+
+2. [Syllabus highlights](#syllabus)
+
+3. [Software installation](#software)
+
+4. [Starting with Git and RStudio](#git_rstudio)
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: welcome
+
+# Motivation
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# Health and Health Care
+
+&lt;/br&gt;
+.center[
+  ![](https://media.giphy.com/media/1xK1QRqHENTTW/giphy.gif)
+]
+
+---
+# Health and Health Care
+
+We've made *major* improvements in life expectancy (and many other measures of health) across the world
+
+- Poverty reduction
+- Technology development and innovation
+- Technology diffusion and adoption
+- Access to better services, including health care
+
+
+---
+# Evidence of better health
+
+
+```r
+library(gapminder)
+gapminder %&gt;%
+  group_by(year) %&gt;%
+  summarize(lifeExp = median(lifeExp),
+            gdpMed = median(gdpPercap)) %&gt;%
+  ggplot(aes(year,lifeExp)) + geom_line(alpha = 1/3) + theme_bw() +
+    labs(x = "Year",
+         y = "Life Expectancy (years)",
+         title = "Median life expectancy across the world")
+```
+.plot-callout[
+&lt;img src="01-slides_files/figure-html/life-exp-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Evidence of better health
+
+&lt;img src="01-slides_files/figure-html/life-exp-full-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# GDP and Health
+
+
+```r
+library(gapminder)
+ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp)) + 
+  geom_point(size = 1) + theme_bw() + scale_x_continuous(label = comma) +
+  labs(x = "GDP Per Capita ($US)",
+       y = "Life Expectancy (years)",
+       title = "Life expectancy and GDP")
+```
+.plot-callout[
+&lt;img src="01-slides_files/figure-html/lifexp-gdp-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# GDP and Health
+
+&lt;img src="01-slides_files/figure-html/lifexp-full-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# GDP and Health over Time
+
+
+```
+## 
+Rendering [&gt;-------------------------------------------------------------------------------------------------------------------------] at 4.2 fps ~ eta: 24s
+Rendering [=&gt;------------------------------------------------------------------------------------------------------------------------] at 3.8 fps ~ eta: 26s
+Rendering [===&gt;----------------------------------------------------------------------------------------------------------------------] at 3.7 fps ~ eta: 26s
+Rendering [====&gt;---------------------------------------------------------------------------------------------------------------------] at 3.6 fps ~ eta: 27s
+Rendering [=====&gt;--------------------------------------------------------------------------------------------------------------------] at 3.6 fps ~ eta: 27s
+Rendering [======&gt;-------------------------------------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 26s
+Rendering [========&gt;-----------------------------------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 26s
+Rendering [=========&gt;----------------------------------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 26s
+Rendering [==========&gt;---------------------------------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 26s
+Rendering [===========&gt;--------------------------------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 26s
+Rendering [============&gt;-------------------------------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 26s
+Rendering [==============&gt;-----------------------------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 25s
+Rendering [===============&gt;----------------------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 25s
+Rendering [================&gt;---------------------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 25s
+Rendering [=================&gt;--------------------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 25s
+Rendering [===================&gt;------------------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 25s
+Rendering [====================&gt;-----------------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 25s
+Rendering [=====================&gt;----------------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 24s
+Rendering [======================&gt;---------------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 24s
+Rendering [=======================&gt;--------------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 23s
+Rendering [=========================&gt;------------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 23s
+Rendering [==========================&gt;-----------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 23s
+Rendering [===========================&gt;----------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 22s
+Rendering [============================&gt;---------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 22s
+Rendering [=============================&gt;--------------------------------------------------------------------------------------------] at 3.4 fps ~ eta: 22s
+Rendering [===============================&gt;------------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 21s
+Rendering [================================&gt;-----------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 21s
+Rendering [=================================&gt;----------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 21s
+Rendering [==================================&gt;---------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 20s
+Rendering [====================================&gt;-------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 20s
+Rendering [=====================================&gt;------------------------------------------------------------------------------------] at 3.5 fps ~ eta: 20s
+Rendering [======================================&gt;-----------------------------------------------------------------------------------] at 3.5 fps ~ eta: 19s
+Rendering [=======================================&gt;----------------------------------------------------------------------------------] at 3.5 fps ~ eta: 19s
+Rendering [========================================&gt;---------------------------------------------------------------------------------] at 3.5 fps ~ eta: 19s
+Rendering [==========================================&gt;-------------------------------------------------------------------------------] at 3.5 fps ~ eta: 19s
+Rendering [===========================================&gt;------------------------------------------------------------------------------] at 3.5 fps ~ eta: 18s
+Rendering [============================================&gt;-----------------------------------------------------------------------------] at 3.5 fps ~ eta: 18s
+Rendering [=============================================&gt;----------------------------------------------------------------------------] at 3.5 fps ~ eta: 18s
+Rendering [===============================================&gt;--------------------------------------------------------------------------] at 3.5 fps ~ eta: 17s
+Rendering [================================================&gt;-------------------------------------------------------------------------] at 3.5 fps ~ eta: 17s
+Rendering [=================================================&gt;------------------------------------------------------------------------] at 3.5 fps ~ eta: 17s
+Rendering [==================================================&gt;-----------------------------------------------------------------------] at 3.5 fps ~ eta: 17s
+Rendering [===================================================&gt;----------------------------------------------------------------------] at 3.5 fps ~ eta: 16s
+Rendering [=====================================================&gt;--------------------------------------------------------------------] at 3.5 fps ~ eta: 16s
+Rendering [======================================================&gt;-------------------------------------------------------------------] at 3.5 fps ~ eta: 16s
+Rendering [=======================================================&gt;------------------------------------------------------------------] at 3.5 fps ~ eta: 15s
+Rendering [========================================================&gt;-----------------------------------------------------------------] at 3.5 fps ~ eta: 15s
+Rendering [==========================================================&gt;---------------------------------------------------------------] at 3.5 fps ~ eta: 15s
+Rendering [===========================================================&gt;--------------------------------------------------------------] at 3.5 fps ~ eta: 15s
+Rendering [============================================================&gt;-------------------------------------------------------------] at 3.5 fps ~ eta: 14s
+Rendering [=============================================================&gt;------------------------------------------------------------] at 3.5 fps ~ eta: 14s
+Rendering [==============================================================&gt;-----------------------------------------------------------] at 3.5 fps ~ eta: 14s
+Rendering [================================================================&gt;---------------------------------------------------------] at 3.5 fps ~ eta: 13s
+Rendering [=================================================================&gt;--------------------------------------------------------] at 3.5 fps ~ eta: 13s
+Rendering [==================================================================&gt;-------------------------------------------------------] at 3.5 fps ~ eta: 13s
+Rendering [===================================================================&gt;------------------------------------------------------] at 3.5 fps ~ eta: 13s
+Rendering [=====================================================================&gt;----------------------------------------------------] at 3.5 fps ~ eta: 12s
+Rendering [======================================================================&gt;---------------------------------------------------] at 3.5 fps ~ eta: 12s
+Rendering [=======================================================================&gt;--------------------------------------------------] at 3.5 fps ~ eta: 12s
+Rendering [========================================================================&gt;-------------------------------------------------] at 3.5 fps ~ eta: 11s
+Rendering [=========================================================================&gt;------------------------------------------------] at 3.5 fps ~ eta: 11s
+Rendering [===========================================================================&gt;----------------------------------------------] at 3.5 fps ~ eta: 11s
+Rendering [============================================================================&gt;---------------------------------------------] at 3.5 fps ~ eta: 11s
+Rendering [=============================================================================&gt;--------------------------------------------] at 3.5 fps ~ eta: 10s
+Rendering [==============================================================================&gt;-------------------------------------------] at 3.5 fps ~ eta: 10s
+Rendering [================================================================================&gt;-----------------------------------------] at 3.5 fps ~ eta: 10s
+Rendering [=================================================================================&gt;----------------------------------------] at 3.5 fps ~ eta:  9s
+Rendering [==================================================================================&gt;---------------------------------------] at 3.5 fps ~ eta:  9s
+Rendering [===================================================================================&gt;--------------------------------------] at 3.5 fps ~ eta:  9s
+Rendering [====================================================================================&gt;-------------------------------------] at 3.5 fps ~ eta:  9s
+Rendering [======================================================================================&gt;-----------------------------------] at 3.5 fps ~ eta:  8s
+Rendering [=======================================================================================&gt;----------------------------------] at 3.5 fps ~ eta:  8s
+Rendering [========================================================================================&gt;---------------------------------] at 3.5 fps ~ eta:  8s
+Rendering [=========================================================================================&gt;--------------------------------] at 3.5 fps ~ eta:  7s
+Rendering [===========================================================================================&gt;------------------------------] at 3.5 fps ~ eta:  7s
+Rendering [============================================================================================&gt;-----------------------------] at 3.5 fps ~ eta:  7s
+Rendering [=============================================================================================&gt;----------------------------] at 3.5 fps ~ eta:  7s
+Rendering [==============================================================================================&gt;---------------------------] at 3.5 fps ~ eta:  6s
+Rendering [===============================================================================================&gt;--------------------------] at 3.5 fps ~ eta:  6s
+Rendering [=================================================================================================&gt;------------------------] at 3.5 fps ~ eta:  6s
+Rendering [==================================================================================================&gt;-----------------------] at 3.5 fps ~ eta:  5s
+Rendering [===================================================================================================&gt;----------------------] at 3.5 fps ~ eta:  5s
+Rendering [====================================================================================================&gt;---------------------] at 3.5 fps ~ eta:  5s
+Rendering [=====================================================================================================&gt;--------------------] at 3.5 fps ~ eta:  5s
+Rendering [=======================================================================================================&gt;------------------] at 3.5 fps ~ eta:  4s
+Rendering [========================================================================================================&gt;-----------------] at 3.5 fps ~ eta:  4s
+Rendering [=========================================================================================================&gt;----------------] at 3.5 fps ~ eta:  4s
+Rendering [==========================================================================================================&gt;---------------] at 3.5 fps ~ eta:  3s
+Rendering [============================================================================================================&gt;-------------] at 3.5 fps ~ eta:  3s
+Rendering [=============================================================================================================&gt;------------] at 3.4 fps ~ eta:  3s
+Rendering [==============================================================================================================&gt;-----------] at 3.4 fps ~ eta:  3s
+Rendering [===============================================================================================================&gt;----------] at 3.5 fps ~ eta:  2s
+Rendering [================================================================================================================&gt;---------] at 3.5 fps ~ eta:  2s
+Rendering [==================================================================================================================&gt;-------] at 3.5 fps ~ eta:  2s
+Rendering [===================================================================================================================&gt;------] at 3.5 fps ~ eta:  1s
+Rendering [====================================================================================================================&gt;-----] at 3.5 fps ~ eta:  1s
+Rendering [=====================================================================================================================&gt;----] at 3.5 fps ~ eta:  1s
+Rendering [=======================================================================================================================&gt;--] at 3.5 fps ~ eta:  1s
+Rendering [========================================================================================================================&gt;-] at 3.5 fps ~ eta:  0s
+Rendering [==========================================================================================================================] at 3.5 fps ~ eta:  0s
+                                                                                                                                                            
+```
+
+```
+## 
+Frame 1 (1%)
+Frame 2 (2%)
+Frame 3 (3%)
+Frame 4 (4%)
+Frame 5 (5%)
+Frame 6 (6%)
+Frame 7 (7%)
+Frame 8 (8%)
+Frame 9 (9%)
+Frame 10 (10%)
+Frame 11 (11%)
+Frame 12 (12%)
+Frame 13 (13%)
+Frame 14 (14%)
+Frame 15 (15%)
+Frame 16 (16%)
+Frame 17 (17%)
+Frame 18 (18%)
+Frame 19 (19%)
+Frame 20 (20%)
+Frame 21 (21%)
+Frame 22 (22%)
+Frame 23 (23%)
+Frame 24 (24%)
+Frame 25 (25%)
+Frame 26 (26%)
+Frame 27 (27%)
+Frame 28 (28%)
+Frame 29 (29%)
+Frame 30 (30%)
+Frame 31 (31%)
+Frame 32 (32%)
+Frame 33 (33%)
+Frame 34 (34%)
+Frame 35 (35%)
+Frame 36 (36%)
+Frame 37 (37%)
+Frame 38 (38%)
+Frame 39 (39%)
+Frame 40 (40%)
+Frame 41 (41%)
+Frame 42 (42%)
+Frame 43 (43%)
+Frame 44 (44%)
+Frame 45 (45%)
+Frame 46 (46%)
+Frame 47 (47%)
+Frame 48 (48%)
+Frame 49 (49%)
+Frame 50 (50%)
+Frame 51 (51%)
+Frame 52 (52%)
+Frame 53 (53%)
+Frame 54 (54%)
+Frame 55 (55%)
+Frame 56 (56%)
+Frame 57 (57%)
+Frame 58 (58%)
+Frame 59 (59%)
+Frame 60 (60%)
+Frame 61 (61%)
+Frame 62 (62%)
+Frame 63 (63%)
+Frame 64 (64%)
+Frame 65 (65%)
+Frame 66 (66%)
+Frame 67 (67%)
+Frame 68 (68%)
+Frame 69 (69%)
+Frame 70 (70%)
+Frame 71 (71%)
+Frame 72 (72%)
+Frame 73 (73%)
+Frame 74 (74%)
+Frame 75 (75%)
+Frame 76 (76%)
+Frame 77 (77%)
+Frame 78 (78%)
+Frame 79 (79%)
+Frame 80 (80%)
+Frame 81 (81%)
+Frame 82 (82%)
+Frame 83 (83%)
+Frame 84 (84%)
+Frame 85 (85%)
+Frame 86 (86%)
+Frame 87 (87%)
+Frame 88 (88%)
+Frame 89 (89%)
+Frame 90 (90%)
+Frame 91 (91%)
+Frame 92 (92%)
+Frame 93 (93%)
+Frame 94 (94%)
+Frame 95 (95%)
+Frame 96 (96%)
+Frame 97 (97%)
+Frame 98 (98%)
+Frame 99 (99%)
+Frame 100 (100%)
+## Finalizing encoding... done!
+```
+
+&lt;img src="01-slides_files/figure-html/gganim1-1.gif" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Spending and Health
+
+
+
+
+```r
+ggplot(data = (dartmouth.data %&gt;% filter(Year==2015)), 
+       mapping = aes(x = Expenditures, y = Total_Mortality)) + 
+  geom_point(size = 1) + theme_bw() + scale_x_continuous(label = comma) +
+  geom_smooth(method="lm", se=FALSE, color="blue", size=1/2) +
+  labs(x = "Spending Per Capita ($US)",
+       y = "Mortality Rate",
+       title = "Mortality and Health Care Spending")
+```
+.plot-callout[
+&lt;img src="01-slides_files/figure-html/dartmouth-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Spending and Health
+
+&lt;img src="01-slides_files/figure-html/dartmouth-output-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Spending and Health
+
+- Does medical spending make us sicker?
+- What else might explain this relationship?
+
+.plot-callout[
+&lt;img src="01-slides_files/figure-html/dartmouth-callout-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Goals of this course.
+
+1. Understand and implement selected methods for causal inference
+--
+&lt;br&gt;
+2. Along the way...data management and version control with real data
+
+--
+&lt;br&gt;
+3. Summarize, visualize, and explain research results
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: syllabus
+
+# Syllabus highlights
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+(Read the full document [here](https://github.com/imccart/Econ-470/blob/master/Syllabus/Econ470-Syllabus.pdf).)
+
+---
+# Why this course?
+
+1. Working with data is hard
+
+2. Health and health care are constantly changing
+
+3. $3.5 trillion, 17.9% of GDP, $10,739 per person
+
+--
+
+&gt; *"Nobody knew health care could be so complicated"*
+&gt; &lt;footer&gt;--- Donald Trump&lt;/footer&gt;
+
+---
+# Structure
+
+- Very applied in nature
+
+- *Methods* for causal inference
+
+  - Selection on observables (matching, propensity scores)
+  
+  - Instrumental variables
+  
+  - Regression discontinuity
+  
+  - Difference-in-differences
+
+
+---
+# Structure
+
+- *Substantive* areas
+
+  - Hospital pricing, policy, and competition
+  
+  - Cigarette taxes and demand
+  
+  - Medicare Advantage and quality disclosure
+  
+  - Medicaid expansion and health insurance
+
+
+---
+# Structure
+
+- *Datasets* from the real world
+
+  - Hospital Cost Report Information System (HCRIS)
+  
+  - Centers for Disease Control (CDC)
+  
+  - Medicare Advantage data
+  
+  - Behavioral Risk Factor Surveillance System (BRFSS), Medicaid, Health Insurance Exchanges
+  
+  
+---
+# Assignments
+
+- Homework (x5)
+
+- Research paper (see [Research Project](assignments/project.html) for list)
+
+- Presentation
+
+---
+# Grading
+
+| Component                           | Weight |
+|:-|-:|
+| 5 × homework assignments (6% each)  | 30% |
+| Research paper                  		| 40% |
+| Presentation  						          | 30% |
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: software
+
+# Software Installation
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+
+---
+# Software Installation
+
+1. Download [R](https://www.r-project.org/)
+
+2. Download [RStudio](https://www.rstudio.com/products/rstudio/download/preview/)
+
+3. Download [Git](https://git-scm.com/downloads)
+
+4. Create an account on [GitHub](https://github.com/)
+
+--
+
+For help and troubleshooting with Git and GitHub, take a look at Jenny Bryan's http://happygitwithr.com.
+
+
+---
+# Checklist
+
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Do you have the most recent version of R?
+  
+  ```r
+  version$version.string
+  ```
+  
+  ```
+  ## [1] "R version 3.6.0 (2019-04-26)"
+  ```
+
+
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Do you have the most recent version of RStudio? (The [preview version](https://www.rstudio.com/products/rstudio/download/preview/) is fine.)
+  
+  ```r
+  RStudio.Version()$version
+  ## Requires an interactive session but should return something like "[1] ‘1.1.463’"
+  ```
+
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Have you updated all of your R packages? 
+  
+  ```r
+  update.packages(ask = FALSE, checkBuilt = TRUE)
+  ```
+  
+---
+# Checklist
+
+- Open up the [shell](http://happygitwithr.com/shell.html#shell)
+
+- Windows users, make sure that you installed a Bash-compatible version of the shell. If you installed [Git for Windows](https://gitforwindows.org), then you should be good to go.
+
+
+---
+# Checklist
+
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Which version of Git have you installed?
+  
+  ```r
+  git --version
+  ```
+
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Did you introduce yourself to Git? (Substitute in your details.)
+  
+  ```r
+  git config --global user.name 'Ian McCarthy'
+  git config --global user.email 'ian.mccarthy@emory.edu'
+  git config --global --list
+  ```
+
+&lt;html&gt;&amp;#9745;&lt;/html&gt; Did you register an account in GitHub?
+
+
+
+&lt;!-- New Section --&gt;
+---
+class: inverse, center, middle
+name: git_rstudio
+
+# Practice with Git and RStudio
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# Before next class (see http://happygitwithr.com)
+
+1. Download [R](https://www.r-project.org/)
+
+2. Download [RStudio](https://www.rstudio.com/products/rstudio/download/preview/)
+
+3. Download [Git](https://git-scm.com/downloads)
+
+4. Create an account on [GitHub](https://github.com/)
+
+5. Connect RStudio to Git and GitHub
+
+6. Start/clone/fork a repository for this class 
+
+
+---
+# Setting things up
+
+Now we're going to clone a GitHub repository (repo) using RStudio.
+
+.center[
+  ![:scale 800px](pics/GitHub_RStudio_Demo.gif)
+]
+
+
+---
+# Some common mistakes for windows users
+
+- Windows folders are *not* files...there is no content without a file. You can't commit or push changes without content.
+
+- Let RStudio/GitHub create the directory (main folder) for you.
+
+- If you're working across devices on your own repo, be sure to pull before starting and push afterward.
+
+- Avoid spaces in file names. Avoid them at all costs. *DO NOT PUT SPACES IN YOUR FILE NAMES.*
+
+&gt;*"A space in a file name is a space in your soul."*
+
+
+---
+# Ideal workflow
+
+Until you are a Git(Hub) expert...
+
+1. Start project on GitHub (fork from another repo if needed)
+
+2. Clone to desktop with RStudio
+
+3. See http://happygitwithr.com for instructions on linking your local repo with a new upstream remote
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"touch": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
