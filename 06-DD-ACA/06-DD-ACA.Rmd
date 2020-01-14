@@ -1,12 +1,13 @@
 ---
 title: "Section 6: Difference-in-Differences and Effects of Medicaid Expansion"
-subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1050px></html>"
+subtitle: "<html><div style='float:left'></div><hr color='#EB811B' size=1px width=0px></html>"
 author: Ian McCarthy | Emory University
 date: Econ 470 & HLTH 470 #"`r format(Sys.time(), '%d %B %Y')`"
 header-includes: 
   - \usepackage{graphicx}
   - \usepackage{amsmath}
 output:
+  html_document: default
   xaringan::moon_reader:
     css: [default, metropolis, metropolis-fonts, custom.css, cols.css] 
     lib_dir: libs
@@ -84,7 +85,7 @@ name: aca
 
 # Background on the Affordable Care Act
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # Affordable Care Act
@@ -287,7 +288,7 @@ name: dd
 
 # Difference-in-Differences
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 
 ---
@@ -517,7 +518,7 @@ name: aca_data
 
 # Insurance Data and Medicaid Expansion
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # Data sources
@@ -641,7 +642,7 @@ name: medicaid
 
 # Medicaid expansion and health insurance?
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # Key issue
