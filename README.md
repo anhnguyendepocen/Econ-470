@@ -6,21 +6,19 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 
 ## Notes and Slides
-Below are all of the slides that I'll use throughout the class. The slides will open as html files. Note that I've disabled "touch" navigation, which means that it's not possible to advance the slides with a touchscreen. I did this because I will record the screen in each class, and I'll annotate the slides throughout the class. If you want to see the slides in standard presentation format, you will need to access everything on a desktop or laptop rather than a phone or tablet. Everything is still accessible on a mobile platform, you just need to enable "simplified" view (or reader view in some browsers). This will remove the slide/presentation formatting and allow you just to see the whole slideshow as one big website.
+Below are all of the slides that I'll use throughout the class. The slides will open as html files. Note that I've disabled "touch" navigation, which means that it's not possible to advance the slides with a touchscreen. I did this because I will record the screen in each class, and I'll annotate the slides throughout the class. If you want to see the slides in standard presentation format, you will need to access everything on a desktop or laptop rather than a phone or tablet. Everything is still accessible on a mobile platform, you just need to enable "simplified" view (or reader view in some browsers). I've provided a link for that view in each section. The simplified view will remove the slide/presentation formatting and allow you just to see the whole content as one big website. Some content won't display in the same way, but the content itself will be there.
 
-1. Introduction: Motivation and software setup \[[Slides](01-Introduction/01-Introduction.html)\]
+1. Introduction: Motivation and software setup, [slides](01-Introduction/01-slides.html) and [simplified view](01-Introduction/01-simple.html)
 
-2. Struggling with data
-\[[Slides](02-DataStruggles/02-DataStruggles.html)\]
+2. Struggling with data, [slides](02-DataStruggles/02-slides.html) and [simplified view](02-DataStruggles/02-simple.html)
 
-3. Selection on Observables and Hospital Pricing
-\[[Slides](03-Selection-HospitalPricing/03-Selection-HospitalPricing.html)\]
+3. Selection on Observables and Hospital Pricing, [slides](03-Selection-HospitalPricing/03-slides.html) and [simplified view](03-Selection-HospitalPricing/03-simple.html)
 
-4. Instrumental variables and demand for cigarettes \[[Slides](04-IV-Smoking/04-IV-Smoking.html)\]
+4. Instrumental variables and demand for cigarettes, [slides](04-IV-Smoking/04-slides.html) and [simplified view](04-IV-Smoking/04-simple.html)
 
-5. Regression discontinuity and Medicare Advantage \[[Slides](05-RD-MAQuality/05-RD-MAQuality.html)\]
+5. Regression discontinuity and Medicare Advantage, [slides](05-RD-MAQuality/05-slides.html) and [simplified view](05-RD-MAQuality/05-simple.html)
 
-6. Difference-in-Differences and Access to Insurance \[[Slides](06-DD-ACA/06-DD-ACA.html)\]
+6. Difference-in-Differences and Access to Insurance, [slides](06-DD-ACA/06-slides.html) and [simplified view](06-DD-ACA/06-simple.html)
 
 
 ## Assignments
