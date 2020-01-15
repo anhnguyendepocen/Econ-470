@@ -22,17 +22,17 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 
 
 ## Assignments
-1. GitHub and Data Management \[[Instructions](assignments/hwk-01.html)\]
+1. GitHub and Data Management, Due 2/3, \[[Instructions](assignments/hwk-01.html)\]
 
-2. HCRIS Data and Hospital Pricing \[[Instructions](assignments/hwk-02.html)\]
+2. HCRIS Data and Hospital Pricing, Due 2/27, \[[Instructions](assignments/hwk-02.html)\]
 
-3. Smoking Data and Cigarette Demand \[[Instructions](assignments/hwk-03.html)\]
+3. Smoking Data and Cigarette Demand, Due 3/16, \[[Instructions](assignments/hwk-03.html)\]
 
-4. Quality and Insurance Choice \[[Instructions](assignments/hwk-04.html)\]
+4. Quality and Insurance Choice, Due 4/1, \[[Instructions](assignments/hwk-04.html)\]
 
-5. Medicaid Expansion and Uninsurance Rates \[[Instructions](assignments/hwk-05.html)\]
+5. Medicaid Expansion and Uninsurance Rates, Due 4/20, \[[Instructions](assignments/hwk-05.html)\]
 
-6. Research Project \[[Instructions](assignments/project.html)\]
+6. Research Project, Final Paper Due 5/4, \[[Instructions](assignments/project.html)\]
 
 
 ## GitHub Repositories
