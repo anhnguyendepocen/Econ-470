@@ -151,7 +151,7 @@ ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp)) +
 ---
 # GDP and Health over Time
 
-```{r gganim1, echo=FALSE}
+```{r gganim1, message=FALSE, warning=FALSE, include=FALSE}
 anim1 <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop)) +
   geom_point(alpha = 0.5, show.legend = FALSE) +
   scale_colour_manual(values = country_colors) +
