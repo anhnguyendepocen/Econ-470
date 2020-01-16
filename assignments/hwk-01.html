@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -1423,6 +1422,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -1451,6 +1451,12 @@ summary {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1537,7 +1543,7 @@ div.tocify {
 <li><a href="https://www.stat.cmu.edu/~cshalizi/rmarkdown/">Using R Markdown for Class Reports</a></li>
 </ul>
 <p>If you’re still new to <code>R Markdown</code>, then there will be some growing pains. Please be patient with yourself and stick to it. One of the goals of the course is to develop good workflow habits. This means doing work in a way that minimizes mistakes and maximizes reproducability. <code>R Markdown</code> exists exactly for these reasons. It allows you to keep your data analysis and the description of that analysis together in a single document or group of documents. It’s really easy to introduce mistakes when copying and pasting empirical results into a text document, and it’s even easier to waste hours (<em>days/weeks?</em>) re-pasting results into your text document and re-writing the results accordingly. Doing everything in <code>R Markdown</code> avoids all of these issues. In the long run, it’s much more efficient.</p>
-<p>You can submit your answers as an html document in your personal GitHub repo. Please also adopt the naming convention, <em>‘last name’-‘first initial’-hwk1.html</em>. For example, in my case this would be <em>McCarthy-I-hwk1</em>. In addition to your answers, please be sure to include the <code>R</code> code that generated your answers. Practice writing good code and showing me only what I would need to recreate your results.</p>
+<p>You can submit your answers as an html document in your personal GitHub repo. You will receive an invitation to each assignment through GitHub Classroom, which will automatically link to your personal repository for each assignment. From there, you just need to develop the code files as needed. Please include all of your final answers as part of the ReadMe file. Practice writing good code and showing me only what I would need to recreate your results.</p>
 </div>
 <div id="using-git-and-github" class="section level1">
 <h1><span class="header-section-number">2</span> Using <em>Git</em> and <em>GitHub</em></h1>
@@ -1545,7 +1551,7 @@ div.tocify {
 <ol style="list-style-type: decimal">
 <li><p>Log in to <a href="https://www.linkedin.com/learning/">LinkedIn Learning</a>. It’s free if you sign in through Emory, then you can link to your personal LinkedIn account.</p></li>
 <li><p>Take the <a href="https://www.linkedin.com/learning/learning-github?u=2149178">Learning GitHub</a> course. It takes a couple of hours to complete. Once it’s completed, you’ll get a certificate added to your LinkedIn profile.</p></li>
-<li><p>Take a screenshot of your profile page showing you completed the course and add the screenshot to your <code>R Markdown</code> document. Hint: to add a screenshot in the document, you can do something like: <code>![](D:/pictures/screenshot.png)</code></p></li>
+<li><p>Add your certificate to your answers in <code>R Markdown</code>. Hint: to add an image in the document, you can do something like: <code>![](D:/pictures/screenshot.png)</code></p></li>
 </ol>
 </div>
 <div id="building-the-data" class="section level1">
@@ -1577,30 +1583,30 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td>Type 1</td>
-<td align="right">36</td>
-<td align="right">48</td>
-<td align="right">18</td>
-<td align="right">30</td>
+<td align="right">20</td>
+<td align="right">19</td>
 <td align="right">41</td>
-<td align="right">36</td>
+<td align="right">21</td>
+<td align="right">46</td>
+<td align="right">20</td>
 </tr>
 <tr class="even">
 <td>Type 2</td>
+<td align="right">47</td>
 <td align="right">49</td>
-<td align="right">48</td>
-<td align="right">17</td>
-<td align="right">17</td>
-<td align="right">40</td>
-<td align="right">49</td>
+<td align="right">26</td>
+<td align="right">50</td>
+<td align="right">36</td>
+<td align="right">47</td>
 </tr>
 <tr class="odd">
 <td>Type 3</td>
-<td align="right">22</td>
-<td align="right">45</td>
-<td align="right">50</td>
-<td align="right">24</td>
-<td align="right">18</td>
-<td align="right">22</td>
+<td align="right">12</td>
+<td align="right">30</td>
+<td align="right">39</td>
+<td align="right">15</td>
+<td align="right">35</td>
+<td align="right">12</td>
 </tr>
 </tbody>
 </table>
