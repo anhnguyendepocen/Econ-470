@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -1423,6 +1422,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -1451,6 +1451,12 @@ summary {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1523,17 +1529,17 @@ div.tocify {
 
 <h1 class="title toc-ignore">Homework 2</h1>
 <h4 class="author">Econ 470/HLTH 470: Research in Health Economics</h4>
-<h4 class="date">Due: Wedesday, February 26</h4>
+<h4 class="date">Due: Monday, February 24</h4>
 
 </div>
 
 
 <div id="instructions" class="section level1">
 <h1><span class="header-section-number">1</span> Instructions</h1>
-<p>In this assignment, you’ll recreate the HCRIS data and answer a few questions along the way. The first step is to make sure you’ve forked the <a href="https://github.com/imccart/HCRIS">HCRIS GitHub repository</a> and downloaded all of the raw data sources. Once you have the data downloaded and the code running, answer the following questions:</p>
+<p>In this assignment, you’ll recreate the HCRIS data and answer a few questions along the way. The first step is to make sure you’re working with the <a href="https://github.com/imccart/HCRIS">HCRIS GitHub repository</a> and downloaded all of the raw data sources. Once you have the data downloaded and the code running, answer the following questions:</p>
 </div>
-<div id="organize-the-data" class="section level1">
-<h1><span class="header-section-number">2</span> Organize the data</h1>
+<div id="summarize-the-data" class="section level1">
+<h1><span class="header-section-number">2</span> Summarize the data</h1>
 <ol style="list-style-type: decimal">
 <li>How many hospitals submitted the 1996 version of the HCRIS reports in 2010? How is that even possible?</li>
 <li>How many hospitals filed more than one report in the same year? Show your answer as a line graph of the number of hospitals over time.</li>

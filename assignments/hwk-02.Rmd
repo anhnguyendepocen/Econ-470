@@ -1,7 +1,7 @@
 ---
 title: "Homework 2"
 author: "Econ 470/HLTH 470: Research in Health Economics"
-date: "Due: Wedesday, February 26"
+date: "Due: Monday, February 24"
 output: 
   bookdown::html_document2:
     toc: TRUE
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Instructions
-In this assignment, you'll recreate the HCRIS data and answer a few questions along the way. The first step is to make sure you've forked the [HCRIS GitHub repository](https://github.com/imccart/HCRIS) and downloaded all of the raw data sources. Once you have the data downloaded and the code running, answer the following questions:
+In this assignment, you'll recreate the HCRIS data and answer a few questions along the way. The first step is to make sure you're working with the [HCRIS GitHub repository](https://github.com/imccart/HCRIS) and downloaded all of the raw data sources. Once you have the data downloaded and the code running, answer the following questions:
 
 # Summarize the data
 1. How many hospitals submitted the 1996 version of the HCRIS reports in 2010? How is that even possible?

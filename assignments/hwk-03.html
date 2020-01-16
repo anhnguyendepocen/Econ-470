@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -1423,6 +1422,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -1451,6 +1451,12 @@ summary {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1530,7 +1536,7 @@ div.tocify {
 
 <div id="instructions" class="section level1">
 <h1><span class="header-section-number">1</span> Instructions</h1>
-<p>In this assignment, you’ll recreate the CDC Tax Burden on Tobacco data and answer a few questions along the way. As with the last assignment, the first step is to make sure you’ve forked the <a href="https://github.com/imccart/CDC-Tobacco">CDC Tax Burden on Tobacco repository</a> and downloaded all of the raw data sources. Be sure to get the CPI data from the BLS as well, since we’ll be working with <em>real</em> dollar values. Once you have the data downloaded and the code running, answer the following questions:</p>
+<p>In this assignment, you’ll recreate the CDC Tax Burden on Tobacco data and answer a few questions along the way. As with the last assignment, the first step is to make sure you’ve got the <a href="https://github.com/imccart/CDC-Tobacco">CDC Tax Burden on Tobacco repository</a> and downloaded all of the raw data sources. Be sure to get the CPI data from the BLS as well, since we’ll be working with <em>real</em> dollar values. Once you have the data downloaded and the code running, answer the following questions:</p>
 </div>
 <div id="summarize-the-data" class="section level1">
 <h1><span class="header-section-number">2</span> Summarize the data</h1>

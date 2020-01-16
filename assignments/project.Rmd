@@ -1,7 +1,7 @@
 ---
 title: "Research Project"
 author: "Econ 470/HLTH 470: Research in Health Economics"
-date: "Due: Thursday, April 30"
+date: "Due: Monday, May 4"
 output: 
   bookdown::html_document2:
     toc: TRUE
@@ -76,6 +76,6 @@ This can be answered using the existing ACS and Medicaid Expansion repo. While t
 |:-------------------------------|:----------------|
 | Select research topic          | Wednesday, 1/22 |
 | Presentation  						     | April 15-27     |
-| Paper                          | Thursday, 4/30  |
+| Paper                          | Monday, 5/4     |
 
 

@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Instructions
-In this assignment, you'll recreate the CDC Tax Burden on Tobacco data and answer a few questions along the way. As with the last assignment, the first step is to make sure you've forked the [CDC Tax Burden on Tobacco repository](https://github.com/imccart/CDC-Tobacco) and downloaded all of the raw data sources. Be sure to get the CPI data from the BLS as well, since we'll be working with *real* dollar values. Once you have the data downloaded and the code running, answer the following questions:
+In this assignment, you'll recreate the CDC Tax Burden on Tobacco data and answer a few questions along the way. As with the last assignment, the first step is to make sure you've got the [CDC Tax Burden on Tobacco repository](https://github.com/imccart/CDC-Tobacco) and downloaded all of the raw data sources. Be sure to get the CPI data from the BLS as well, since we'll be working with *real* dollar values. Once you have the data downloaded and the code running, answer the following questions:
 
 
 # Summarize the data

@@ -1,7 +1,7 @@
 ---
 title: "Homework 1"
 author: "Econ 470/HLTH 470: Research in Health Economics"
-date: "Due: Monday, January 27"
+date: "Due: Monday, February 3"
 output: 
   bookdown::html_document2:
     toc: TRUE

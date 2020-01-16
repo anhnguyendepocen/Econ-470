@@ -1,7 +1,7 @@
 ---
 title: "Homework 5"
 author: "Econ 470/HLTH 470: Research in Health Economics"
-date: "Due: Monday, April 27"
+date: "Due: Monday, April 20"
 output: 
   bookdown::html_document2:
     toc: TRUE
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Instructions
-In this assignment, you'll recreate the Insurance and Medicaid Expansion data and answer a few questions along the way. As with the prior assignments, the first step is to make sure you've forked the [Insurance Access repository](https://github.com/imccart/Insurance-Access) and downloaded all of the raw data sources. Once you have the data downloaded and the code running, answer the following questions:
+In this assignment, you'll recreate the Insurance and Medicaid Expansion data and answer a few questions along the way. As with the prior assignments, the first step is to make sure you have the [Insurance Access repository](https://github.com/imccart/Insurance-Access) and downloaded all of the raw data sources. Once you have the data downloaded and the code running, answer the following questions:
 
 # Summarize the data
 1. Plot the share of insured individuals with direct purchase health insurance over time.
