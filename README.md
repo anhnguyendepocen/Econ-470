@@ -11,6 +11,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 1. Introduction: Motivation and software setup, [slides](01-Introduction/01-slides.html) and [simplified view](01-Introduction/01-simple.html)
 
 2. Struggling with data, [slides](02-DataStruggles/02-slides.html) and [simplified view](02-DataStruggles/02-simple.html)
+    + [Data Basics in R](https://drive.google.com/file/d/1GieEVVXCunKwGr4Mle_WSajt6HlGraa4/view)
 
 3. Selection on Observables and Hospital Pricing, [slides](03-Selection-HospitalPricing/03-slides.html) and [simplified view](03-Selection-HospitalPricing/03-simple.html)
 
