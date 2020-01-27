@@ -414,7 +414,8 @@ What is "year.x" vs "year.y"?
 
 `count()` and `distinct()`: Number and isolate unique observations.
 - e.g. `starwars %>% count(species)`, or `starwars %>% distinct(species)`
-- You could also use a combination of `mutate()`, `group_by()`, and `n()`, e.g. `starwars %>% group_by(species) %>% mutate(num = n())`.
+- You could also use a combination of `mutate()`, `group_by()`, and `n()`, e.g. `starwars %>% group_by(species) %>% mutate(num = n())`
+- Built-in combination using `add_count()`.
 
 
 ---
@@ -445,7 +446,7 @@ name: tidyr
 
 # tidyr
 
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 ---
 # Key tidyr verbs
