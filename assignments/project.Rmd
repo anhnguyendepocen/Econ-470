@@ -59,7 +59,7 @@ Details of the MA quality improvement program can be found [here](https://www.ga
 
 This can be answered using the existing Medicare Advantage repo. While this project doesn't require any additional data collection, it is a challenging exercise and will take additional time to understand the nature of Medicare Advantage premiums. Total time is comparable to other topics.
 
-## Medicaid Expanion. 
+## Medicaid Expansion. 
 This topic uses the [ACS and Medicaid Expansion Repo](https://github.com/imccart/Insurance-Access).
 
 7. Does health insurance improve health?
@@ -79,3 +79,6 @@ This can be answered using the existing ACS and Medicaid Expansion repo. While t
 | Paper                          | Monday, 5/4     |
 
 
+
+# Selected projects so far
+- Julia van Helmond, "Does health insurance improve health"?
