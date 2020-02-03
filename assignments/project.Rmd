@@ -82,3 +82,4 @@ This can be answered using the existing ACS and Medicaid Expansion repo. While t
 
 # Selected projects so far
 - Julia van Helmond, "Does health insurance improve health"?
+- Candice Duong, "How do smoking regulations affect cigarette demand"?
