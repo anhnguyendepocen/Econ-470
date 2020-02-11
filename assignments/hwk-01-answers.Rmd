@@ -15,6 +15,12 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, stringr, readxl, data.table, gdata, scales)
 ```
 
+```{r, include=FALSE}
+load("Hwk1_workspace.Rdata")
+```
+
+My answers to the homework questions are described below. Note that I use all months of each year of the Medicare Advantage data, which means that I will tend to have more observations compared to taking a single month from each year. Note also that I do the analysis for these answers in a seperate `R` script. You can read in the full data as part of your markdown file, but that takes some time to knit. So I run the analysis separately, save the workspace with only the summary stats, figures, and tables that I need, and then load the workspace in the markdown document. My analysis file is available [here](hwk-01-run.R). Most of the relevant code is copied in the answer key as well, but the code isn't physically executed in the markdown document. Enjoy!
+
 # Enrollment Data
 Answer the following based on the enrollment data:
 
@@ -22,80 +28,84 @@ Answer the following based on the enrollment data:
 
 First we need to create the enrollment data. Working with the Medicare Advantage Github Repository, you should have created a "full.ma.data" object. The following code reads this dataset into `R` and counts the total number of plans:
 
-```{r}
-full.ma.data <- readRDS("D:/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/full_ma_data.rds")
+```{r, eval=F}
+full.ma.data <- readRDS("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/full_ma_data.rds")
 tot.obs <- count(full.ma.data %>% ungroup())
 ```
 So we have `r format(tot.obs, big.mark=",")` total observations in the full dataset, which means there are `r format(tot.obs, big.mark=",")` unique combinations of contract/plan/county/year. 
 
 
-
 2. How many different *plan_types* exist in the data? <br>
 
-We need to tabulate the different plan types:
-```{r}
+First, we need to work with the full.ma.data to construct a table of plan types. I did this using the following:
+```{r, eval=F}
 plan.type.table <- full.ma.data %>% group_by(plan_type) %>% count() %>% arrange(-n)
-knitr::kable(plan.type.table, col.names=c("Plan Type","Count"), format.args=list(big.mark=","))
 ```
-The resulting table yields `r nrow(plan.type.table)` rows, so there are `r nrow(plan.type.table)` total plan types. I've provided the counts of each plan type just for extra detail.
 
+The resulting table yields `r nrow(plan.type.table)` rows, so there are `r nrow(plan.type.table)` total plan types. 
 
 3. Provide a table of the count of plans under each plan type in each year.<br>
 
-```{r}
-plan.type.year <- full.ma.data %>% group_by(plan_type, year) %>% count() %>% arrange(year, -n)
-plan.type.year <- pivot_wider(plan.type.year, names_from="year",values_from="n", names_prefix="Count_")
+I create a table of plan types by first grouping the full.ma.data by plan type and year:
+```{r, eval=F}
+plan.type.year1 <- full.ma.data %>% group_by(plan_type, year) %>% count() %>% arrange(year, -n)
+plan.type.year1 <- pivot_wider(plan.type.year1, names_from="year",values_from="n", names_prefix="Count_")
+```
+The second line just pivots the table to a "wide" format, which is how the table should be formatted. The final table is presented in Table \@ref(tab:plantype1).
+
+```{r plantype1, include=T, eval=T}
 options(knitr.kable.NA = 0)
-knitr::kable(plan.type.year, col.names=c("Plan Type","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015"), format.args=list(big.mark=","))
+knitr::kable(plan.type.year1, 
+             col.names=c("Plan Type","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015"),
+             format.args=list(big.mark=","),
+             type="html", caption = "Plan Types by Year", booktabs = TRUE)
 ```
 
 4. Remove all special needs plans (SNP), employer group plans (eghp), and all "800-series" plans.<br>
 
-Counts of different plan types over time are presented in Table \@ref(tab:plan_type).
-
-```{r plan_type}
-final.data <- full.ma.data %>%
+I remove the relevant plans just by applying the relevant filter to the full ma data and then creating the table of plan types.
+```{r, eval=F}
+final.plans <- full.ma.data %>%
   filter(snp == "No" & eghp == "No" &
            (planid < 800 | planid >= 900))
-plan.type.year <- final.data %>% group_by(plan_type, year) %>% count() %>% arrange(year, -n)
-plan.type.year <- pivot_wider(plan.type.year, names_from="year",values_from="n", names_prefix="Count_")
+
+plan.type.year2 <- final.plans %>% group_by(plan_type, year) %>% count() %>% arrange(year, -n)
+plan.type.year2 <- pivot_wider(plan.type.year2, names_from="year",values_from="n", names_prefix="Count_")
+```
+
+Counts of different plan types over time are presented in Table \@ref(tab:plantype2).
+
+```{r plantype2, include=T, eval=T}
 options(knitr.kable.NA = 0)
-knitr::kable(plan.type.year, col.names=c("Plan Type","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015"), format.args=list(big.mark=","),type="html", caption = "Plan Count by Year", booktabs = TRUE)
+knitr::kable(plan.type.year2, 
+             col.names=c("Plan Type","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015"),
+             format.args=list(big.mark=","),
+             type="html", caption = "Revised Plan Count by Year", booktabs = TRUE)
 ``` 
 
 5. Merge the the contract service area data to the enrollment data and restrict the data only to contracts that are approved in their respective counties.<br>
 
-Let's first read in the contract service area data:
-```{r}
-contract.service.area <- readRDS("D:/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/contract_service_area.rds")
-```
+Now we can join that dataset to our MA data. I use an inner join, which means I'm only taking rows that match in both datasets.
 
-Now we can join that dataset to our MA data. I'm going to use an inner join, which means I'm only taking rows that match in both datasets.
-```{r}
-final.data <- final.data %>%
+```{r, eval=F}
+final.data <- final.plans %>%
   inner_join(contract.service.area %>% 
                select(contractid, fips, year), 
-             by=c("contractid", "fips", "year"))
+             by=c("contractid", "fips", "year")) 
+
 ```
-  
 
 6. Finally, limit your dataset only to plans with non-missing enrollment data. Provide a graph showing the average number of Medicare Advantage enrollees per county from 2008 to 2015.<br>
-```{r}
+
+I first apply the filter to remove plans with missing enrollment data.
+```{r, eval=F}
 final.data <- final.data %>%
   filter(!is.na(avg_enrollment))
+```
 
-final.data %>%
-  group_by(fips, year) %>% 
-  select(fips, year, avg_enrollment) %>% 
-  summarize(all_enroll=sum(avg_enrollment)) %>%
-  ggplot(aes(x=as.factor(year),y=all_enroll)) + 
-  stat_summary(fun.y="mean", geom="bar") +
-  labs(
-    x="Year",
-    y="People",
-    title="Average Number of MA Enrollees per County"
-  ) + scale_y_continuous(labels=comma) +
-  theme_bw()
+Now we can form the graph of average enrollments per county, as reflected in Figure \@ref(fig:avgenrollment).
+```{r avgenrollment, include=T, eval=T}
+fig.avg.enrollment
 ```
 
 # Premium Data
@@ -103,62 +113,61 @@ final.data %>%
 1. Merge the plan characteristics data to the dataset you created in Step 6 above.<br>
 
 As mentioned in the instructions, we first need to merge in the market penetration data to provide a crosswalk between the plan/contract info and the plan characteristics. 
-```{r}
-ma.penetration.data <- readRDS("D:/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/ma_penetration.rds")
-final.data <- final.data %>%
+```{r, eval=F}
+final.data.pen <- final.data %>%
   left_join( ma.penetration.data %>% ungroup() %>%
                rename(state_long=state, county_long=county), 
              by=c("fips", "year"))
 ```
 
 Next we need to fill in the state information. I do this by creating a table of unique state names and then merging this back to the original data:
-```{r}
-final.state <- final.data %>% 
+```{r, eval=F}
+final.state <- final.data.pen %>% 
   group_by(state) %>% 
   summarize(state_name=last(state_long, na.rm=TRUE))
 
-final.data <- final.data %>%
+final.data.pen <- final.data.pen %>%
   left_join(final.state,
             by=c("state"))
 ```
 
 Finally, we can read in the premium data and merge that information to the final dataset
-```{r}
-plan.premiums <- readRDS("D:/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/plan_premiums.rds")
-final.data <- final.data %>%
+```{r, eval=F}
+prem.data <- final.data.pen %>%
   left_join( plan.premiums,
              by=c("contractid","planid","state_name"="state","county","year"))
 ```
 
-2. Provide a graph showing the average premium over time. Don't forget about formatting!
+2. Provide a graph showing the average premium over time. Don't forget about formatting!<br>
 
-```{r}
-final.data %>% ungroup() %>% group_by(year) %>%
-  summarize(avg_prem=mean(premium, na.rm=TRUE)) %>%
-  ggplot
+A graph of average premiums over time is presented in Figure \@ref(fig:avgpremium). Note the spike in premiums in 2014. What's that?
+
+```{r avgpremium, include=T, eval=T}
+fig.avg.premium
 ```
 
 
 3. Provide a graph showing the percentage of $0 premium plans over time. Also...remember to format things.
 
-```{r}
-final.data %>% ungroup() %>%
-  mutate(prem_0=(premium==0),
-         prem_na=(is.na(premium))) %>%
-  group_by(year) %>%
-  summarize(all_count=n(),prem_0=sum(prem_0, na.rm=TRUE), prem_na=sum(prem_na))
+A graph of the percentage of $0 premium plans is in Figure \@ref(fig:percentzero). Consistent with Figure \@ref(fig:avgpremium), we see a large drop (down to 0%) in the percentage of 0 premium plans in 2014. If we also look at the number of missing premium plans, we would see a big spike in 2014. Effectively, these premiums are 0 in some years but all listed as missing in 2014.
 
+```{r percentzero, include=T, eval=T}
+fig.percent.zero
 ```
-
-
-
 
 
 # Summary Questions
 With all of this data work and these great summaries, let's take a step back and think about what all this means.
 
-1. Why did we drop the "800-series" plans?
+1. Why did we drop the "800-series" plans?<br>
 
-2. Why do so many plans charge a $0 premium? What does that really mean to a beneficiary?
+These are plans that aren't available to all people. There are sometimes referred to as "Employer Group Waiver Plans". Since not everyone has access to these plans, summaries including these plans aren't reflective of an average enrollee's experience in the Medicare Advantage program.
 
-3. Briefly describe your experience working with these data (just a few sentences). Tell me one thing you learned and one thing that really aggravated you.
+2. Why do so many plans charge a $0 premium? What does that really mean to a beneficiary?<br>
+
+All beneficiaries still pay a Part B premium (over $100 in 2020). So a plan with no premium really just means its a plan with no additional premium in excess of the Part B premium. 
+
+3. Briefly describe your experience working with these data (just a few sentences). Tell me one thing you learned and one thing that really aggravated you.<br>
+
+One thing I learned as an instructor is that these data are too big to work with in an assignment, so I need to limit this repository for classroom purposes only to a single month of data per year.
+

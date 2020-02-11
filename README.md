@@ -23,7 +23,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 
 
 ## Assignments
-1. GitHub and Data Management, Due 2/3, \[[Instructions](assignments/hwk-01.html)\]
+1. GitHub and Data Management, Due 2/3, \[[Instructions](assignments/hwk-01.html)\] and \[[answers](assignments/hwk-01-answers.html)\]
 
 2. HCRIS Data and Hospital Pricing, Due 2/24, \[[Instructions](assignments/hwk-02.html)\]
 
