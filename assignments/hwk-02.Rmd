@@ -35,10 +35,17 @@ price = price_num/price_denom
 # Estimate ATEs
 For the rest of the assignment, you should include only observations in 2012. So we are now dealing with cross-sectional data in which some hospitals are penalized and some are not.
 1. Calculate the average price among penalized versus non-penalized hospitals. 
+
 2. Split hospitals into quartiles based on bed size. To do this, create 4 new indicator variables, where each variable is set to 1 if the hospital's bed size falls into the relevant quartile. 
+
 3. Find the average treatment effect using nearest neighbor matching (1-to-1) with inverse variance distance based on quartiles of bed size. 
+
 4. Find the average treatment effect using nearest neighbor matching (1-to-1) with Mahalanobis distance based on quartiles of bed size.
+
 5. Find the average treatment effect using inverse propensity weighting, where the propensity scores are based on quartiles of bed size.
+
 6. Find the average treatment effect using a single linear regression.
+
 7. With these different treatment effect estimators, are the results similar, identical, very different? 
+
 8. Do you think you've estimated a causal effect of the penalty? Why or why not? (just a couple of sentences)
