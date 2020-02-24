@@ -594,3 +594,12 @@ stargazer(first1, first2, first3, rf1, rf2, rf3,
 2. Much larger elasticities when including year fixed effects
 
 3. Perhaps not too outlandish given more recent evidence: [NBER Working Paper](https://www.nber.org/papers/w22251.pdf).
+
+---
+# Some other IV issues
+
+1. IV estimators are biased. Performance in finite samples is questionable.
+
+2. IV estimators provide an estimate of a Local Average Treatment Effect (LATE), which is only the same as the ATT under some conditions or assumptions.
+
+3. What about lots of instruments? The finite sample problem is more important and we may try other things (JIVE).
