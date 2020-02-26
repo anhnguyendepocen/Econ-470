@@ -1557,9 +1557,9 @@ price = price_num/price_denom</code></pre>
 </div>
 <div id="estimate-ates" class="section level1">
 <h1><span class="header-section-number">3</span> Estimate ATEs</h1>
-<p>For the rest of the assignment, you should include only observations in 2012. So we are now dealing with cross-sectional data in which some hospitals are penalized and some are not.
-1. Calculate the average price among penalized versus non-penalized hospitals.</p>
-<ol start="2" style="list-style-type: decimal">
+<p>For the rest of the assignment, you should include only observations in 2012. So we are now dealing with cross-sectional data in which some hospitals are penalized and some are not. Please also define <strong>penalty</strong> as whether the sum of the HRRP and HVBP amounts are negative (i.e., a net penalty under the two programs). Code to do this is in the Section 2 slides. <br></p>
+<ol style="list-style-type: decimal">
+<li><p>Calculate the average price among penalized versus non-penalized hospitals.</p></li>
 <li><p>Split hospitals into quartiles based on bed size. To do this, create 4 new indicator variables, where each variable is set to 1 if the hospital’s bed size falls into the relevant quartile.</p></li>
 <li><p>Find the average treatment effect using nearest neighbor matching (1-to-1) with inverse variance distance based on quartiles of bed size.</p></li>
 <li><p>Find the average treatment effect using nearest neighbor matching (1-to-1) with Mahalanobis distance based on quartiles of bed size.</p></li>
