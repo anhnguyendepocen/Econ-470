@@ -1,0 +1,286 @@
+---
+title: "Homework 2 Answer Key"
+author: "Econ 470/HLTH 470: Research in Health Economics"
+date: "Due: Monday, March 2"
+output: 
+  bookdown::html_document2:
+    toc: TRUE
+    toc_float: TRUE
+    theme: darkly
+    fig_caption: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, stringr, readxl, data.table, gdata, scales)
+```
+
+```{r, include=FALSE}
+load("Hwk2_workspace.Rdata")
+```
+
+My answers to the homework questions are described below. As with the first homework assignment, note that my analysis is in a seperate `R` script. My analysis file is available [here](hwk-02-run.R). Most of the relevant code is copied in the answer key as well, but the code isn't physically executed in the markdown document. Enjoy!
+
+# Summarize the data
+
+## {.tabset}
+
+### Q1
+How many hospitals submitted the 1996 version of the HCRIS reports in 2010? How is that even possible?
+
+### Answer
+```{r, eval=T, include=F}
+count.1996 <- as.numeric(version.dat %>% filter(year==2010) %>% select(count_1996))
+count.2010 <- as.numeric(version.dat %>% filter(year==2010) %>% select(count_2010))
+```
+
+Table \@ref(tab:versions) presents the count of report types by year. As evident in the table, there were `r format(count.1996,big.mark=",")` hospitals that submitted a report in 2010 using the 1996 version. The remaining `r format(count.2010,big.mark=",")` hospitals submitted the new 2010 version of the report. The main source of this discrepancy is the hospital's fiscal year. Hospitals with 2010 fiscal years ending before October 2010 likely would not have been on the new report format (note that the federal fiscal year is October - September, so new changes at the federal level usually follow this timeline). 
+
+```{r versions, include=T, eval=T}
+options(knitr.kable.NA = 0)
+knitr::kable(version.dat, 
+             col.names=c("Year","Version 1996", "Version 2010"),
+             format.args=list(big.mark=","),
+             type="html", caption = "Format of Report Submitted", booktabs = TRUE)
+```
+
+
+## {.tabset}
+
+### Q2
+How many hospitals filed more than one report in the same year? Show your answer as a line graph of the number of hospitals over time.
+
+### Answer
+As discussed in the ReadMe file for the HCRIS GitHub repository, there are a few reasons why hospitals may submit more than one report in the same year. We try to deal with this in the final data, but it's still good to get a sense of how often this occurs. The figure below presents a line graph of the number of hospitals submitting duplicative reports each year.
+
+```{r dupreports, include=T, eval=T}
+fig.dup
+```
+
+
+## {.tabset}
+
+### Q3
+After removing/combining multiple reports, how many unique hospital IDs (Medicare provider numbers) exist in the data? Provide a line graph plotting the number of hospitals in each year.
+
+### Answer
+
+The count of unique hospitals by year is presented in the figure below.
+
+```{r hospcount, include=T, eval=T}
+fig.unique
+```
+
+
+## {.tabset}
+
+
+### Q4
+What is the distribution of total charges (`tot_charges` in the data) in each year? Show your results with a "violin" plot, with charges on the y-axis and years on the x-asix. For a nice tutorial on violin plots, look at [Violin Plots with ggplot2](https://ggplot2tutor.com/powerlifting/squats/).
+
+### Answer
+
+A violin plot of total charges is presented in the figure below. The figure presents charges in logs after dropping the highest and lowest 1 percent in each year. 
+
+```{r charges, include=T, eval=T}
+fig.totcharge
+```
+
+
+## {.tabset}
+
+
+### Q5
+Create the same violin plot with estimated prices on the y-axis.
+
+### Answer
+
+A violin plot of estimated prices is presented in the figure below. Similar to the analysis of charges, we need to do some cleanup before we plot the data. In this case, I've removed hosiptals with fewer than 100 discharges, total charges of 0, bed sizes fewer than 30, and with an average price of greater than 100,000. 
+
+```{r prices, include=T, eval=T}
+fig.prices
+```
+
+## {.tabset}
+
+### Q6
+Form an indicator variable set to 1 if the hospital incurred a penalty under the readmission reduction program. Plot the share of hospitals penalized in each year.
+
+### Answer
+
+```{r hrrp-penalty, include=T, eval=T}
+fig.pen
+```
+
+The share of hospitals penalized over time is presented above. In these data, I've maintained the same sample restrictions as those placed on the prices. As is evident from the figure, the share of hospitals penalized is relatively high and increasing as the program expands.
+
+
+# Estimate ATEs
+For the rest of the assignment, you should include only observations in 2012. So we are now dealing with cross-sectional data in which some hospitals are penalized and some are not. Please also define **penalty** as whether the sum of the HRRP and HVBP amounts are negative (i.e., a net penalty under the two programs). Code to do this is in the Section 2 slides. <br>
+
+## {.tabset}
+
+### Q1
+Calculate the average price among penalized versus non-penalized hospitals. 
+
+### Answer
+The average price among non-penalized hospitals in 2012 is `r format(as.numeric(avg.pen[1,2]),big.mark=",")` and the average price among penalized hospitals is `r format(as.numeric(avg.pen[2,2],big.mark=","))`. 
+
+
+## {.tabset}
+
+### Q2
+Split hospitals into quartiles based on bed size. To do this, create 4 new indicator variables, where each variable is set to 1 if the hospital's bed size falls into the relevant quartile. 
+
+### Answer
+There are lots of ways to do this, but to me, the easiest way is to create 4 new variables that represent the values of each quartile. Then, we can create indicator variables for whether the bed size of a given hospital falls into the relevant range. Here's my code to do this:
+
+```{r, eval=F, include=T}
+pen.data.2012 <- pen.data %>% filter(year==2012) %>% ungroup() %>%
+  mutate(beds_q1 = quantile(beds, probs=0.25, na.rm=TRUE),
+         beds_q2 = quantile(beds, probs=0.50, na.rm=TRUE),
+         beds_q3 = quantile(beds, probs=0.75, na.rm=TRUE),
+         beds_q4 = max(beds, na.rm=TRUE)) %>%
+  mutate(bed_size1 = ifelse(beds<beds_q1,1,0),
+         bed_size2 = ifelse(beds>= beds_q1 & beds<beds_q2,1,0),
+         bed_size3 = ifelse(beds>= beds_q2 & beds<beds_q3,1,0),
+         bed_size4 = ifelse(beds>  beds_q3 & beds<beds_q4,1,0))
+```
+Here, `beds_q1` is a new variable that takes the value of the 25th percentile of bed size. Similarly, `beds_q2` takes the value of the 50th percentile, etc. `bed_size1` is then an indicator for whether the hospital's bed size falls below the 25th percentile (i.e., whether the hospital is in the first quartile). `bed_size2`, `bed_size3`, and `bed_size4` are similar indicators for the 2nd, 3rd, and 4th quartile, respectively.
+
+
+## {.tabset}
+
+### Q3
+Find the average treatment effect using nearest neighbor matching (1-to-1) with inverse variance distance based on quartiles of bed size. 
+
+### Answer
+Code to implement this matching estimator is presented below:
+```{r, include=F, eval=F}
+match.inv <- Matching::Match(Y=pen.data.2012$price,
+                Tr=pen.data.2012$penalty,
+                X= (pen.data.2012 %>% select(bed_size1, bed_size2, bed_size3)),
+                M=1,
+                Weight=1,
+                estimand="ATE")
+```
+
+1-to-1 matching with inverse variance distance provides the following estimate of the Average Treatment Effect,
+```{r}
+summary(match.inv)
+```
+Note that, as in a usual regression, we shouldn't match on all categories of a set of dummy variables. We need to exclude one group. This will also make sure that we have a consistent set of results across the different estimators we're considering.
+
+## {.tabset}
+
+### Q4
+Find the average treatment effect using nearest neighbor matching (1-to-1) with Mahalanobis distance based on quartiles of bed size.
+
+### Answer
+Code to implement this matching estimator is presented below:
+```{r, include=F, eval=F}
+match.mah <- Matching::Match(Y=pen.data.2012$price,
+                          Tr=pen.data.2012$penalty,
+                    X= (pen.data.2012 %>% select(bed_size1, bed_size2, bed_size3)),
+                          M=1,
+                          Weight=2,
+                          estimand="ATE")
+```
+
+1-to-1 matching with Mahalanobis distance provides the following estimate of the Average Treatment Effect,
+```{r}
+summary(match.mah)
+```
+
+
+
+## {.tabset}
+
+### Q5
+Find the average treatment effect using inverse propensity weighting, where the propensity scores are based on quartiles of bed size.
+
+### Answer
+Before we can do anything, we have to estimate the propensity scores (i.e., the probability of being penalized). We can do this with a logistic regression model as we did in class. If you're unfamiliar with a logistic (i.e., "logit") regression, this is discussed briefly in *Causal Inference: The Mixtape*, which is a free book online written by Scott Cunningham. The book is available [here](https://www.scunning.com/cunningham_mixtape.pdf). Just search for **logit**. There are of course lots of more detailed references, but this is enough for our purposes. 
+
+Here's how we estimate the propensity score in `R`:
+```{r, include=T, eval=F}
+logit.model <- glm(penalty ~ bed_size1 + bed_size2 + bed_size3, 
+                   family=binomial, 
+                   data=pen.data.2012)
+ps <- fitted(logit.model)
+pen.data.2012 <- pen.data.2012 %>%
+  mutate(ipw = case_when(
+    penalty==1 ~ 1/ps,
+    penalty==0 ~ 1/(1-ps),
+    TRUE ~ NA_real_
+  ))
+```
+
+With the propensity scores in hand, we discussed two ways to introduce these into our average treatment effects estimate. I'll show both results for completeness.
+
+First, we can take a difference of the weighted average price between the penalized and non-penalized groups, where the weights are the inverse propensity scores. 
+```{r, include=T, eval=F}
+mean.t1 <- pen.data.2012 %>% filter(penalty==1) %>%
+  select(price, ipw) %>% summarize(mean_p=weighted.mean(price,w=ipw))
+mean.t0 <- pen.data.2012 %>% filter(penalty==0) %>%
+  select(price, ipw) %>% summarize(mean_p=weighted.mean(price,w=ipw))
+ipw.diff <- mean.t1$mean_p - mean.t0$mean_p
+```
+Our estimated average treatment effect is then just the average of the `ipw.diff` object, wich is `r format(mean(ipw.diff),big.mark=",")` in our case.
+
+Second, we can incorporate the propensity weights into a weighted regression.
+```{r, include=T, eval=F}
+ipw.reg <- lm(price ~ penalty, data=pen.data.2012, weights=ipw)
+```
+Going through the math of weighted least squares is a bit much for our class. But intuitively, this regression places more weight on some observations (i.e., emphasizes or deemphasizes some of the squared error values in OLS) based on the specified weight. For example, say we have physician-level data but we're interested in a patient-level average. Then we could weight each physician by the number of patients, and this would assign physicians with large numbers of patients more weight in the coefficient estimates.
+
+The final results we get from this weighted least squares regression are summarized below:
+```{r}
+summary(ipw.reg)
+```
+
+
+## {.tabset}
+
+### Q6
+Find the average treatment effect using a single linear regression.
+
+### Answer
+Recall that we need to form the *deviation* from each covariate and the sample average in order to get a comparable estimate of the average treatment effect relative to the other methods. So before we can run a regression, we need to form these new variables:
+```{r, include=T, eval=F}
+reg.data <- pen.data.2012 %>% ungroup() %>%
+  mutate(size1_diff = penalty*(bed_size1 - mean(bed_size1)),
+         size2_diff = penalty*(bed_size2 - mean(bed_size2)),
+         size3_diff = penalty*(bed_size3 - mean(bed_size3)))
+
+reg <- lm(price ~ penalty + bed_size1 + bed_size2 + bed_size3 +
+            size1_diff + size2_diff + size3_diff,
+          data=reg.data)
+```
+
+The final results are summarized below:
+```{r}
+summary(reg)
+```
+
+
+
+## {.tabset}
+
+### Q7
+With these different treatment effect estimators, are the results similar, identical, very different? 
+
+### Answer
+We've tried lots of different estimators, and in all cases, we've gotten the exact same answer! That's pretty cool and shows us how these estimators are all trying to do the same things. Note that the equivalence between these estimators is not true in general...it's only because we're considering dummy variables as our only covariates. If we had continuous variables as covariates, then these different estimators would be similar but not identical as they are here.
+
+
+## {.tabset}
+
+### Q8
+Do you think you've estimated a causal effect of the penalty? Why or why not? (just a couple of sentences)
+
+### Answer
+I would **not** claim that we've estimated a casual effect of the penalty. Mainly, this is just cross-sectional data, and we know there are lots of systematic differences between hospitals that likely affect price and are also correlated with penalties. So I would not believe any claim that we meet the "selection on observables" assumption. 
+
+

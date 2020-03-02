@@ -4,7 +4,7 @@
 ## Title:         Econ/HLTH 470 Homework 1 Answers
 ## Author:        Ian McCarthy
 ## Date Created:  2/1/2020
-## Date Edited:   2/11/2020
+## Date Edited:   2/27/2020
 ## Description:   This file renders/runs all relevant R code for the assignment
 
 
@@ -13,14 +13,14 @@
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, stringr, readxl, data.table, gdata, scales)
 
-setwd('C:/Users/immccar/CloudStation/Professional/Teaching Material/Emory/Econ 470 - Economics and Health Policy/assignments')
+setwd('assignments')
+source('paths.R')
 
 # Read data and set workspace for knitr -------------------------------
-full.ma.data <- readRDS("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/full_ma_data.rds")
-contract.service.area <- readRDS("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/contract_service_area.rds")
-ma.penetration.data <- readRDS("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/ma_penetration.rds")
-plan.premiums <- readRDS("C:/Users/immccar/CloudStation/Professional/Research Projects/_Git/Medicare-Advantage/data/plan_premiums.rds")
-
+full.ma.data <- readRDS(paste0(path.ma.data,'/full_ma_data.rds'))
+contract.service.area <- readRDS(paste0(path.ma.data,'/contract_service_area.rds'))
+ma.penetration.data <- readRDS(paste0(path.ma.data,'/ma_penetration.rds'))
+plan.premiums <- readRDS(paste0(path.ma.data,'/plan_premiums.rds'))
 
 
 # Create objects for markdown ---------------------------------------------

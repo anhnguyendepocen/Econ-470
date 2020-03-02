@@ -108,7 +108,7 @@ In its current form...
 - Insurers submit plan details and a price needed to cover traditional Medicare ("bid")
 - If approved, Medicare pays risk-adjusted bid *or* benchmark
 - Bid $<$ benchmark, insurer gets a rebate
-- Bid $>$ benchamrk, insurer charges premium
+- Bid $>$ benchmark, insurer charges premium
 - Seperate bidding for Part D
 
 ---
