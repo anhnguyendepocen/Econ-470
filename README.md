@@ -25,7 +25,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 ## Assignments
 1. GitHub and Data Management, Due 2/9, \[[Instructions](assignments/hwk-01.html)\] and \[[answers](assignments/hwk-01-answers.html)\]
 
-2. HCRIS Data and Hospital Pricing, Due 3/2, \[[Instructions](assignments/hwk-02.html)\]
+2. HCRIS Data and Hospital Pricing, Due 3/2, \[[Instructions](assignments/hwk-02.html)\] and \[[answers](assignments/hwk-02-answers.html)\]
 
 3. Smoking Data and Cigarette Demand, Due 3/16, \[[Instructions](assignments/hwk-03.html)\]
 
