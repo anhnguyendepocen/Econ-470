@@ -603,3 +603,6 @@ stargazer(first1, first2, first3, rf1, rf2, rf3,
 2. IV estimators provide an estimate of a Local Average Treatment Effect (LATE), which is only the same as the ATT under some conditions or assumptions.
 
 3. What about lots of instruments? The finite sample problem is more important and we may try other things (JIVE).
+
+--
+The National Bureau of Economic Researh (NBER) has a great resource [here](https://www.nber.org/econometrics_minicourse_2018/2018si_methods.pdf) for understanding instruments in practice.
