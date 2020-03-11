@@ -349,10 +349,10 @@ Represent bias-variance tradeoff with the mean-square error, $$MSE(h) = E[(\hat{
 # Selecting bandwidth
 In the RD case, we have two different mean-square error terms:
 1. "From above", $MSE_{+}(h) = E[(\hat{\mu}_{+}(c,h) - E[Y_{i}(1)|X_{i}=c])^2]$
-2. "From below", $MSE_{-}(h) = E[(\hat{\mu}_{-}(c,h) - E[Y_{i}(0)|X_{i}=c])^2]$
+2. "From below", $MSE_{-}(h) = E[(\hat{\mu}_{-}(c,h) - E[Y_{i}(0)|X_{i}=c])^2]$<br>
 
 --
-<br>
+
 Goal is to find $h$ that minimizes these values, but we don't know the true $E[Y(1)|X=c]$ and $E[Y(0)|X=c]$. So we have two approaches:
 1. Use **cross-validation** to choose $h$  
 2. Explicitly solve for optimal bandwidth 
