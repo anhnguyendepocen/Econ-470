@@ -62,7 +62,7 @@ knitr::opts_hooks$set(fig.callout = function(options) {
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes,
                scales, plotly, gganimate, cobalt, ivpack, stargazer, haven, ggthemes,
-               gifski, magick)
+               gifski, magick, rdrobust)
 set.seed(1234)
 ```
 
@@ -316,20 +316,61 @@ Goal is to estimate $E[Y(1)|X=c] - E[Y(0)|X=c]$
 Before presenting RD estimates, **any** good RD approach first highlights the discontinuity with a simple graph. We can do so by plotting the average outcomes within bins of the forcing variable (i.e., binned averages), $$\bar{Y}_{k} = \frac{1}{N_{k}}\sum_{i=1}^{N} Y_{i} \times 1(b_{k} < X_{i} \leq b_{k+1}).$$
 
 ---
-# Binned average plot
+# Binned average calculation
 ```{r}
-plot2 <- rdplot(rd.dat$Y, rd.dat$X) 
+library(rdrobust)
+rd.result <- rdplot(rd.dat$Y, rd.dat$X, c=1, title="RD Plot with Binned Average", x.label="Running Variable", y.label="Outcome")
+bin.avg <- as_tibble(rd.result$vars_bins)
+
+plot.bin <- bin.avg %>% ggplot(aes(x=rdplot_mean_x,y=rdplot_mean_y)) + 
+  geom_point() + theme_bw() +
+  geom_vline(aes(xintercept=1),linetype='dashed') +
+  scale_x_continuous(
+    breaks = c(.5, 1.5),
+    label = c("Untreated", "Treated")
+  ) +
+  xlab("Running Variable") + ylab("Outcome")
 ```
 
 ---
-# Kernels?
-Some RD estimates use "kernel weighting" to assign more weight to observations closer to the threshold and less weight to observations further from the threshold...
+# Binned average plot
+```{r, include=F}
+plot.bin
+```
 
+---
+# With and without binning
+.pull-left[
+```{r, include=F}
+plot1
+```
+]
+
+.pull-right[
+```{r, include=F}
+plot.bin
+```
+]
+
+
+---
+# Kernels?
+Some RD estimates use "kernel weighting" to assign more weight to observations closer to the threshold and less weight to observations further from the threshold.
+
+---
+# Kernels
+$$\hat{\mu}_{+}(x) = \frac{\sum_{i: X_{i}<c} Y_{i} \times K \left(\frac{X_{i} -x}{h} \right)}{\sum_{i: X_{i}<c} K \left(\frac{X_{i} -x}{h} \right)},$$ and $$\hat{\mu}_{-}(x) = \frac{\sum_{i: X_{i}\geq c} Y_{i} \times K \left(\frac{X_{i} -x}{h} \right)}{\sum_{i: X_{i}\geq c} K \left(\frac{X_{i} -x}{h} \right)},$$
+where $K(u)$ is a kernel that assigns weight to observations based on the distance from $u$. A rectagular kernel is such that $K(u)=1/2$ for $u \in (-1,1)$ and 0 elsewhere. 
+
+---
+# Kernels and regression
+- Local linear regression (regression within the pre-specified bandwidth) is a kernel weighted regression with a uniform (or rectangular) kernel. 
+- Could use more complicated kernels for a fully nonparametric approach, but these don't work well around the RD cutoff values.
 
 ---
 # Some practical concerns
 - Selecting bandwidth, $h$
-- "binning"
+- Bin size for plots
 - Check for sorting around threshold (e.g., gaming)
 - Covariate balance (love plots around threshold)
 - Should we control for other covariates?
@@ -356,6 +397,26 @@ In the RD case, we have two different mean-square error terms:
 Goal is to find $h$ that minimizes these values, but we don't know the true $E[Y(1)|X=c]$ and $E[Y(0)|X=c]$. So we have two approaches:
 1. Use **cross-validation** to choose $h$  
 2. Explicitly solve for optimal bandwidth 
+
+---
+# Cross-validation
+Essentially a series of "leave-one-out" estimates:
+1. Pick an $h$
+2. Run regression, leaving out observation $i$. If $i$ is to the left of the threshold, we estimate regression for observations within $X_{i}-h$, and conversely $X_{i}+h$ if $i$ is to the right of the threshold.
+3. Predicted $\hat{Y}_{i}$ at $X_{i}$ (out of sample prediction for the left out observation)
+4. Do this for all $i$, and form $CV(h)=\frac{1}{N}\sum (Y_{i} - \hat{Y}_{i})^2$ <br>
+
+--
+
+Select $h$ with lowest $CV(h)$ value.
+
+---
+# Selecting "bin" width
+1. Dummy variables: Create dummies for each bin, regress the outcome on the set of all dummies $R^{2}_{r}$, repeat with double the number of bins and find r-square value $R^{2}_{u}$, form F-stat, $\frac{R^{2}_{u] - R^{2}_{r}}{1-R^{2}_{u}}*\frac{n-K-1}{K}$.
+
+2. Interaction terms: Include interactions between dummies and the running variable, joint F-test for the interaction terms
+
+If F-test suggests significance, then we have too few bins and need to narrow the bin width.
 
 ---
 # Back to simulated data
