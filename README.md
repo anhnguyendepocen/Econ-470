@@ -27,7 +27,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 
 2. HCRIS Data and Hospital Pricing, Due 3/2, \[[Instructions](assignments/hwk-02.html)\] and \[[answers](assignments/hwk-02-answers.html)\]
 
-3. Smoking Data and Cigarette Demand, Due 3/16, \[[Instructions](assignments/hwk-03.html)\]
+3. Smoking Data and Cigarette Demand, Due 3/25, \[[Instructions](assignments/hwk-03.html)\]
 
 4. Quality and Insurance Choice, Due 4/1, \[[Instructions](assignments/hwk-04.html)\]
 
