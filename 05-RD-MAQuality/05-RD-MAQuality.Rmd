@@ -70,11 +70,15 @@ set.seed(1234)
 
 1. [Medicare Advantage and Quality](#ma_quality)
 
-2. [Regression Discontinuity](#rd)
+2. [Regression Discontinuity in Theory](#rd_theory)
 
-3. [Medicare Advantage Data](#ma_data)
+3. [Regression Discontinuity in Practice](#rd_practice)
 
-4. [Quality and Insurance Choice](#insurance_stars)
+4. [Fuzzy Regression Discontinuity](#fuzzy_rd) 
+
+5. [Medicare Advantage Data](#ma_data)
+
+6. [Quality and Insurance Choice](#insurance_stars)
 
 
 
@@ -137,9 +141,9 @@ Let's take a look at the Medicare Advantage plan options...
 <!-- New Section -->
 ---
 class: inverse, center, middle
-name: rd
+name: rd_theory
 
-# Regression Discontinuity
+# Regression Discontinuity in Theory
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
@@ -311,9 +315,34 @@ Goal is to estimate $E[Y(1)|X=c] - E[Y(0)|X=c]$
   - Linear, different slope: $y = \alpha + \delta W + \beta \tilde{X} + \gamma W\tilde{X} + \varepsilon$
   - Nonlinear: add polynomials in $\tilde{X}$ and interactions $W \tilde{X}$
 
+
+
+<!-- New Section -->
 ---
-# In practice
-Before presenting RD estimates, **any** good RD approach first highlights the discontinuity with a simple graph. We can do so by plotting the average outcomes within bins of the forcing variable (i.e., binned averages), $$\bar{Y}_{k} = \frac{1}{N_{k}}\sum_{i=1}^{N} Y_{i} \times 1(b_{k} < X_{i} \leq b_{k+1}).$$
+class: inverse, center, middle
+name: rd_practice
+
+# Regression Discontinuity in Practice
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
+
+---
+# RDs "in the wild"
+Most RD estimates follow a similar set of steps:
+1. Investigate the running variable and show a jump at the discontinuity
+2. Show clear graphical evidence of a change around the discontinuity
+3. Overlay regression specification (and consider "Continuity-Based RD")
+4. Explore sensitivity to bandwidths and orders of the polynomial
+5. Conduct similar analyses with baseline covariates as outcomes
+6. Explore sensitivity of results to inclusion of baseline covariates
+
+
+---
+# Initial graphical evidence
+Before presenting RD estimates, **any** good RD approach first highlights the discontinuity with a simple graph. We can do so by plotting the average outcomes within bins of the forcing variable (i.e., binned averages), $$\bar{Y}_{k} = \frac{1}{N_{k}}\sum_{i=1}^{N} Y_{i} \times 1(b_{k} < X_{i} \leq b_{k+1}).$$<br>
+
+--
+The binned averages helps to remove noise in the graph and can provide a cleaner look at the data. Just make sure that no bin includes observations above and below the cutoff!
 
 ---
 # Binned average calculation
@@ -355,7 +384,7 @@ plot.bin
 
 ---
 # Kernels?
-Some RD estimates use "kernel weighting" to assign more weight to observations closer to the threshold and less weight to observations further from the threshold.
+Some RD estimates talk about "kernel weighting" to assign more weight to observations closer to the threshold and less weight to observations further from the threshold.
 
 ---
 # Kernels
@@ -366,18 +395,28 @@ where $K(u)$ is a kernel that assigns weight to observations based on the distan
 # Kernels and regression
 - Local linear regression (regression within the pre-specified bandwidth) is a kernel weighted regression with a uniform (or rectangular) kernel. 
 - Could use more complicated kernels for a fully nonparametric approach, but these don't work well around the RD cutoff values.
+- Polynomial 
 
 ---
 # Some practical concerns
-- Selecting bandwidth, $h$
 - Bin size for plots
+- Selecting bandwidth, $h$
 - Check for sorting around threshold (e.g., gaming)
 - Covariate balance (love plots around threshold)
 - Should we control for other covariates?
 - Sensitivity to polynomial specification
 
 ---
-# Selecting bandwidth
+# Selecting "bin" width
+1. Dummy variables: Create dummies for each bin, regress the outcome on the set of all dummies $R^{2}_{r}$, repeat with double the number of bins and find r-square value $R^{2}_{u}$, form F-stat, $\frac{R^{2}_{u] - R^{2}_{r}}{1-R^{2}_{u}}*\frac{n-K-1}{K}$.
+
+2. Interaction terms: Include interactions between dummies and the running variable, joint F-test for the interaction terms
+
+If F-test suggests significance, then we have too few bins and need to narrow the bin width.
+
+
+---
+# Selecting bandwidth in local linear regression
 The bandwidth is a "tuning parameter"
 - High $h$ means high bias but lower variance (use more of the data, closer to OLS)
 - Low $h$h means low bias but higher variance (use less data, more focused around discontinuity)<br>
@@ -409,14 +448,6 @@ Essentially a series of "leave-one-out" estimates:
 --
 
 Select $h$ with lowest $CV(h)$ value.
-
----
-# Selecting "bin" width
-1. Dummy variables: Create dummies for each bin, regress the outcome on the set of all dummies $R^{2}_{r}$, repeat with double the number of bins and find r-square value $R^{2}_{u}$, form F-stat, $\frac{R^{2}_{u] - R^{2}_{r}}{1-R^{2}_{u}}*\frac{n-K-1}{K}$.
-
-2. Interaction terms: Include interactions between dummies and the running variable, joint F-test for the interaction terms
-
-If F-test suggests significance, then we have too few bins and need to narrow the bin width.
 
 ---
 # Back to simulated data
@@ -452,6 +483,29 @@ rd <- lm(Y~x_dev + W, data=rd.dat3)
 - True effect: 4
 - Standard linear regression with same slopes: `r round(ols$coef[3],2)`
 - RD (linear with same slopes): `r round(rd$coef[3],2)`
+
+
+<!-- New Section -->
+---
+class: inverse, center, middle
+name: fuzzy_rd
+
+# Fuzzy Regression Discontinuity
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
+
+---
+# Fuzzy RD
+"Fuzzy" just means that assignment isn't guaranteed based on the running variable. For example, maybe students are much more likely to get a scholarship past some threshold SAT score, but it remains possible for students below the threshold to still get the scholarship. 
+
+- Discontinuity reflects a jump in the probability of treatment
+- Other RD assumptions still required (namely, can't manipulate running variable around the threshold)
+
+---
+# Fuzzy RD is IV
+In practice, fuzzy RD is employed as an instrumental variables estimator, where we take the the difference in outcomes among those above and below the discontinuity divided by the difference in treatment probabilities for those above and below the discontinuity: $$
+
+
 
 <!-- New Section -->
 ---
