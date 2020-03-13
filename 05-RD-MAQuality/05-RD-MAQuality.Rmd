@@ -503,7 +503,10 @@ name: fuzzy_rd
 
 ---
 # Fuzzy RD is IV
-In practice, fuzzy RD is employed as an instrumental variables estimator, where we take the the difference in outcomes among those above and below the discontinuity divided by the difference in treatment probabilities for those above and below the discontinuity: $$
+In practice, fuzzy RD is employed as an instrumental variables estimator
+- Difference in outcomes among those above and below the discontinuity divided by the difference in treatment probabilities for those above and below the discontinuity,<br>
+$E[Y_{i} | W_{i}=1] - E[Y_{i} | W_{i}=0] = \frac{E[Y_{i} | x_{i}\geq c] - E[Y_{i} | x_{i}< c]}{E[W_{i} | x_{i}\geq c] - E[W_{i} | x_{i}<c]}$
+- Indicator for $x_{i}\geq c$ is an instrument for treatment status, $W_{i}$.
 
 
 
