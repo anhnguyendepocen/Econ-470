@@ -9,7 +9,7 @@ Before going much further, please be sure to read the [syllabus](Syllabus/Econ47
 
 As I mentioned in my announcement on Canvas, we are going to pursue a "sychronous" online class schedule and office hours. This means we try to keep our same schedule as we would with in-person classes. This may not work for everyone, as I know some of us are in different time zones and some of us may have intermittent internet access. As a backup option, all of our virtual meetings will be recorded and made available on this website, so the material will be out there if you can't make it to any given "virtual" meeting.
 
-Since our class is very small this semester, we will move our class entirely to a virtual classroom with Zoom, and we will meet every Monday and Wednesday from 11:30am to 12:45pm. A link to our Zoom meeting room is available on our class Canvas page. Also on our Canvas page is a separate meeting room link for my Zoom office hours.
+Since our class is relatively small this semester, we will move our class entirely to a virtual classroom with Zoom, and we will meet every Monday and Wednesday from 11:30am to 12:45pm. A link to our Zoom meeting room is available on our class Canvas page. Also on our Canvas page is a separate meeting room link for my Zoom office hours.
 
 
 ## Notes and Slides
