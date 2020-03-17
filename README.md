@@ -5,6 +5,13 @@ This is the capstone course for the joint major in Economics and Human Health, t
 Before going much further, please be sure to read the [syllabus](Syllabus/Econ470-Syllabus.pdf). This provides a sense of what to expect in the course and details of specific assignments and projects. Below are lecture notes and underlying code files for the class. This is very much a work-in-progress, so be sure to check back regularly for updates. Better yet, you can clone the repo via *Git* and then pull regularly to get updates. Please take a look at [these slides](01-Introduction/01-Introduction.html) for guidance on installing and working with Git(Hub). We'll also do this very soon together.
 
 
+## Moving Online...
+
+As I mentioned in my announcement on Canvas, we are going to pursue a "sychronous" online class schedule and office hours. This means we try to keep our same schedule as we would with in-person classes. This may not work for everyone, as I know some of us are in different time zones and some of us may have intermittent internet access. As a backup option, all of our virtual meetings will be recorded and made available on this website, so the material will be out there if you can't make it to any given "virtual" meeting.
+
+Since our class is very small this semester, we will move our class entirely to a virtual classroom with Zoom, and we will meet every Monday and Wednesday from 11:30am to 12:45pm. A link to our Zoom meeting room is available on our class Canvas page. Also on our Canvas page is a separate meeting room link for my Zoom office hours.
+
+
 ## Notes and Slides
 Below are all of the slides that I'll use throughout the class. The slides will open as html files. Note that I've disabled "touch" navigation, which means that it's not possible to advance the slides with a touchscreen. I did this because I will record the screen in each class, and I'll annotate the slides throughout the class. If you want to see the slides in standard presentation format, you will need to access everything on a desktop or laptop rather than a phone or tablet. Everything is still accessible on a mobile platform, you just need to enable "simplified" view (or reader view in some browsers). I've provided a link for that view in each section. The simplified view will remove the slide/presentation formatting and allow you just to see the whole content as one big website. Some content won't display in the same way, but the content itself will be there.
 
