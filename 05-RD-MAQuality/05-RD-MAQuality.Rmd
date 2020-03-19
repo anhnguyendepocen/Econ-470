@@ -348,7 +348,11 @@ The binned averages helps to remove noise in the graph and can provide a cleaner
 # Binned average calculation
 ```{r}
 library(rdrobust)
-rd.result <- rdplot(rd.dat$Y, rd.dat$X, c=1, title="RD Plot with Binned Average", x.label="Running Variable", y.label="Outcome")
+rd.result <- rdplot(rd.dat$Y, rd.dat$X, 
+                    c=1, 
+                    title="RD Plot with Binned Average", 
+                    x.label="Running Variable", 
+                    y.label="Outcome")
 bin.avg <- as_tibble(rd.result$vars_bins)
 
 plot.bin <- bin.avg %>% ggplot(aes(x=rdplot_mean_x,y=rdplot_mean_y)) + 
@@ -363,20 +367,20 @@ plot.bin <- bin.avg %>% ggplot(aes(x=rdplot_mean_x,y=rdplot_mean_y)) +
 
 ---
 # Binned average plot
-```{r, include=F}
+```{r echo=FALSE}
 plot.bin
 ```
 
 ---
 # With and without binning
 .pull-left[
-```{r, include=F}
+```{r echo=FALSE}
 plot1
 ```
 ]
 
 .pull-right[
-```{r, include=F}
+```{r echo=FALSE}
 plot.bin
 ```
 ]

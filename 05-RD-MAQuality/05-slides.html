@@ -247,7 +247,11 @@ The binned averages helps to remove noise in the graph and can provide a cleaner
 
 ```r
 library(rdrobust)
-rd.result &lt;- rdplot(rd.dat$Y, rd.dat$X, c=1, title="RD Plot with Binned Average", x.label="Running Variable", y.label="Outcome")
+rd.result &lt;- rdplot(rd.dat$Y, rd.dat$X, 
+                    c=1, 
+                    title="RD Plot with Binned Average", 
+                    x.label="Running Variable", 
+                    y.label="Outcome")
 ```
 
 &lt;img src="05-slides_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
@@ -267,16 +271,16 @@ plot.bin &lt;- bin.avg %&gt;% ggplot(aes(x=rdplot_mean_x,y=rdplot_mean_y)) +
 
 ---
 # Binned average plot
-
+&lt;img src="05-slides_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # With and without binning
 .pull-left[
-
+&lt;img src="05-slides_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-
+&lt;img src="05-slides_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 
