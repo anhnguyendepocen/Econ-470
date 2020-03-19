@@ -542,7 +542,7 @@ summary {
 <div id="selecting-bin-width" class="section level1">
 <h1>Selecting “bin” width</h1>
 <ol style="list-style-type: decimal">
-<li><p>Dummy variables: Create dummies for each bin, regress the outcome on the set of all dummies <span class="math inline">\(R^{2}_{r}\)</span>, repeat with double the number of bins and find r-square value <span class="math inline">\(R^{2}_{u}\)</span>, form F-stat, <span class="math inline">\(\frac{R^{2}_{u] - R^{2}_{r}}{1-R^{2}_{u}}*\frac{n-K-1}{K}\)</span>.</p></li>
+<li><p>Dummy variables: Create dummies for each bin, regress the outcome on the set of all dummies <span class="math inline">\(R^{2}_{r}\)</span>, repeat with double the number of bins and find r-square value <span class="math inline">\(R^{2}_{u}\)</span>, form F-stat, <span class="math inline">\(\frac{R^{2}_{u}-R^{2}_{r}}{1-R^{2}_{u}}\times \frac{n-K-1}{K}\)</span>.</p></li>
 <li><p>Interaction terms: Include interactions between dummies and the running variable, joint F-test for the interaction terms</p></li>
 </ol>
 <p>If F-test suggests significance, then we have too few bins and need to narrow the bin width.</p>

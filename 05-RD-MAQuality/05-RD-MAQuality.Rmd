@@ -346,7 +346,7 @@ The binned averages helps to remove noise in the graph and can provide a cleaner
 
 ---
 # Binned average calculation
-```{r}
+```{r echo=TRUE, results='hide'}
 library(rdrobust)
 rd.result <- rdplot(rd.dat$Y, rd.dat$X, 
                     c=1, 
@@ -412,7 +412,7 @@ where $K(u)$ is a kernel that assigns weight to observations based on the distan
 
 ---
 # Selecting "bin" width
-1. Dummy variables: Create dummies for each bin, regress the outcome on the set of all dummies $R^{2}_{r}$, repeat with double the number of bins and find r-square value $R^{2}_{u}$, form F-stat, $\frac{R^{2}_{u] - R^{2}_{r}}{1-R^{2}_{u}}*\frac{n-K-1}{K}$.
+1. Dummy variables: Create dummies for each bin, regress the outcome on the set of all dummies $R^{2}_{r}$, repeat with double the number of bins and find r-square value $R^{2}_{u}$, form F-stat, $\frac{R^{2}_{u}-R^{2}_{r}}{1-R^{2}_{u}}\times \frac{n-K-1}{K}$.
 
 2. Interaction terms: Include interactions between dummies and the running variable, joint F-test for the interaction terms
 
