@@ -25,6 +25,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 4. Instrumental variables and demand for cigarettes, [slides](04-IV-Smoking/04-slides.html) and [simplified view](04-IV-Smoking/04-simple.html)
 
 5. Regression discontinuity and Medicare Advantage, [slides](05-RD-MAQuality/05-slides.html) and [simplified view](05-RD-MAQuality/05-simple.html)
+  - [Zoom Class, March 23](https://drive.google.com/file/d/1_lJD1LsEwsbSr5s3iKNkN1oRf4kk1ZsW/view?usp=sharing)
 
 6. Difference-in-Differences and Access to Insurance, [slides](06-DD-ACA/06-slides.html) and [simplified view](06-DD-ACA/06-simple.html)
 
