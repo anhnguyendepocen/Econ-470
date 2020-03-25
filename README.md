@@ -37,9 +37,9 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 
 3. Smoking Data and Cigarette Demand, Due 3/25, \[[Instructions](assignments/hwk-03.html)\]
 
-4. Quality and Insurance Choice, Due 4/1, \[[Instructions](assignments/hwk-04.html)\]
+4. Quality and Insurance Choice, Due 4/8, \[[Instructions](assignments/hwk-04.html)\]
 
-5. Medicaid Expansion and Uninsurance Rates, Due 4/20, \[[Instructions](assignments/hwk-05.html)\]
+5. Medicaid Expansion and Uninsurance Rates, Due 4/22, \[[Instructions](assignments/hwk-05.html)\]
 
 6. Research Project, Final Paper Due 5/4, \[[Instructions](assignments/project.html)\]
 
