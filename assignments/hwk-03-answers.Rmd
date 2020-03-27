@@ -1,0 +1,202 @@
+---
+title: "Homework 3 Answer Key"
+author: "Econ 470/HLTH 470: Research in Health Economics"
+date: "Due: Wednesday, March 25"
+output: 
+  bookdown::html_document2:
+    toc: TRUE
+    toc_float: TRUE
+    theme: darkly
+    fig_caption: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, stringr, readxl, data.table, gdata, scales,
+               stargazer, ivpack)
+```
+
+```{r, include=FALSE}
+load("Hwk3_workspace.Rdata")
+```
+
+My answers to the homework questions are described below. As with the previous homework assignments, note that my analysis is in a seperate `R` script. My analysis file is available [here](hwk-03-run.R). Most of the relevant code is copied in the answer key as well, but the code isn't physically executed in the markdown document. Enjoy!
+
+# Summarize the data
+
+## Question 1 {.tabset}
+
+### Q1 {-}
+Present a line graph showing the average number of packs sold per capita from 1970 to 2018.
+
+### Answer {-}
+Figure \@ref(fig:sales-plot) presents the average packs sold per capita in each year from 1970 through 2018. We can see the sales per capita peaked in the 70s and has steadily declined since then.
+
+```{r sales-plot, echo=FALSE, fig.cap="Cigarette Sales"}
+sales.plot
+```
+
+
+## Question 2 {.tabset}
+
+### Q2 {-}
+Present a bar graph showing the proportion of states with a change in their cigarette tax in each year from 1970 to 1985.
+
+### Answer {-}
+The point of this graph is to highlight the prevalence of tax changes across states and over time. Since taxes are going to be used as our instrument for prices, understanding how this instrument varies is important. In this case, I'll compare state taxes in year $t$ to year $t-1$. I then form an indicator set to 1 if there is a change for a given state and 0 otherwise. The mean of this indicator variables across states in any given year will then provide the share of states with a change in taxes in that year. Then I plot this as a bar chart from 1971 (the first year we can see a change) to 1985. Results are presented in Figure \@ref(fig:tax-change).
+
+```{r tax-change, echo=FALSE, fig.cap="Share of States with a Change in Cigarette Taxes by Year"}
+tax.change.plot
+```
+
+
+## Question 3 {.tabset}
+
+### Q3 {-}
+Plot the average tax (in 2012 dollars) on cigarettes from 1970 to 2018.
+
+### Answer {-}
+I'm not specific in the question, but since we used the full (federal plus state) taxes in class, that's what I'll use here as well. Note that I used 2010 dollars in class, so we need to make that minor adjustment here. Average taxes by year are summarized in Figure \@ref(fig:tax-plot).
+
+```{r tax-plot, echo=FALSE, fig.cap="Average Cigarette Tax in 2012 Dollars"}
+tax.plot
+```
+
+## Question 4 {.tabset}
+
+### Q4 {-}
+Plot the average price of a pack of cigarettes from 1970 to 2018. Over what period did prices appear to increase the most?
+
+### Answer {-}
+I'm going to do this in 2012 dollars again to be consistent with the prior question. We did this in 2010 dollars in class. The results are summarized in Figure \@ref(fig:price-plot).
+
+
+```{r price-plot, echo=FALSE, fig.cap="Average Cigarette Price per Pack in 2012 Dollars"}
+price.plot
+```
+
+
+## Question 5 {.tabset}
+
+### Q5 {-}
+Identify the 5 states with the highest increases in cigarette prices (in dollars) over the time period. Plot the average number of packs sold per capita for those states from 1970 to 2018.
+
+### Answer {-}
+There are several ways to do this, but I first created two datasets (one for 1970 and one for 2018). Then I merged those datasets by state and calculated the price change between the two years. The 5 states with the highest price changes are listed below in Table \@ref(tab:high-price-change), and the average sales per capita among these states is presented in Figure \@ref(fig:high-price-plot).
+
+```{r high-price-change, echo=FALSE}
+knitr::kable(high.change %>% select(state), 
+             col.names=c("State or Area"),
+             type="html", caption = "States with Highest Price Increases from 1970 to 2018", booktabs = TRUE)
+```
+
+```{r high-price-plot, echo=FALSE, fig.cap="Sales per Capita among States with Highest Price Increases"}
+high.price.plot
+```
+
+
+## Question 6 {.tabset}
+
+### Q6 {-}
+Identify the 5 states with the lowest increases in cigarette prices over the time period. Plot the average number of packs sold per capita for those states from 1970 to 2018. 
+
+
+### Answer {-}
+The 5 states with the lowest price changes are listed below in Table \@ref(tab:low-price-change), and the average sales per capita among these states is presented in Figure \@ref(fig:low-price-plot).
+
+```{r low-price-change, echo=FALSE}
+knitr::kable(low.change %>% select(state), 
+             col.names=c("State or Area"),
+             type="html", caption = "States with Lowest Price Increases from 1970 to 2018", booktabs = TRUE)
+```
+
+```{r low-price-plot, echo=FALSE, fig.cap="Sales per Capita among States with Lowest Price Increases"}
+low.price.plot
+```
+
+
+## Question 7 {.tabset} 
+
+### Q7 {-}
+Compare the trends in sales from the 5 states with the highest price increases to those with the lowest price increases.
+
+### Answer {-}
+For this, we just need to calculate the average sales among the 5 states in the highest group and, seperately, the average sales among the 5 states in the lowest group. The results are summarized in Figure \@ref(fig:avg-sales-group). Perhaps not surprisingly, the states with the largest price increases over time also experienced the largest declines in packs sold per capita.
+
+```{r avg-sales-group, echo=FALSE, fig.cap="Sales per Capita among States with High vs Low Price Changes"}
+combined.price.plot
+```
+
+
+# Estimate ATEs
+Now let's work on estimating a demand curve for cigarettes. Specifically, we're going to estimate the price elasticity of demand for cigarettes. When explaining your findings, try to limit your discussion just to a couple of sentences. <br>
+  
+## Question 1 {.tabset}
+  
+### Q1 {-}
+Focusing only on the time period from 1970 to 1990, regress log sales on log prices to estimate the price elasticity of demand over that period. Interpret your results.
+
+### Answer {-}
+We just need to regression log sales on log (real) prices.
+```{r, eval=F}
+ols1 <- lm(ln_sales~ln_price_2012, data=cig.data %>% filter(Year<1991))
+```
+
+Results from this regression are summarized below.
+
+```{r ols1, echo=FALSE, results='asis'}
+stargazer(ols1, type="html", label="tab:ols1")
+```
+
+
+## Question 2 {.tabset}
+
+### Q2 {-}
+Again limiting to 1970 to 1990, regress log sales on log prices using the total (federal and state) cigarette tax (in dollars) as an instrument for log prices. Interpret your results and compare your estimates to those without an instrument. Are they different? If so, why?
+  
+### Answer {-}
+Now we need to run an IV regression,
+```{r eval=F}
+iv1 <- ivreg(ln_sales~ln_price_2012 | total_tax_cpi_2012, data=cig.data %>% filter(Year<1991))
+```
+
+Results from this regression are summarized below.
+```{r iv1, echo=FALSE, results='asis'}
+stargazer(iv1, type="html", label="tab:iv1")
+```
+
+
+
+## Question 3 {.tabset}
+
+### Q3 {-}
+Show the first stage and reduced-form results from the instrument.
+
+### Answer {-}
+The "first stage" is just the OLS regression of the endogenous variable on the instrument (and any other exogenous variables), and the reduced form is the OLS regression of the outcome on the instrument (and any other exogenous variables). Each of these regressions are summarized below, where column 1 presents the first stage results and column 2 presents the reduced form results.
+
+```{r instruments, echo=FALSE, results='asis'}
+stargazer(first.stage, reduced.form, type="html", label="tab:instruments")
+```
+
+
+## Question 4 {.tabset}
+
+### Q4 {-}
+Repeat questions 1-3 focusing on the period from 1991 to 2015. 
+
+### Answer {-}
+Since this is the same analysis as before just repeated for a new period, I'm going to skip each individual table and code. The final results are summarized in below.
+
+```{r period2, echo=FALSE, results='asis'}
+stargazer(ols2, iv2, first.stage2, reduced.form2, type="html", label="tab:period2")
+```
+
+## Question 5 {.tabset}
+
+### Q5 {-}
+Compare your elasticity estimates from 1970-1990 versus those from 1991-2015. Are they different? If so, why?
+
+### Answer {-}
+The estimates are much larger in the 1991 to 2015 compared to 1970 to 1990. If we take these estimates as causal, then they suggest that demand for cigarettes is much more elastic after 1990 compared to before. This is an intuitive finding as public perception of cigarettes is very different in the latter period. Moreover, new substitutes for cigarettes were developed over the latter period, which would tend to further increase the price elasticity of demand. Interpreting our findings as "causal" is also plausibl here given the identification strategy, as taxes are often considered an exogenous factor in price changes over time.
