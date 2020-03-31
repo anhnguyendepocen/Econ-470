@@ -75,7 +75,7 @@ This can be answered using the existing ACS and Medicaid Expansion repo. While t
 | Item                           | Due Date        |
 |:-------------------------------|:----------------|
 | Select research topic          | Wednesday, 1/22 |
-| Presentation  						     | April 15-27     |
+| Presentation  						     | April 20-27     |
 | Paper                          | Monday, 5/4     |
 
 
