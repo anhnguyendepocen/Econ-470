@@ -11,6 +11,8 @@ As I mentioned in my announcement on Canvas, we are going to pursue a "sychronou
 
 Since our class is relatively small this semester, we will move our class entirely to a virtual classroom with Zoom, and we will meet every Monday and Wednesday from 11:30am to 12:45pm. A link to our Zoom meeting room is available on our class Canvas page. Also on our Canvas page is a separate meeting room link for my Zoom office hours.
 
+**Update 3/30:** Since we've had some barriers attending the virtual class, I'm going to move to a combination of "synchronous" and "asynchronous" classes. Moving forward, I'll post one or two pre-recorded videos for each class. At 12:15pm eastern, I'll open the virtual class on Zoom for any questions and discussion. Hopefully this will work better for everyone as we try to navigate our very different schedules, living situations, and time zones. Thank you so much for your flexibility, and as always, please reach out to me if you have any questions or concerns.
+
 
 ## Notes and Slides
 Below are all of the slides that I'll use throughout the class. The slides will open as html files. Note that I've disabled "touch" navigation, which means that it's not possible to advance the slides with a touchscreen. I did this because I will record the screen in each class, and I'll annotate the slides throughout the class. If you want to see the slides in standard presentation format, you will need to access everything on a desktop or laptop rather than a phone or tablet. Everything is still accessible on a mobile platform, you just need to enable "simplified" view (or reader view in some browsers). I've provided a link for that view in each section. The simplified view will remove the slide/presentation formatting and allow you just to see the whole content as one big website. Some content won't display in the same way, but the content itself will be there.
@@ -27,6 +29,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 5. Regression discontinuity and Medicare Advantage, [slides](05-RD-MAQuality/05-slides.html) and [simplified view](05-RD-MAQuality/05-simple.html)
   - [Zoom Class, March 23](https://drive.google.com/file/d/1_lJD1LsEwsbSr5s3iKNkN1oRf4kk1ZsW/view?usp=sharing)
   - [Zoom Class, March 25](https://drive.google.com/file/d/1yEf8BxfY858-boG9nXgiw5B67YQANnc3/view?usp=sharing)
+  - [4/1 - RD in Practice](https://youtu.be/tvvKrpP5sMY)
 
 6. Difference-in-Differences and Access to Insurance, [slides](06-DD-ACA/06-slides.html) and [simplified view](06-DD-ACA/06-simple.html)
 
