@@ -29,7 +29,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 5. Regression discontinuity and Medicare Advantage, [slides](05-RD-MAQuality/05-slides.html) and [simplified view](05-RD-MAQuality/05-simple.html)
   - [Zoom Class, March 23](https://drive.google.com/file/d/1_lJD1LsEwsbSr5s3iKNkN1oRf4kk1ZsW/view?usp=sharing)
   - [Zoom Class, March 25](https://drive.google.com/file/d/1yEf8BxfY858-boG9nXgiw5B67YQANnc3/view?usp=sharing)
-  - [4/1 - RD in Practice](https://youtu.be/tvvKrpP5sMY)
+  - [4/1 - RD in Practice](https://drive.google.com/file/d/1ZwJkHCcl9Fr_PV9FdZyKWYsA7hB04jK5/view?usp=sharing)
 
 6. Difference-in-Differences and Access to Insurance, [slides](06-DD-ACA/06-slides.html) and [simplified view](06-DD-ACA/06-simple.html)
 
