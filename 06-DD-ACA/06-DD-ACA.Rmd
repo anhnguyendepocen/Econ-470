@@ -296,27 +296,27 @@ name: dd
 Want to estimate $E[Y_{1}(1)- Y_{0}(1) | W=1]$
 
 ![:col_header , Post-period, Pre-period]
-![:col_row Treated, $E(Y_{1}(1)|W=1)$, $E(Y_{1}(0)|W=1)$]
+![:col_row Treated, $E(Y_{1}(1)|W=1)$, $E(Y_{0}(0)|W=1)$]
 ![:col_row Control, $E(Y_{0}(1)|W=0)$, $E(Y_{0}(0)|W=0)$]
 
 <br>
-Problem: We don't see $E[Y_{0}(1)|W=1]$
+Problem: We don't see $E[Y_{0}(1)|W=0]$
 
 
 ---
 # Setup
 ![:col_header , Post-period, Pre-period]
-![:col_row Treated, $E(Y_{1}(1)|W=1)$, $E(Y_{1}(0)|W=1)$]
+![:col_row Treated, $E(Y_{1}(1)|W=1)$, $E(Y_{0}(0)|W=1)$]
 ![:col_row Control, $E(Y_{0}(1)|W=0)$, $E(Y_{0}(0)|W=0)$]
 
 <br>
-Strategy 1: Estimate $E[Y_{0}(1)|W=1]$ using $E[Y_{1}(0)|W=1]$ (before treatment outcome used to estimate post-treatment)
+Strategy 1: Estimate $E[Y_{0}(1)|W=1]$ using $E[Y_{0}(0)|W=1]$ (before treatment outcome used to estimate post-treatment)
 
 
 ---
 # Setup
 ![:col_header , Post-period, Pre-period]
-![:col_row Treated, $E(Y_{1}(1)|W=1)$, $E(Y_{1}(0)|W=1)$]
+![:col_row Treated, $E(Y_{1}(1)|W=1)$, $E(Y_{0}(0)|W=1)$]
 ![:col_row Control, $E(Y_{0}(1)|W=0)$, $E(Y_{0}(0)|W=0)$]
 
 <br>
@@ -326,7 +326,7 @@ Strategy 2: Estimate $E[Y_{0}(1)|W=1]$ using $E[Y_{0}(1)|W=0]$ (control group us
 ---
 # Setup
 ![:col_header , Post-period, Pre-period]
-![:col_row Treated, $E(Y_{1}(1)|W=1)$, $E(Y_{1}(0)|W=1)$]
+![:col_row Treated, $E(Y_{1}(1)|W=1)$, $E(Y_{0}(0)|W=1)$]
 ![:col_row Control, $E(Y_{0}(1)|W=0)$, $E(Y_{0}(0)|W=0)$]
 
 <br>
@@ -450,7 +450,7 @@ E[Y_{1}(1) - Y_{0}(1)|W=1] &=& \left( E[Y(1)|W=1] - E[Y(1)|W=0] \right) \\
 ---
 # Estimation
 Regression:<br>
-$ Y_{i} = \alpha + \beta W_{i} + \lambda 1(Post) + \delta W_{i} 1(Post) + \varepsilon $
+$Y_{i} = \alpha + \beta W_{i} + \lambda 1(Post) + \delta W_{i} 1(Post) + \varepsilon$
 
 <br>
 ![:col_header , After, Before, After - Before]
