@@ -33,6 +33,8 @@ Below are all of the slides that I'll use throughout the class. The slides will 
   - [Zoom Class, April 1](https://drive.google.com/file/d/1eXzHv5vplVl1hjhl-Fgwc_TOg7EM7rcM/view?usp=sharing)
 
 6. Difference-in-Differences and Access to Insurance, [slides](06-DD-ACA/06-slides.html) and [simplified view](06-DD-ACA/06-simple.html)
+  - [4/6 Part I - Data sources](https://youtu.be/g_V43x1XOnE)
+  - [4/6 Part II - Getting the Data](https://youtu.be/8drT3IqKNts)
 
 
 ## Assignments
