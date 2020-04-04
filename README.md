@@ -35,6 +35,8 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 6. Difference-in-Differences and Access to Insurance, [slides](06-DD-ACA/06-slides.html) and [simplified view](06-DD-ACA/06-simple.html)
   - [4/6 Part I - Data sources](https://youtu.be/g_V43x1XOnE)
   - [4/6 Part II - Getting the Data](https://youtu.be/8drT3IqKNts)
+  - [4/8 Part I - ACA and Medicaid](https://youtu.be/zJ3T7h0KcaI)
+  - [4/8 Part II - Intro to DD](https://youtu.be/3Ah5XMhj_FQ)
 
 
 ## Assignments
