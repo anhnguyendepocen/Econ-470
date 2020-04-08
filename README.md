@@ -38,6 +38,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
   - [Zoom Class, April 6](https://drive.google.com/open?id=1CtQF1mCBRwMex3jQttjQqQCGHkdLUNXC)
   - [4/8 Part I - ACA and Medicaid](https://youtu.be/zJ3T7h0KcaI)
   - [4/8 Part II - Intro to DD](https://youtu.be/3Ah5XMhj_FQ)
+  - [Zoom Class, April 8](https://drive.google.com/open?id=1LQzxPfPcUWaTnphTNwzxehr9tzqZlIcr)
 
 
 ## Assignments
