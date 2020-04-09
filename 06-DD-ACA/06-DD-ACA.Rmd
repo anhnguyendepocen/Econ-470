@@ -465,16 +465,14 @@ $Y_{i} = \alpha + \beta W_{i} + \lambda 1(Post) + \delta W_{i} \times 1(Post) + 
 N <- 5000
 dd.dat <- tibble(
   w = (runif(N, 0, 1)>0.5),
-  t = (runif(N, 0, 1)>0.5),
-  eps = rnorm(N,0,1),
-  y = 3 + 4.25*t + eps
+  time_pre = "pre",
+  time_post = "post"
 )
 
-dd.dat <- dd.dat %>%
-  mutate(y.out = case_when (
-    w==1 ~ y + 2.5 + 6*t,
-    w==0 ~ y - 1.5
-  ))
+dd.dat <- pivot_longer(dd.dat, c("time_pre","time_post"), values_to="time") %>%
+  select(w, time) %>%
+  mutate(t=(time=="post"),
+         y.out=1.5+4*w + 1.5*t + rnorm(N*2,0,1))
 ```
 
 ---
