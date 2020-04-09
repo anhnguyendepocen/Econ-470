@@ -472,7 +472,7 @@ dd.dat <- tibble(
 dd.dat <- pivot_longer(dd.dat, c("time_pre","time_post"), values_to="time") %>%
   select(w, time) %>%
   mutate(t=(time=="post"),
-         y.out=1.5+4*w + 1.5*t + rnorm(N*2,0,1))
+         y.out=1.5+3*w + 1.5*t + 6*w*t + rnorm(N*2,0,1))
 ```
 
 ---
