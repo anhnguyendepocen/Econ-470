@@ -39,6 +39,9 @@ Below are all of the slides that I'll use throughout the class. The slides will 
   - [4/8 Part I - ACA and Medicaid](https://youtu.be/zJ3T7h0KcaI)
   - [4/8 Part II - Intro to DD](https://youtu.be/3Ah5XMhj_FQ)
   - [Zoom Class, April 8](https://drive.google.com/open?id=1LQzxPfPcUWaTnphTNwzxehr9tzqZlIcr)
+  - [4/13 DD with Simulated Data](https://youtu.be/FIJC0Rh12s0)
+  - [4/15 Part I - DD in Practice](https://youtu.be/vtpHTQCE15w)
+  - [4/15 Part II - DD in Practice](https://youtu.be/JoREkAF0CBk)
 
 
 ## Assignments
