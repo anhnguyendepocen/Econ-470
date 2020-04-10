@@ -366,36 +366,6 @@ In this example:
 So the ATT is 6.0098571
 
 
----
-# Naive regression estimator
-
-```r
-dd.naive &lt;- lm(y.out ~ w + t, data=dd.dat)
-summary(dd.naive)
-```
-
-```
-## 
-## Call:
-## lm(formula = y.out ~ w + t, data = dd.dat)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -5.4972 -1.4983 -0.0086  1.5050  5.1250 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  0.02919    0.03109   0.939    0.348    
-## wTRUE        5.99732    0.03597 166.737   &lt;2e-16 ***
-## tTRUE        4.46664    0.03597 124.183   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.798 on 9997 degrees of freedom
-## Multiple R-squared:  0.8122,	Adjusted R-squared:  0.8121 
-## F-statistic: 2.161e+04 on 2 and 9997 DF,  p-value: &lt; 2.2e-16
-```
-
 
 ---
 # Regression estimator
@@ -597,7 +567,7 @@ Use pre/post and expansion/non-expansion states to identify effect of Medicaid e
 # Regression results
 
 ```r
-ins.dat.2014 &lt;- ins.dat %&gt;% mutate(post = (year&gt;=2014)) %&gt;% filter(is.na(expand_year) | expand_year==2014)
+ins.dat.2014 &lt;- ins.dat %&gt;% mutate(post = (year&gt;=2014), treat=post*expand_ever) %&gt;% filter(is.na(expand_year) | expand_year==2014)
 dd.ins.reg &lt;- lm(perc_unins ~ post + expand_ever + post*expand_ever, data=ins.dat.2014)
 summary(dd.ins.reg)
 ```
@@ -732,6 +702,93 @@ Finally, plot coefficients and confidence intervals
 # Event study
 
 &lt;img src="06-slides_files/figure-html/es-plot-big-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Fixed Effects?
+
+Recall our original regression specification:&lt;br&gt;
+`\(y_{it} = \alpha + \beta \times 1(Post) + \gamma \times 1(Expand) + \delta \times 1(Post) \times 1(Expand) + \varepsilon\)`
+
+&lt;br&gt;
+This is a special case of a general fixed effects estimator:&lt;br&gt;
+`\(y_{it} = \alpha + \delta W_{it} + \gamma_{i} + \gamma_{t} + \varepsilon\)`,&lt;br&gt;
+where `\(\gamma_{i}\)` and `\(\gamma_{t}\)` denote a set of coefficients on state ($i$) and year ($t$) dummy variables (or fixed effects).
+
+
+---
+# Fixed Effects?
+In R, we can estimate the fixed effects specification using the `felm` command (among others), which is part of the `lfe` package. Intuitively, the treatment dummy is now captured by `\(\gamma_{i}\)` and the pre/post dummy is captured by `\(\gamma_{t}\)`.
+
+--
+For small datasets, we can estimate `\(\gamma_{i}\)` and `\(\gamma_{t}\)` directly. For large datasets, the "fixed effects" estimators will "remove" those variables by first differencing or mean differencing each variable in the regression.
+
+---
+# Equivalence
+DD is just a special case of the fixed effects approach.
+
+
+.pull-left[
+
+```r
+summary(lm(perc_unins ~ post + expand_ever + post*expand_ever, data=ins.dat.2014))
+```
+
+```
+## 
+## Call:
+## lm(formula = perc_unins ~ post + expand_ever + post * expand_ever, 
+##     data = ins.dat.2014)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.115667 -0.027106 -0.006804  0.027765  0.117597 
+## 
+## Coefficients:
+##                           Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)               0.213965   0.007180  29.799  &lt; 2e-16 ***
+## postTRUE                 -0.054068   0.008496  -6.364 7.22e-10 ***
+## expand_everTRUE          -0.046326   0.009166  -5.054 7.48e-07 ***
+## postTRUE:expand_everTRUE -0.018403   0.010845  -1.697   0.0908 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.04187 on 304 degrees of freedom
+##   (7 observations deleted due to missingness)
+## Multiple R-squared:  0.4995,	Adjusted R-squared:  0.4946 
+## F-statistic: 101.1 on 3 and 304 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+.pull-right[
+
+```r
+summary(felm(perc_unins ~ treat | factor(State) + factor(year), data=ins.dat.2014))
+```
+
+```
+## 
+## Call:
+##    felm(formula = perc_unins ~ treat | factor(State) + factor(year),      data = ins.dat.2014) 
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.042349 -0.007307 -0.000520  0.007342  0.039814 
+## 
+## Coefficients:
+##        Estimate Std. Error t value Pr(&gt;|t|)    
+## treat -0.018403   0.003702  -4.971 1.22e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.01429 on 257 degrees of freedom
+##   (7 observations deleted due to missingness)
+## Multiple R-squared(full model): 0.9507   Adjusted R-squared: 0.9411 
+## Multiple R-squared(proj model): 0.0877   Adjusted R-squared: -0.08979 
+## F-statistic(full model):99.11 on 50 and 257 DF, p-value: &lt; 2.2e-16 
+## F-statistic(proj model): 24.71 on 1 and 257 DF, p-value: 1.22e-06
+```
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

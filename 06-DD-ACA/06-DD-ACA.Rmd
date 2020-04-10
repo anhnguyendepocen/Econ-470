@@ -493,13 +493,6 @@ In this example:
 So the ATT is `r dd.means[4,3]-dd.means[2,3] - (dd.means[3,3]-dd.means[1,3])`
 
 
----
-# Naive regression estimator
-```{r}
-dd.naive <- lm(y.out ~ w + t, data=dd.dat)
-summary(dd.naive)
-```
-
 
 ---
 # Regression estimator
@@ -658,7 +651,7 @@ $$y_{it} = \alpha + \beta \times 1(Post) + \gamma \times 1(Expand) + \delta \tim
 ---
 # Regression results
 ```{r}
-ins.dat.2014 <- ins.dat %>% mutate(post = (year>=2014)) %>% filter(is.na(expand_year) | expand_year==2014)
+ins.dat.2014 <- ins.dat %>% mutate(post = (year>=2014), treat=post*expand_ever) %>% filter(is.na(expand_year) | expand_year==2014)
 dd.ins.reg <- lm(perc_unins ~ post + expand_ever + post*expand_ever, data=ins.dat.2014)
 summary(dd.ins.reg)
 ```
@@ -787,3 +780,40 @@ dwplot(event.plot.dat,
 
 ```{r es-plot-big, ref.label="es-plot", fig.callout=TRUE, warning=FALSE}
 ```
+
+
+---
+# Fixed Effects?
+
+Recall our original regression specification:<br>
+$y_{it} = \alpha + \beta \times 1(Post) + \gamma \times 1(Expand) + \delta \times 1(Post) \times 1(Expand) + \varepsilon$
+
+<br>
+This is a special case of a general fixed effects estimator:<br>
+$y_{it} = \alpha + \delta W_{it} + \gamma_{i} + \gamma_{t} + \varepsilon$,<br>
+where $\gamma_{i}$ and $\gamma_{t}$ denote a set of coefficients on state ($i$) and year ($t$) dummy variables (or fixed effects).
+
+
+---
+# Fixed Effects?
+In R, we can estimate the fixed effects specification using the `felm` command (among others), which is part of the `lfe` package. Intuitively, the treatment dummy is now captured by $\gamma_{i}$ and the pre/post dummy is captured by $\gamma_{t}$.
+
+--
+For small datasets, we can estimate $\gamma_{i}$ and $\gamma_{t}$ directly. For large datasets, the "fixed effects" estimators will "remove" those variables by first differencing or mean differencing each variable in the regression.
+
+---
+# Equivalence
+DD is just a special case of the fixed effects approach.
+
+
+.pull-left[
+```{r}
+summary(lm(perc_unins ~ post + expand_ever + post*expand_ever, data=ins.dat.2014))
+```
+]
+
+.pull-right[
+```{r}
+summary(felm(perc_unins ~ treat | factor(State) + factor(year), data=ins.dat.2014))
+```
+]
