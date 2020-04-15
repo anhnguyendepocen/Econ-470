@@ -43,6 +43,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
   - [Zoom Class, April 13](https://drive.google.com/open?id=12Syl8_J8pH57C7_auLQhyTxdXVnjjqzz)  
   - [4/15 Part I - DD in Practice](https://youtu.be/vtpHTQCE15w)
   - [4/15 Part II - DD in Practice](https://youtu.be/JoREkAF0CBk)
+  - [Zoom Class, April 15](https://drive.google.com/open?id=17Iq18DNj3E9I_kKMQ7G41-WnE1AnZ_PP)
 
 
 ## Assignments
