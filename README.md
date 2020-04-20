@@ -46,7 +46,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
   - [Zoom Class, April 15](https://drive.google.com/open?id=17Iq18DNj3E9I_kKMQ7G41-WnE1AnZ_PP)
 
 7. Presentations! The dates and links to each of your presentations are below. This is also the order we will discuss your presentations in class.
-  - [4/20, J. van Helmond, "Does health insurance improve health"?](https://emory-my.sharepoint.com/:v:/r/personal/jvanhel_emory_edu/Documents/Attachments/zoom_470_recording.mp4?csf=1&web=1&e=dsETRY)
+  - [4/20, J. van Helmond, "Does health insurance improve health"?](https://drive.google.com/open?id=1yJ8J6sEU0Bgz--uccfqMsq7ItkP7l7pn)
   - [4/20, J. Zhu, "What is the effect of smoking on obesity?"](https://drive.google.com/file/d/1OsPmMv5ObIheE3iPCcKX5K4lfYGSH6ai/view?usp=sharing)
   - [4/22, V. Kim, "What is the effect of smoking on obesity?"](https://drive.google.com/file/d/1WTkJIWz-DgD_Im0FL0GDuNWjdb49eJZp/view?usp=sharing)
 
