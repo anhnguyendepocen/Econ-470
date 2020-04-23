@@ -63,7 +63,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 
 4. Quality and Insurance Choice, Due 4/8, \[[Instructions](assignments/hwk-04.html)\] and \[[answers](assignments/hwk-04-answers.html)\]
 
-5. Medicaid Expansion and Uninsurance Rates, Due 4/22, \[[Instructions](assignments/hwk-05.html)\]. Some people have had issues retrieving the data using an API key. The ACS data are available [here](data/insurance.rds) as an `R` data set and [here](data/insurance.txt) as a tab-delimited text file. These data are the same as the "final.insurance" object in the GitHub repo.
+5. Medicaid Expansion and Uninsurance Rates, Due 4/22, \[[Instructions](assignments/hwk-05.html)\] and \[[answers](assignments/hwk-05-answers.html)\]. Some people have had issues retrieving the data using an API key. The ACS data are available [here](data/insurance.rds) as an `R` data set and [here](data/insurance.txt) as a tab-delimited text file. These data are the same as the "final.insurance" object in the GitHub repo.
 
 6. Research Project, Final Paper Due 5/4, \[[Instructions](assignments/project.html)\]
 

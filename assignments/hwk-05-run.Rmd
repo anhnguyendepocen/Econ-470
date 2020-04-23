@@ -1,0 +1,35 @@
+---
+title: "Homework 4"
+author: "Econ 470/HLTH 470: Research in Health Economics"
+date: "Due: Wednesday, April 8"
+output: 
+  bookdown::html_document2:
+    toc: TRUE
+    toc_float: TRUE
+    theme: darkly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+# Instructions
+In this assignment, you'll again work with the Medicare Advantage data. These data are described in detail in the [Medicare Advantage GitHub Repo](https://github.com/imccart/Medicare-Advantage). We worked with a subset of these data back in assignment 1; however, this assignment requires that you work with a more complete version of the Medicare Advantage data. Once you have the data downloaded and the code running, answer the following questions:
+
+# Summarize the data
+1. Plot the average number of Special Needs Plans (SNPs) per county and the average number of 800-series plans per county over time. You can do this in one or two plots.
+2. Remove all SNPs, 800-series plans, and prescription drug only plans (i.e., plans that do not offer Part C benefits). Provide a box and whisker plot showing the distribution of plan counts by county over time. Do you think that the number of plans is sufficient, too few, or too many?
+3. Provide bar graphs showing the distribution of star ratings in 2009, 2012, and 2015. How has this distribution changed over time?
+4. Plot the average benchmark payment over time. How much has the average benchmark payment risen over the years?
+5. Plot the average share of Medicare Advantage (relative to all Medicare eligibles) over time. Has Medicare Advantage increased or decreased in popularity? How does this share correlate with benchmark payments?
+
+# Estimate ATEs
+For the rest of the assignment, we'll use a regression discontinuity design to estimate the average treatment effect from receiving a marginally higher rating. We'll focus only on 2009, as this is the year in which the star rating running variable is easiest to replicate.
+
+1. Calculate the running variable underlying the star rating. Provide a table showing the number of plans that are rounded up into a 3-star, 3.5-star, 4-star, 4.5-star, and 5-star rating.
+2. Using the RD estimator with a bandwidth of 0.125, provide an estimate of the effect of receiving a 3-star versus a 2.5 star rating on enrollments. Repeat the exercise to estimate the effects at 3.5 stars, 4 stars, and 4.5 stars. Summarize your results in a table.
+3. Repeat your results for bandwidhts of 0.1, 0.12, 0.13, 0.14, and 0.15. Show all of the results in a graph. How sensitive are your findings to the choice of bandwidth?
+4. Examine (graphically) whether contracts appear to manipulate the running variable. In other words, look at the distribution of the running variable before and after the relevent threshold values. What do you find?
+5. Similar to question 4, examine whether plans just above the threshold values have different characteristics than contracts just below the threshold values. Use HMO and Part D status as your plan characteristics.
+6. Summarize your findings from 1-5. What is the effect of increasing a star rating on enrollments? Briefly explain your results.
