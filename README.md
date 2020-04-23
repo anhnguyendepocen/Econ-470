@@ -52,6 +52,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
   - [4/22, V. Kim, "What is the effect of smoking on obesity?"](https://drive.google.com/open?id=1heQDbczuvoayefIx2bmVXIayDR4LyXYx)
   - [4/22, S. Li, "Did the quality improvement program increase quality?"](https://drive.google.com/file/d/1Zxpsy28FUXfYiGEiY_11fF1GKVhvCmqQ/view?usp=sharing)
   - [Zoom class discussion, 4/22](https://drive.google.com/open?id=199cy_KUoFEInmlcERvsjMtLibHw2vsTF)
+  - [4/27, C. Romero, "Does Medicaid crowd-out private health insurance?"](https://drive.google.com/open?id=1rVZcwhG43jWBX8hKOkMZVXThgVNDf9zH)
 
 ## Assignments
 1. GitHub and Data Management, Due 2/9, \[[Instructions](assignments/hwk-01.html)\] and \[[answers](assignments/hwk-01-answers.html)\]
