@@ -54,6 +54,7 @@ Below are all of the slides that I'll use throughout the class. The slides will 
   - [Zoom class discussion, 4/22](https://drive.google.com/open?id=199cy_KUoFEInmlcERvsjMtLibHw2vsTF)
   - [4/27, C. Romero, "Does Medicaid crowd-out private health insurance?"](https://drive.google.com/open?id=1rVZcwhG43jWBX8hKOkMZVXThgVNDf9zH)
   - 4/27, C. Duong, "Effects of smoke-free regulations on cigarette demand." [Slides](https://drive.google.com/open?id=1SFVeagCRU8yjC2YX8I9roG8Td-ovTGYG) and [Video Presentation](https://drive.google.com/open?id=1rJZk0mlbe5kX28aoMJFSrtRDHJR0QAco)
+  - [Zoom class discussion, 4/27](https://drive.google.com/open?id=18qKnyrCsHZqqpa2_08Gr72LzGl2ktfcs)
 
 ## Assignments
 1. GitHub and Data Management, Due 2/9, \[[Instructions](assignments/hwk-01.html)\] and \[[answers](assignments/hwk-01-answers.html)\]
