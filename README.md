@@ -27,34 +27,10 @@ Below are all of the slides that I'll use throughout the class. The slides will 
 4. Instrumental variables and demand for cigarettes, [slides](04-IV-Smoking/04-slides.html) and [simplified view](04-IV-Smoking/04-simple.html)
 
 5. Regression discontinuity and Medicare Advantage, [slides](05-RD-MAQuality/05-slides.html) and [simplified view](05-RD-MAQuality/05-simple.html)
-  - [Zoom Class, March 23](https://drive.google.com/file/d/1_lJD1LsEwsbSr5s3iKNkN1oRf4kk1ZsW/view?usp=sharing)
-  - [Zoom Class, March 25](https://drive.google.com/file/d/1yEf8BxfY858-boG9nXgiw5B67YQANnc3/view?usp=sharing)
-  - [4/1 - RD in Practice](https://drive.google.com/file/d/1ZwJkHCcl9Fr_PV9FdZyKWYsA7hB04jK5/view?usp=sharing)
-  - [Zoom Class, April 1](https://drive.google.com/file/d/1eXzHv5vplVl1hjhl-Fgwc_TOg7EM7rcM/view?usp=sharing)
 
 6. Difference-in-Differences and Access to Insurance, [slides](06-DD-ACA/06-slides.html) and [simplified view](06-DD-ACA/06-simple.html)
-  - [4/6 Part I - Data sources](https://youtu.be/g_V43x1XOnE)
-  - [4/6 Part II - Getting the Data](https://youtu.be/8drT3IqKNts)
-  - [Zoom Class, April 6](https://drive.google.com/open?id=1CtQF1mCBRwMex3jQttjQqQCGHkdLUNXC)
-  - [4/8 Part I - ACA and Medicaid](https://youtu.be/zJ3T7h0KcaI)
-  - [4/8 Part II - Intro to DD](https://youtu.be/3Ah5XMhj_FQ)
-  - [Zoom Class, April 8](https://drive.google.com/open?id=1LQzxPfPcUWaTnphTNwzxehr9tzqZlIcr)
-  - [4/13 DD with Simulated Data](https://youtu.be/FIJC0Rh12s0)
-  - [Zoom Class, April 13](https://drive.google.com/open?id=12Syl8_J8pH57C7_auLQhyTxdXVnjjqzz)  
-  - [4/15 Part I - DD in Practice](https://youtu.be/vtpHTQCE15w)
-  - [4/15 Part II - DD in Practice](https://youtu.be/JoREkAF0CBk)
-  - [Zoom Class, April 15](https://drive.google.com/open?id=1nLIGAsR1mpuMkHsIg1zlCLJ60vNCPukm)
 
 7. Presentations! The dates and links to each of your presentations are below. This is also the order we will discuss your presentations in class.
-  - [4/20, J. van Helmond, "Does health insurance improve health"?](https://drive.google.com/open?id=1yJ8J6sEU0Bgz--uccfqMsq7ItkP7l7pn)
-  - [4/20, J. Zhu, "What is the effect of smoking on obesity?"](https://drive.google.com/file/d/1OsPmMv5ObIheE3iPCcKX5K4lfYGSH6ai/view?usp=sharing)
-  - [Zoom class discussion, 4/20](https://drive.google.com/open?id=1vvtsQ8Qz2_T-iadNlnRu6SVXMTY7FzAb)
-  - [4/22, V. Kim, "What is the effect of smoking on obesity?"](https://drive.google.com/open?id=1heQDbczuvoayefIx2bmVXIayDR4LyXYx)
-  - [4/22, S. Li, "Did the quality improvement program increase quality?"](https://drive.google.com/file/d/1Zxpsy28FUXfYiGEiY_11fF1GKVhvCmqQ/view?usp=sharing)
-  - [Zoom class discussion, 4/22](https://drive.google.com/open?id=199cy_KUoFEInmlcERvsjMtLibHw2vsTF)
-  - [4/27, C. Romero, "Does Medicaid crowd-out private health insurance?"](https://drive.google.com/open?id=1rVZcwhG43jWBX8hKOkMZVXThgVNDf9zH)
-  - 4/27, C. Duong, "Effects of smoke-free regulations on cigarette demand." [Slides](https://drive.google.com/open?id=1SFVeagCRU8yjC2YX8I9roG8Td-ovTGYG) and [Video Presentation](https://drive.google.com/open?id=1rJZk0mlbe5kX28aoMJFSrtRDHJR0QAco)
-  - [Zoom class discussion, 4/27](https://drive.google.com/open?id=18qKnyrCsHZqqpa2_08Gr72LzGl2ktfcs)
 
 ## Assignments
 1. GitHub and Data Management, Due 2/9, \[[Instructions](assignments/hwk-01.html)\] and \[[answers](assignments/hwk-01-answers.html)\]
